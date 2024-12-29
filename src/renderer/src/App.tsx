@@ -1,8 +1,19 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import { JSX, useEffect } from 'react';
+
+import Versions from './components/Versions';
+import electronLogo from './assets/electron.svg';
 
 function App(): JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  // State to store the message received from the main process
+
+  useEffect(() => {
+    // Listen for messages from the main process
+    window.api.loginJwt((event, message) => {
+      // Update state whenever 0a new message is received
+      console.log(messageFromMain);
+    });
+  }, []);
+  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping');
 
   return (
     <>
@@ -29,7 +40,7 @@ function App(): JSX.Element {
       </div>
       <Versions></Versions>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
