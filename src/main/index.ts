@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron';
+import { app, shell, BrowserWindow } from 'electron';
 import { join } from 'path';
 import path from 'node:path';
 
@@ -77,14 +77,6 @@ if (!gotTheLock) {
       optimizer.watchWindowShortcuts(window);
     });
 
-    // IPC test
-    ipcMain.on('ping', () => console.log('pong'));
-    setInterval(() => {
-      if (mainWindow) {
-        mainWindow.webContents.send('login-jwt', { some: 'data' });
-      }
-    }, 1000);
-
     createWindow();
 
     app.on('activate', function () {
@@ -105,8 +97,15 @@ app.on('window-all-closed', () => {
 });
 
 app.on('open-url', (event, url) => {
-  const jwtToken = new URL(url).searchParams.get('token');
-  console.log('Welcome Back', `You arrived from: ${url}`);
+  const parsedUrl = new URL(url);
+  const accessToken = parsedUrl.searchParams.get('access_token');
+  const refreshToken = parsedUrl.searchParams.get('refresh_token');
+  if (mainWindow) {
+    mainWindow.webContents.send('login-jwt', {
+      accessToken,
+      refreshToken
+    });
+  }
 });
 
 // In this file you can include the rest of your app"s specific main process

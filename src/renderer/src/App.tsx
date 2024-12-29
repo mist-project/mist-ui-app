@@ -1,45 +1,22 @@
-import { JSX, useEffect } from 'react';
-
-import Versions from './components/Versions';
-import electronLogo from './assets/electron.svg';
+import { JSX, useEffect, useState } from 'react';
 
 function App(): JSX.Element {
   // State to store the message received from the main process
-
+  const [tokens, setTokens] = useState<LoginJwtParams>({ accessToken: '', refreshToken: '' });
   useEffect(() => {
     // Listen for messages from the main process
-    window.api.loginJwt((event, message) => {
-      // Update state whenever 0a new message is received
-      console.log(messageFromMain);
+    window.api.loginJwt((message) => {
+      setTokens(message);
+      console.log('message:', message);
     });
   }, []);
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping');
 
   return (
-    <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
-      </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
-        </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
-          </a>
-        </div>
-      </div>
-      <Versions></Versions>
-    </>
+    <div>
+      hello
+      <div className="text-white bg-gray-900">Access token: {tokens.accessToken}</div>
+      <p>Refresh token: {tokens.refreshToken}</p>
+    </div>
   );
 }
 
