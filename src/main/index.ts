@@ -5,6 +5,8 @@ import path from 'node:path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 
+import { DeepLinkRouter } from './helpers';
+
 if (process.defaultApp) {
   if (process.argv.length >= 2) {
     app.setAsDefaultProtocolClient('mist-app', process.execPath, [path.resolve(process.argv[1])]);
@@ -49,23 +51,30 @@ function createWindow(): void {
   }
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-
 const gotTheLock = app.requestSingleInstanceLock();
 
 if (!gotTheLock) {
   app.quit();
 } else {
-  app.on('second-instance', () => {
+  app.on('second-instance', (event, commandLine) => {
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore();
       mainWindow.focus();
     }
     // the commandLine is array of strings in which last element is deep link url
+    const url = commandLine.pop();
+    if (url) {
+      new DeepLinkRouter(url).handle();
+      // if (mainWindow) {
+      //   mainWindow.webContents.send('login-jwt', {
+      //     accessToken: msg,
+      //     refreshToken: msg
+      //   });
+      // }
+    }
   });
+
   app.whenReady().then(() => {
     // Set app user model id for windows
     electronApp.setAppUserModelId('com.electron');
@@ -74,6 +83,10 @@ if (!gotTheLock) {
     // and ignore CommandOrControl + R in production.
     // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
     app.on('browser-window-created', (_, window) => {
+      if (process.env.NODE_ENV === 'production') {
+        // TODO: remove this in the future;
+        window.webContents.openDevTools(); // Open DevTools in production as well
+      }
       optimizer.watchWindowShortcuts(window);
     });
 
@@ -97,16 +110,12 @@ app.on('window-all-closed', () => {
 });
 
 app.on('open-url', (event, url) => {
-  const parsedUrl = new URL(url);
-  const accessToken = parsedUrl.searchParams.get('access_token');
-  const refreshToken = parsedUrl.searchParams.get('refresh_token');
-  if (mainWindow) {
-    mainWindow.webContents.send('login-jwt', {
-      accessToken,
-      refreshToken
-    });
-  }
+  event.preventDefault();
+  new DeepLinkRouter(url).handle();
+  // if (mainWindow) {
+  //   mainWindow.webContents.send('login-jwt', {
+  //     accessToken: url,
+  //     refreshToken: url
+  //   });
+  // }
 });
-
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
