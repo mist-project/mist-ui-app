@@ -45,6 +45,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     window.api.jwtTokens((message) => {
       // TODO: when communicating with socket; whenever this gets hit; send message to the
       // service so it updates the token stored in memory
+      console.log(message);
     });
   }, []);
 

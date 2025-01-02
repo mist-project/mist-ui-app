@@ -16,7 +16,7 @@ if (process.defaultApp) {
 }
 
 let mainWindow: BrowserWindow | null;
-let performRefresh: boolean = true;
+let currentTimeout;
 
 function createWindow(): void {
   // Create the browser window.
@@ -54,33 +54,30 @@ function createWindow(): void {
 
 const gotTheLock = app.requestSingleInstanceLock();
 
+// TODO: replace this login for a setInterval
 const performJwtRefresh = (): void => {
-  const fifteenMinutes = 2000;
+  const fifteenMinutes = 60 * 15 * 1000;
   const handler = async (): Promise<void> => {
-    if (performRefresh) {
-      const tokens = JwtAuthManager.getTokens();
-      const response = await MistApiService.refreshToken(tokens.refresh);
-      if (response.ok) {
-        console.log('did it work?');
-        const updatedTokens = await response.json();
-        JwtAuthManager.setTokens(updatedTokens);
-        if (mainWindow) {
-          mainWindow.webContents.send('jwt-tokens', updatedTokens);
-        }
-        // TODO: Add proper claims checking so that it refreshes when necessary, not the satic
-        // 15 mins i'm goingt o add here
-        setTimeout(handler, fifteenMinutes);
-      } else {
-        console.log(await response.json());
-        // If failure to update stuff, just logout the user.
-        performRefresh = false;
-        JwtAuthManager.deleteTokens();
-        if (mainWindow) {
-          mainWindow.webContents.send('is-authenticated', JwtAuthManager.isAuthenticated());
-        }
+    const tokens = JwtAuthManager.getTokens();
+    const response = await MistApiService.refreshToken(tokens.refresh);
+    if (response.ok) {
+      const updatedTokens = await response.json();
+      JwtAuthManager.setTokens(updatedTokens);
+      if (mainWindow) {
+        mainWindow.webContents.send('jwt-tokens', updatedTokens);
+      }
+      // TODO: Add proper claims checking so that it refreshes when necessary, not the satic
+      // 15 mins i'm goingt o add here
+      currentTimeout = setTimeout(handler, fifteenMinutes);
+    } else {
+      // If failure to update stuff, just logout the user.
+      JwtAuthManager.deleteTokens();
+      if (mainWindow) {
+        mainWindow.webContents.send('is-authenticated', JwtAuthManager.isAuthenticated());
       }
     }
   };
+
   handler();
 };
 
@@ -136,7 +133,6 @@ if (!gotTheLock) {
     // Token refresh
     if (JwtAuthManager.isAuthenticated()) {
       waitTillWindowUp();
-      console.log('window up!');
       performJwtRefresh();
     }
 
@@ -167,6 +163,8 @@ if (!gotTheLock) {
     ipcMain.on('store-jwt-main', (_, jwtAuthTokens: AuthTokens) => {
       // After user has been succesfully authenticated by API service
       // Then store the jwt tokens in the local store
+      clearTimeout(currentTimeout);
+      performJwtRefresh();
       JwtAuthManager.setTokens(jwtAuthTokens);
       if (mainWindow) {
         // isAuthenticated should return true
@@ -179,7 +177,7 @@ if (!gotTheLock) {
     ipcMain.on('remove-jwt-main', () => {
       // When user logs out, delete jwt tokens
       // TODO: add mutex lock mechanisms to avoid race conditions on set/delete tokens
-      performRefresh = false;
+      clearTimeout(currentTimeout);
       JwtAuthManager.deleteTokens();
       if (mainWindow) {
         // isAuthenticated should return false

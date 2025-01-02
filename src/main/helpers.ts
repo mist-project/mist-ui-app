@@ -138,8 +138,10 @@ export class MistApiService {
       body: JSON.stringify({
         refresh: token
       })
+    }).catch(() => {
+      return new Response(JSON.stringify({ error: 'Request failed' }), { status: 500 });
     });
 
-    return await response;
+    return response;
   }
 }
