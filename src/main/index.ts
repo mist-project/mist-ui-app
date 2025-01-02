@@ -55,9 +55,13 @@ function createWindow(): void {
 const gotTheLock = app.requestSingleInstanceLock();
 
 // TODO: replace this login for a setInterval
-const performJwtRefresh = (): void => {
+const performJwtRefresh = (run: boolean): void => {
   const fifteenMinutes = 60 * 15 * 1000;
   const handler = async (): Promise<void> => {
+    if (!run) {
+      currentTimeout = setTimeout(handler, fifteenMinutes);
+      return;
+    }
     const tokens = JwtAuthManager.getTokens();
     const response = await MistApiService.refreshToken(tokens.refresh);
     if (response.ok) {
@@ -133,7 +137,7 @@ if (!gotTheLock) {
     // Token refresh
     if (JwtAuthManager.isAuthenticated()) {
       waitTillWindowUp();
-      performJwtRefresh();
+      performJwtRefresh(true);
     }
 
     ipcMain.on('authentication-status', () => {
@@ -164,8 +168,8 @@ if (!gotTheLock) {
       // After user has been succesfully authenticated by API service
       // Then store the jwt tokens in the local store
       clearTimeout(currentTimeout);
-      performJwtRefresh();
       JwtAuthManager.setTokens(jwtAuthTokens);
+      performJwtRefresh(false);
       if (mainWindow) {
         // isAuthenticated should return true
         mainWindow.webContents.send('is-authenticated', JwtAuthManager.isAuthenticated());
