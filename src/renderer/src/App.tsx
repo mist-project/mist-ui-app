@@ -1,22 +1,57 @@
-import { JSX, useEffect, useState } from 'react';
+import { JSX } from 'react';
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom';
+
+import { Login } from './components/Login';
+
+import './App.scss';
+import { useAuth } from './components/Auth';
+
+const Layout = (): JSX.Element => (
+  <div className="bg-gray-900 text-white h-full">
+    <Outlet />
+  </div>
+);
+
+const Home = (): JSX.Element => {
+  const { logout } = useAuth();
+  return (
+    <div>
+      Youre in!!!
+      <button onClick={logout}>logout</button>
+    </div>
+  );
+};
+
+const ProtectedRoute = ({ children }: { children: JSX.Element }): JSX.Element => {
+  const { logged } = useAuth();
+
+  // If not logged in, redirect to login page
+  if (!logged) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children; // If logged in, render the protected route
+};
 
 function App(): JSX.Element {
   // State to store the message received from the main process
-  const [tokens, setTokens] = useState<LoginJwtParams>({ accessToken: '', refreshToken: '' });
-  useEffect(() => {
-    // Listen for messages from the main process
-    window.api.loginJwt((message) => {
-      setTokens(message);
-      console.log('message:', message);
-    });
-  }, []);
-
   return (
-    <div>
-      hello
-      <div className="text-white bg-gray-900">Access token: {tokens.accessToken}</div>
-      <p>Refresh token: {tokens.refreshToken}</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          {/* <Route path="/logged" element={<Logged />} /> */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

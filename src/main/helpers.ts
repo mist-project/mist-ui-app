@@ -1,8 +1,16 @@
 import Store from 'electron-store';
 import { safeStorage } from 'electron';
 
-const ACCESS_TOKEN_KEY = 'access_token';
-const REFRESH_TOKEN_KEY = 'refresh_token';
+const ACCESS_KEYS = {
+  ACCESS_TOKEN: 'access_token',
+  REFRESH_TOKEN: 'refresh_token',
+  HAS_STORED_TOKENS: 'has_stored_tokens'
+};
+
+export interface AuthTokens {
+  access: string;
+  refresh: string;
+}
 
 export class JsonStore {
   private store: Store;
@@ -17,9 +25,13 @@ export class JsonStore {
   }
 
   // Method to get a value without decryption
-  public get<T>(key: string): T {
+  public get<T>(key: string): T | null {
     // Get data without encryption
     return this.store.get(key) as T;
+  }
+
+  public delete(key: string): void {
+    this.store.delete(key);
   }
 
   public setEncrypted(key: string, value: string): void {
@@ -28,8 +40,11 @@ export class JsonStore {
     this.store.set(key, stringifiedValue);
   }
 
-  public getEncrypted(key: string): string {
-    const stringifiedValue = this.store.get(key) as string;
+  public getEncrypted(key: string): string | null {
+    const stringifiedValue = this.store.get(key) as string | undefined;
+    if (!stringifiedValue) {
+      return null;
+    }
     const encryptedValue = Buffer.from(stringifiedValue, 'base64');
     const decryptedValue = safeStorage.decryptString(encryptedValue);
     return decryptedValue;
@@ -64,7 +79,67 @@ export class DeepLinkRouter {
     const accessToken = url.searchParams.get('access_token') as string;
     const refreshToken = url.searchParams.get('refresh_token') as string;
 
-    new JsonStore().setEncrypted(ACCESS_TOKEN_KEY, accessToken);
-    new JsonStore().setEncrypted(REFRESH_TOKEN_KEY, refreshToken);
+    new JsonStore().setEncrypted(ACCESS_KEYS.ACCESS_TOKEN, accessToken);
+    new JsonStore().setEncrypted(ACCESS_KEYS.REFRESH_TOKEN, refreshToken);
+  }
+}
+
+export class JwtAuthManager {
+  public static isAuthenticated(): boolean {
+    return new JsonStore().get<string>(ACCESS_KEYS.HAS_STORED_TOKENS) === 'true';
+  }
+  public static getTokens(): AuthTokens {
+    const jsonStore = new JsonStore();
+
+    if (!(jsonStore.get<string>(ACCESS_KEYS.HAS_STORED_TOKENS) === 'true')) {
+      throw new Error('Jwt tokens not stored.');
+    }
+
+    const access = jsonStore.getEncrypted(ACCESS_KEYS.ACCESS_TOKEN);
+
+    if (access == null) {
+      throw new Error('Access token is missing.');
+    }
+
+    const refresh = jsonStore.getEncrypted(ACCESS_KEYS.REFRESH_TOKEN);
+
+    if (refresh == null) {
+      throw new Error('Refresh token is missing.');
+    }
+
+    return { access, refresh };
+  }
+
+  public static setTokens(tokens: AuthTokens): void {
+    const jsonStore = new JsonStore();
+    jsonStore.setEncrypted(ACCESS_KEYS.ACCESS_TOKEN, tokens.access);
+    jsonStore.setEncrypted(ACCESS_KEYS.REFRESH_TOKEN, tokens.refresh);
+    jsonStore.set(ACCESS_KEYS.HAS_STORED_TOKENS, 'true');
+  }
+
+  public static deleteTokens(): void {
+    const jsonStore = new JsonStore();
+    jsonStore.delete(ACCESS_KEYS.ACCESS_TOKEN);
+    jsonStore.delete(ACCESS_KEYS.REFRESH_TOKEN);
+    jsonStore.set(ACCESS_KEYS.HAS_STORED_TOKENS, 'false');
+  }
+}
+
+export class MistApiService {
+  public static async refreshToken(token: string): Promise<Response> {
+    const baseUrl = process.env.MIST_API_SERVICE_URL;
+
+    const url = `${baseUrl}/api/token/refresh/`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        refresh: token
+      })
+    });
+
+    return await response;
   }
 }

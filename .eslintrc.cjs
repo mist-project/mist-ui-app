@@ -7,6 +7,7 @@ module.exports = {
     '@electron-toolkit/eslint-config-prettier'
   ],
   rules: {
-    semi: ['error', 'always'] // Enforces semicolons at the end of each statement
+    semi: ['error', 'always'], // Enforces semicolons at the end of each statement
+    'no-unused-vars': ['error', { varsIgnorePattern: '^_' }]
   }
 };
