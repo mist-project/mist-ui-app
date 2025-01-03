@@ -2,13 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
+import { AuthProvider } from './components/Contexts/Auth/AuthContext';
+import { IOSocketProvider } from './components/Contexts/WebSocket/IOSocket/IOContext';
+import { EventEmitterProvider } from './components/Contexts/Event/Emitter';
+
 import './index.scss';
-import { AuthProvider } from './components/Auth/AuthContext';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <EventEmitterProvider>
+      <IOSocketProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </IOSocketProvider>
+    </EventEmitterProvider>
   </React.StrictMode>
 );

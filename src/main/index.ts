@@ -173,6 +173,7 @@ if (!gotTheLock) {
       if (mainWindow) {
         // isAuthenticated should return true
         mainWindow.webContents.send('is-authenticated', JwtAuthManager.isAuthenticated());
+        mainWindow.webContents.send('jwt-tokens', jwtAuthTokens);
       }
       // TODO: add auto refresh setting. renderer will be listening
       // and forward message to ws connection to update tokens

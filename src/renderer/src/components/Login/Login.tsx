@@ -1,7 +1,7 @@
 import { JSX, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@renderer/components/Auth';
+import { useAuth } from '@renderer/components/Contexts/Auth';
 import { InputText } from '@renderer/components/common/Input';
 import { Button } from '@renderer/components/common/Button';
 

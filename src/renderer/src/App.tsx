@@ -1,10 +1,12 @@
-import { JSX } from 'react';
+import { JSX, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 
 import { Login } from './components/Login';
 
 import './App.scss';
-import { useAuth } from './components/Auth';
+import { useAuth } from './components/Contexts/Auth';
+import { useIOSocket } from './components/Contexts/WebSocket/IOSocket';
+import { useEmitter } from './components/Contexts/Event/Emitter';
 
 const Layout = (): JSX.Element => (
   <div className="bg-gray-900 text-white h-full">
@@ -14,10 +16,32 @@ const Layout = (): JSX.Element => (
 
 const Home = (): JSX.Element => {
   const { logout } = useAuth();
+  const { sendMessage, socket } = useIOSocket();
+  const { emitter } = useEmitter();
+  useEffect(() => {
+    const handle = (data): void => {
+      console.log('here it is', data);
+    };
+    emitter.on('test', handle);
+
+    return (): void => {
+      emitter.off('test', handle);
+    };
+  }, [emitter]);
+
   return (
     <div>
-      Youre in!!!
-      <button onClick={logout}>logout</button>
+      <div>Youre in!!!</div>
+
+      {socket && (
+        <div>
+          <div>Socket connection succesful</div>
+          <button onClick={() => sendMessage('echo')}>echo</button>
+        </div>
+      )}
+      <div>
+        <button onClick={logout}>logout</button>
+      </div>
     </div>
   );
 };

@@ -1,19 +1,19 @@
-/* eslint-disable no-unused-vars */
 import { ElectronAPI } from '@electron-toolkit/preload';
 
 declare global {
   interface jwtTokensParams {
-    accessToken: string;
-    refreshToken: string;
+    access: string;
+    refresh: string;
   }
 
   interface IPCMessages {
-    jwtTokens: (arg0: (message: jwtTokensParams) => void) => void;
-    isAuthenticated: (arg0: (message: boolean) => void) => void;
+    jwtTokens: (_arg0: (_message: jwtTokensParams) => void) => void;
+    isAuthenticated: (_arg0: (_message: boolean) => void) => void;
   }
 
   interface EnvVariables {
     mistApiServiceUrl: string;
+    mistIOServiceUrl: string;
   }
   interface Window {
     electron: ElectronAPI;

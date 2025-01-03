@@ -1,4 +1,4 @@
-import { LoginCredentials } from '@renderer/components/Auth';
+import { LoginCredentials } from '@renderer/components/Contexts/Auth';
 
 const baseUrl = window.appEnvs.mistApiServiceUrl;
 class MistApiService {

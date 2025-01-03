@@ -8,6 +8,6 @@ module.exports = {
   ],
   rules: {
     semi: ['error', 'always'], // Enforces semicolons at the end of each statement
-    'no-unused-vars': ['error', { varsIgnorePattern: '^_' }]
+    'no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }]
   }
 };

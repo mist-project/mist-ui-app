@@ -6,14 +6,11 @@ interface jwtTokensParams {
   refresh: string;
 }
 
-// eslint-disable-next-line no-unused-vars
-type JwtTokensCallback = (arg0: jwtTokensParams) => void;
+type JwtTokensCallback = (_arg0: jwtTokensParams) => void;
 
 interface ApiMessages {
-  // eslint-disable-next-line no-unused-vars
-  jwtTokens: (callback: JwtTokensCallback) => void;
-  // eslint-disable-next-line no-unused-vars
-  isAuthenticated: (callback: (arg0: boolean) => void) => void;
+  jwtTokens: (_arg0: JwtTokensCallback) => void;
+  isAuthenticated: (_arg0: (_arg0: boolean) => void) => void;
 }
 
 // Custom APIs for renderer
@@ -33,7 +30,8 @@ const getEnv = (key: string, strict: boolean = false): string | undefined => {
 };
 
 const appEnvs = {
-  mistApiServiceUrl: getEnv('MIST_API_SERVICE_URL', true)
+  mistApiServiceUrl: getEnv('MIST_API_SERVICE_URL', true),
+  mistIOServiceUrl: getEnv('MIST_IO_SERVICE_URL', true)
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to
