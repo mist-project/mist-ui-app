@@ -1,25 +1,25 @@
 import MistApiService from '@renderer/services/mistApiService';
 import { createContext, useState, use, useEffect, JSX } from 'react';
-import { useIOSocket } from '@renderer/components/Contexts/WebSocket';
+import { useIOSocket } from '@renderer/components/Contexts';
 
 // Create a Context for Authentication
-export interface LoginCredentials {
+export type LoginCredentials = {
   username: string;
   password: string;
-}
+};
 
-export interface AuthTokens {
+export type AuthTokens = {
   access: string;
   refresh: string;
-}
+};
 
-interface AuthContextType {
+type AuthContextType = {
   logged: boolean;
   // eslint-disable-next-line no-unused-vars
   login: (arg0: LoginCredentials) => void;
   logout: () => void;
   requestTokens: () => void;
-}
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -49,7 +49,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
       // TODO: when communicating with socket; whenever this gets hit; send message to the
       // service so it updates the token stored in memory
       if (!isConnected()) {
-        console.log('boomer');
         const url = new URL(window.appEnvs.mistIOServiceUrl);
         url.searchParams.set('authorization', `Bearer ${message.access}`);
         connect(url.toString());
@@ -64,6 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
       requestTokens();
     }
   }, [logged]);
+
   const login = async (creds: LoginCredentials): Promise<boolean> => {
     const response = await new MistApiService().login(creds);
     if (response.ok) {

@@ -7,10 +7,10 @@ const ACCESS_KEYS = {
   HAS_STORED_TOKENS: 'has_stored_tokens'
 };
 
-export interface AuthTokens {
+export type AuthTokens = {
   access: string;
   refresh: string;
-}
+};
 
 export class JsonStore {
   private store: Store;

@@ -5,13 +5,12 @@ type SelectItem = {
   value: string;
 };
 
-type ButtonProps = {
-  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  className?: string;
   options: SelectItem[];
-  value?: string;
-};
+}
 
-const Select = ({ onChange, options, value }: ButtonProps): JSX.Element => {
+const Select = ({ onChange, options, value }: SelectProps): JSX.Element => {
   const onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     if (onChange) onChange(event);
   };

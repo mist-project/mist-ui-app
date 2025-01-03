@@ -4,7 +4,7 @@ import App from './App';
 
 import { AuthProvider } from './components/Contexts/Auth/AuthContext';
 import { IOSocketProvider } from './components/Contexts/WebSocket/IOSocket/IOContext';
-import { EventEmitterProvider } from './components/Contexts/Event/Emitter';
+import { EventEmitterProvider } from './components/Contexts/Event/EventContext';
 
 import './index.scss';
 

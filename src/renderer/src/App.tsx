@@ -1,12 +1,13 @@
-import { JSX, useEffect } from 'react';
+import { JSX } from 'react';
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 
-import { Login } from './components/Login';
+import { Login } from '@renderer/components/Login';
+import { useAuth } from '@renderer/components/Contexts/Auth';
+import { Home } from '@renderer/components/Home';
 
 import './App.scss';
-import { useAuth } from './components/Contexts/Auth';
-import { useIOSocket } from './components/Contexts/WebSocket/IOSocket';
-import { useEmitter } from './components/Contexts/Event/Emitter';
+// import { useIOSocket } from './components/Contexts/';
+// import { useEvent } from './components/Contexts';
 
 const Layout = (): JSX.Element => (
   <div className="bg-gray-900 text-white h-full">
@@ -14,37 +15,37 @@ const Layout = (): JSX.Element => (
   </div>
 );
 
-const Home = (): JSX.Element => {
-  const { logout } = useAuth();
-  const { sendMessage, socket } = useIOSocket();
-  const { emitter } = useEmitter();
-  useEffect(() => {
-    const handle = (data): void => {
-      console.log('here it is', data);
-    };
-    emitter.on('test', handle);
+// const Home = (): JSX.Element => {
+//   const { logout } = useAuth();
+//   const { sendMessage, socket } = useIOSocket();
+//   const { emitter } = useEvent();
+//   useEffect(() => {
+//     const handle = (data): void => {
+//       console.log('here it is', data);
+//     };
+//     emitter.on('test', handle);
 
-    return (): void => {
-      emitter.off('test', handle);
-    };
-  }, [emitter]);
+//     return (): void => {
+//       emitter.off('test', handle);
+//     };
+//   }, [emitter]);
 
-  return (
-    <div>
-      <div>Youre in!!!</div>
+//   return (
+//     <div>
+//       <div>Youre in!!!</div>
 
-      {socket && (
-        <div>
-          <div>Socket connection succesful</div>
-          <button onClick={() => sendMessage('echo')}>echo</button>
-        </div>
-      )}
-      <div>
-        <button onClick={logout}>logout</button>
-      </div>
-    </div>
-  );
-};
+//       {socket && (
+//         <div>
+//           <div>Socket connection succesful</div>
+//           <button onClick={() => sendMessage('echo')}>echo</button>
+//         </div>
+//       )}
+//       <div>
+//         <button onClick={logout}>logout</button>
+//       </div>
+//     </div>
+//   );
+// };
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }): JSX.Element => {
   const { logged } = useAuth();

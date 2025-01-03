@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, JSX } from 'react';
-import { useEmitter } from '../../Event/Emitter';
+import { useEvent } from '../../Event/EventContext';
 
-interface IOSocketContextType {
+type IOSocketContextType = {
   socket: WebSocket | null;
   sendMessage: (_message: any) => void;
   connect: (_url: string) => void;
   isConnected: () => boolean;
-}
+};
 
 const IOSocketContext = createContext<IOSocketContextType | undefined>(undefined);
 
@@ -20,7 +20,7 @@ export const useIOSocket = (): IOSocketContextType => {
 
 export const IOSocketProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const { emitter } = useEmitter();
+  const { emitter } = useEvent();
 
   useEffect(() => {
     return (): void => {

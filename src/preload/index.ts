@@ -1,17 +1,17 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 
-interface jwtTokensParams {
+type jwtTokensParams = {
   access: string;
   refresh: string;
-}
+};
 
 type JwtTokensCallback = (_arg0: jwtTokensParams) => void;
 
-interface ApiMessages {
+type ApiMessages = {
   jwtTokens: (_arg0: JwtTokensCallback) => void;
   isAuthenticated: (_arg0: (_arg0: boolean) => void) => void;
-}
+};
 
 // Custom APIs for renderer
 const api = {

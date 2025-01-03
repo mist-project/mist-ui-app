@@ -1,10 +1,8 @@
 import { JSX } from 'react';
 
-type ButtonProps = {
-  onClick: () => void;
-  children: React.ReactNode;
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-};
+}
 
 const Button = ({ className, onClick, children }: ButtonProps): JSX.Element => {
   return (

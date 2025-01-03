@@ -1,0 +1,7 @@
+version: v2
+inputs:
+  - directory: src/renderer/protos
+plugins:
+  - local: protoc-gen-es
+    out: src/renderer/protos
+    opt: target=ts
