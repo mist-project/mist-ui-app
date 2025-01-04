@@ -1,34 +1,17 @@
-import { create, toBinary } from '@bufbuild/protobuf';
-
-import { Button } from '@renderer/components/common/Button';
-import { useEvent } from '@renderer/components/Contexts';
-
 import { JSX } from 'react';
 
-import { UpdateJwtTokenSchema } from '@protos/v1/auth_pb';
+import { Button } from '@renderer/components/common/Button';
 
 const dummyServer = ['Server 1', 'Server 2'];
 
 const Nav = (): JSX.Element => {
-  const { emitter } = useEvent();
-
   const renderServers = (): JSX.Element => {
     return (
       <div>
         {dummyServer.map((s): JSX.Element => {
           return (
             <div key={s}>
-              <Button
-                onClick={() => {
-                  const tokenMessage = create(UpdateJwtTokenSchema, {
-                    access: s
-                  });
-                  const bytes = toBinary(UpdateJwtTokenSchema, tokenMessage);
-                  emitter.emit('test', bytes);
-                }}
-              >
-                {s}
-              </Button>
+              <Button onClick={() => {}}>{s}</Button>
             </div>
           );
         })}

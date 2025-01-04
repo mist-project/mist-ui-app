@@ -1,6 +1,8 @@
-import MistApiService from '@renderer/services/mistApiService';
 import { createContext, useState, use, useEffect, JSX } from 'react';
+
+import * as pb from '@protos/v1/pb';
 import { useIOSocket } from '@renderer/components/Contexts';
+import MistApiService from '@renderer/services/mistApiService';
 
 // Create a Context for Authentication
 export type LoginCredentials = {
@@ -32,12 +34,10 @@ export const useAuth = (): AuthContextType => {
   return context;
 };
 
-// Auth Provider component that will wrap the app
 export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [logged, setLogged] = useState<boolean>(false);
-  const { connect, isConnected } = useIOSocket();
+  const { connect, getWebSocket, sendMessage, closeWebSocket } = useIOSocket();
 
-  // Simulate a call to check authentication on initial load
   useEffect(() => {
     window.electron.ipcRenderer.send('authentication-status');
 
@@ -48,12 +48,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     window.api.jwtTokens((message) => {
       // TODO: when communicating with socket; whenever this gets hit; send message to the
       // service so it updates the token stored in memory
-      if (!isConnected()) {
+      if (!getWebSocket()) {
         const url = new URL(window.appEnvs.mistIOServiceUrl);
         url.searchParams.set('authorization', `Bearer ${message.access}`);
         connect(url.toString());
-      } else {
-        console.log('user already connected... update tokens');
+      } else if (getWebSocket()?.readyState === WebSocket.OPEN) {
+        const data = pb.api.v1.auth.UpdateJwtToken.encode(
+          new pb.api.v1.auth.UpdateJwtToken({ access: message.access })
+        ).finish();
+        sendMessage(data);
       }
     });
   }, []);
@@ -75,6 +78,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
   };
 
   const logout = (): void => {
+    closeWebSocket();
     window.electron.ipcRenderer.send('remove-jwt-main');
   };
 
@@ -82,7 +86,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     window.electron.ipcRenderer.send('get-jwt-main');
   };
 
-  // Return the provider with context value
   return (
     <AuthContext.Provider value={{ logged, login, logout, requestTokens }}>
       {children}

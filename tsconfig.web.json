@@ -5,7 +5,9 @@
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.tsx",
     "src/preload/*.d.ts",
+    "src/renderer/protos/**/*.js",
     "src/renderer/protos/**/*.ts",
+    "src/renderer/protos/**/*d.ts",
 
   ],
   "compilerOptions": {

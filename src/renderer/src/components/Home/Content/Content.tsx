@@ -1,18 +1,15 @@
-import { fromBinary } from '@bufbuild/protobuf';
 import { JSX, useEffect, useState } from 'react';
 
-import { useEvent } from '@renderer/components/Contexts';
-
-import { UpdateJwtTokenSchema } from '@protos/v1/auth_pb';
+import { useAuth, useEvent } from '@renderer/components/Contexts';
 
 const Content = (): JSX.Element => {
   const { emitter } = useEvent();
   const [message, setMessage] = useState('');
+  const { logout } = useAuth();
 
   useEffect(() => {
-    const handle = (data): void => {
-      const accessToken = fromBinary(UpdateJwtTokenSchema, data);
-      setMessage(accessToken.access);
+    const handle = async (data): Promise<void> => {
+      setMessage(data.access);
     };
 
     emitter.on('test', handle);
@@ -21,7 +18,12 @@ const Content = (): JSX.Element => {
       emitter.off('test', handle);
     };
   }, []);
-  return <div>{message}</div>;
+  return (
+    <div>
+      {message}
+      <button onClick={() => logout()}>logout</button>
+    </div>
+  );
 };
 
 export default Content;

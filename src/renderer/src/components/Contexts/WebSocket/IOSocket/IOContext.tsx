@@ -1,11 +1,12 @@
-import React, { createContext, useContext, useState, useEffect, JSX } from 'react';
-import { useEvent } from '../../Event/EventContext';
+import React, { createContext, useContext, useEffect, JSX, useRef } from 'react';
+
+import * as pb from '@protos/v1/pb';
 
 type IOSocketContextType = {
-  socket: WebSocket | null;
-  sendMessage: (_message: any) => void;
+  sendMessage: (_message: Uint8Array<ArrayBufferLike>) => void;
   connect: (_url: string) => void;
-  isConnected: () => boolean;
+  getWebSocket: () => WebSocket | null;
+  closeWebSocket: () => void;
 };
 
 const IOSocketContext = createContext<IOSocketContextType | undefined>(undefined);
@@ -19,13 +20,12 @@ export const useIOSocket = (): IOSocketContextType => {
 };
 
 export const IOSocketProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  const { emitter } = useEvent();
+  const socketRef = useRef<WebSocket | null>(null); // Ref for WebSocket instance
 
   useEffect(() => {
     return (): void => {
-      if (socket) {
-        socket.close();
+      if (socketRef.current) {
+        socketRef.current.close();
       }
     };
   }, []);
@@ -33,38 +33,43 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
   // Establish WebSocket connection only when logged in and tokens are available
   const connect = (url: string): void => {
     // Create the WebSocket URL with the token
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      return; // Already connected, no need to connect again
+    }
 
-    const ws = new WebSocket(url.toString());
-    setSocket(ws);
-    ws.onopen = (): void => console.log('WebSocket connected');
-    ws.onerror = (error): void => console.error('WebSocket error:', error);
+    const ws = new WebSocket(url);
+    socketRef.current = ws;
+
+    ws.onerror = (error): void => {
+      console.error('WebSocket error:', error);
+    };
 
     // Listen for messages and forward to specific components
-    ws.onmessage = (event): void => {
-      console.log(event.data, 'boom');
-      emitter.emit('test', event.data);
-      // const message = JSON.parse(event.data);
-      // console.log(message, 'hi');
-      // This is where you'd direct messages based on the type
-      // Pass the message to the appropriate component/state via context
+    ws.onmessage = async (event): Promise<void> => {
+      console.log(
+        pb.api.v1.auth.UpdateJwtToken.decode(new Uint8Array(await event.data.arrayBuffer()))
+      );
     };
   };
 
-  const isConnected = (): boolean => {
-    if (socket == null) {
-      return false;
+  const sendMessage = (message: Uint8Array<ArrayBufferLike>): void => {
+    if (socketRef.current) {
+      socketRef.current.send(message);
     }
-    return socket.readyState === WebSocket.CONNECTING || socket.readyState === WebSocket.OPEN;
   };
 
-  const sendMessage = (message: any): void => {
-    if (socket) {
-      socket.send(JSON.stringify(message));
+  const getWebSocket = (): WebSocket | null => {
+    return socketRef.current;
+  };
+
+  const closeWebSocket = (): void => {
+    if (socketRef.current) {
+      socketRef.current.close();
     }
   };
 
   return (
-    <IOSocketContext.Provider value={{ socket, sendMessage, connect, isConnected }}>
+    <IOSocketContext.Provider value={{ sendMessage, connect, getWebSocket, closeWebSocket }}>
       {children}
     </IOSocketContext.Provider>
   );

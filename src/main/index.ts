@@ -56,7 +56,8 @@ const gotTheLock = app.requestSingleInstanceLock();
 
 // TODO: replace this login for a setInterval
 const performJwtRefresh = (run: boolean): void => {
-  const fifteenMinutes = 60 * 15 * 1000;
+  // const fifteenMinutes = 60 * 15 * 1000;
+  const fifteenMinutes = 5000;
   const handler = async (): Promise<void> => {
     if (!run) {
       currentTimeout = setTimeout(handler, fifteenMinutes);
