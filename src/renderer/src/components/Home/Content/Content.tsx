@@ -1,27 +1,16 @@
 import { JSX, useEffect, useState } from 'react';
 
-import { useAuth, useEvent } from '@renderer/components/Contexts';
+import { useAuth } from '@renderer/components/Contexts';
 
 const Content = (): JSX.Element => {
-  const { emitter } = useEvent();
-  const [message, setMessage] = useState('');
+  const [message] = useState('');
   const { logout } = useAuth();
 
-  useEffect(() => {
-    const handle = async (data): Promise<void> => {
-      setMessage(data.access);
-    };
-
-    emitter.on('test', handle);
-
-    return (): void => {
-      emitter.off('test', handle);
-    };
-  }, []);
+  useEffect(() => {}, []);
   return (
     <div>
       {message}
-      <button onClick={() => logout()}>logout</button>
+      <button onClick={() => logout()}>logout ( this will be removed )</button>
     </div>
   );
 };

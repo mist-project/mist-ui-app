@@ -34,26 +34,25 @@ export const api = $root.api = (() => {
              */
             const messages = {};
 
-            messages.IOMessage = (function() {
+            messages.InputMessage = (function() {
 
                 /**
-                 * Properties of a IOMessage.
+                 * Properties of an InputMessage.
                  * @memberof api.v1.messages
-                 * @interface IIOMessage
-                 * @property {api.v1.messages.IMeta|null} [meta] IOMessage meta
-                 * @property {api.v1.messages.IInput|null} [input] IOMessage input
-                 * @property {api.v1.messages.IOutput|null} [output] IOMessage output
+                 * @interface IInputMessage
+                 * @property {api.v1.messages.IMeta|null} [meta] InputMessage meta
+                 * @property {api.v1.messages.IInput|null} [input] InputMessage input
                  */
 
                 /**
-                 * Constructs a new IOMessage.
+                 * Constructs a new InputMessage.
                  * @memberof api.v1.messages
-                 * @classdesc Represents a IOMessage.
-                 * @implements IIOMessage
+                 * @classdesc Represents an InputMessage.
+                 * @implements IInputMessage
                  * @constructor
-                 * @param {api.v1.messages.IIOMessage=} [properties] Properties to set
+                 * @param {api.v1.messages.IInputMessage=} [properties] Properties to set
                  */
-                function IOMessage(properties) {
+                function InputMessage(properties) {
                     if (properties)
                         for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                             if (properties[keys[i]] != null)
@@ -61,104 +60,80 @@ export const api = $root.api = (() => {
                 }
 
                 /**
-                 * IOMessage meta.
+                 * InputMessage meta.
                  * @member {api.v1.messages.IMeta|null|undefined} meta
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.InputMessage
                  * @instance
                  */
-                IOMessage.prototype.meta = null;
+                InputMessage.prototype.meta = null;
 
                 /**
-                 * IOMessage input.
+                 * InputMessage input.
                  * @member {api.v1.messages.IInput|null|undefined} input
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.InputMessage
                  * @instance
                  */
-                IOMessage.prototype.input = null;
+                InputMessage.prototype.input = null;
 
                 /**
-                 * IOMessage output.
-                 * @member {api.v1.messages.IOutput|null|undefined} output
-                 * @memberof api.v1.messages.IOMessage
-                 * @instance
-                 */
-                IOMessage.prototype.output = null;
-
-                // OneOf field names bound to virtual getters and setters
-                let $oneOfFields;
-
-                /**
-                 * IOMessage data.
-                 * @member {"input"|"output"|undefined} data
-                 * @memberof api.v1.messages.IOMessage
-                 * @instance
-                 */
-                Object.defineProperty(IOMessage.prototype, "data", {
-                    get: $util.oneOfGetter($oneOfFields = ["input", "output"]),
-                    set: $util.oneOfSetter($oneOfFields)
-                });
-
-                /**
-                 * Creates a new IOMessage instance using the specified properties.
+                 * Creates a new InputMessage instance using the specified properties.
                  * @function create
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.InputMessage
                  * @static
-                 * @param {api.v1.messages.IIOMessage=} [properties] Properties to set
-                 * @returns {api.v1.messages.IOMessage} IOMessage instance
+                 * @param {api.v1.messages.IInputMessage=} [properties] Properties to set
+                 * @returns {api.v1.messages.InputMessage} InputMessage instance
                  */
-                IOMessage.create = function create(properties) {
-                    return new IOMessage(properties);
+                InputMessage.create = function create(properties) {
+                    return new InputMessage(properties);
                 };
 
                 /**
-                 * Encodes the specified IOMessage message. Does not implicitly {@link api.v1.messages.IOMessage.verify|verify} messages.
+                 * Encodes the specified InputMessage message. Does not implicitly {@link api.v1.messages.InputMessage.verify|verify} messages.
                  * @function encode
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.InputMessage
                  * @static
-                 * @param {api.v1.messages.IIOMessage} message IOMessage message or plain object to encode
+                 * @param {api.v1.messages.IInputMessage} message InputMessage message or plain object to encode
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                IOMessage.encode = function encode(message, writer) {
+                InputMessage.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
                     if (message.meta != null && Object.hasOwnProperty.call(message, "meta"))
                         $root.api.v1.messages.Meta.encode(message.meta, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                     if (message.input != null && Object.hasOwnProperty.call(message, "input"))
                         $root.api.v1.messages.Input.encode(message.input, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                    if (message.output != null && Object.hasOwnProperty.call(message, "output"))
-                        $root.api.v1.messages.Output.encode(message.output, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     return writer;
                 };
 
                 /**
-                 * Encodes the specified IOMessage message, length delimited. Does not implicitly {@link api.v1.messages.IOMessage.verify|verify} messages.
+                 * Encodes the specified InputMessage message, length delimited. Does not implicitly {@link api.v1.messages.InputMessage.verify|verify} messages.
                  * @function encodeDelimited
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.InputMessage
                  * @static
-                 * @param {api.v1.messages.IIOMessage} message IOMessage message or plain object to encode
+                 * @param {api.v1.messages.IInputMessage} message InputMessage message or plain object to encode
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                IOMessage.encodeDelimited = function encodeDelimited(message, writer) {
+                InputMessage.encodeDelimited = function encodeDelimited(message, writer) {
                     return this.encode(message, writer).ldelim();
                 };
 
                 /**
-                 * Decodes a IOMessage message from the specified reader or buffer.
+                 * Decodes an InputMessage message from the specified reader or buffer.
                  * @function decode
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.InputMessage
                  * @static
                  * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
                  * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.messages.IOMessage} IOMessage
+                 * @returns {api.v1.messages.InputMessage} InputMessage
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                IOMessage.decode = function decode(reader, length) {
+                InputMessage.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.messages.IOMessage();
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.messages.InputMessage();
                     while (reader.pos < end) {
                         let tag = reader.uint32();
                         switch (tag >>> 3) {
@@ -170,7 +145,240 @@ export const api = $root.api = (() => {
                                 message.input = $root.api.v1.messages.Input.decode(reader, reader.uint32());
                                 break;
                             }
-                        case 3: {
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes an InputMessage message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.messages.InputMessage
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.messages.InputMessage} InputMessage
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                InputMessage.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies an InputMessage message.
+                 * @function verify
+                 * @memberof api.v1.messages.InputMessage
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                InputMessage.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.meta != null && message.hasOwnProperty("meta")) {
+                        let error = $root.api.v1.messages.Meta.verify(message.meta);
+                        if (error)
+                            return "meta." + error;
+                    }
+                    if (message.input != null && message.hasOwnProperty("input")) {
+                        let error = $root.api.v1.messages.Input.verify(message.input);
+                        if (error)
+                            return "input." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates an InputMessage message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.messages.InputMessage
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.messages.InputMessage} InputMessage
+                 */
+                InputMessage.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.messages.InputMessage)
+                        return object;
+                    let message = new $root.api.v1.messages.InputMessage();
+                    if (object.meta != null) {
+                        if (typeof object.meta !== "object")
+                            throw TypeError(".api.v1.messages.InputMessage.meta: object expected");
+                        message.meta = $root.api.v1.messages.Meta.fromObject(object.meta);
+                    }
+                    if (object.input != null) {
+                        if (typeof object.input !== "object")
+                            throw TypeError(".api.v1.messages.InputMessage.input: object expected");
+                        message.input = $root.api.v1.messages.Input.fromObject(object.input);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from an InputMessage message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.messages.InputMessage
+                 * @static
+                 * @param {api.v1.messages.InputMessage} message InputMessage
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                InputMessage.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults) {
+                        object.meta = null;
+                        object.input = null;
+                    }
+                    if (message.meta != null && message.hasOwnProperty("meta"))
+                        object.meta = $root.api.v1.messages.Meta.toObject(message.meta, options);
+                    if (message.input != null && message.hasOwnProperty("input"))
+                        object.input = $root.api.v1.messages.Input.toObject(message.input, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this InputMessage to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.messages.InputMessage
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                InputMessage.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for InputMessage
+                 * @function getTypeUrl
+                 * @memberof api.v1.messages.InputMessage
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                InputMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.messages.InputMessage";
+                };
+
+                return InputMessage;
+            })();
+
+            messages.OutputMessage = (function() {
+
+                /**
+                 * Properties of an OutputMessage.
+                 * @memberof api.v1.messages
+                 * @interface IOutputMessage
+                 * @property {api.v1.messages.IMeta|null} [meta] OutputMessage meta
+                 * @property {api.v1.messages.IOutput|null} [output] OutputMessage output
+                 */
+
+                /**
+                 * Constructs a new OutputMessage.
+                 * @memberof api.v1.messages
+                 * @classdesc Represents an OutputMessage.
+                 * @implements IOutputMessage
+                 * @constructor
+                 * @param {api.v1.messages.IOutputMessage=} [properties] Properties to set
+                 */
+                function OutputMessage(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * OutputMessage meta.
+                 * @member {api.v1.messages.IMeta|null|undefined} meta
+                 * @memberof api.v1.messages.OutputMessage
+                 * @instance
+                 */
+                OutputMessage.prototype.meta = null;
+
+                /**
+                 * OutputMessage output.
+                 * @member {api.v1.messages.IOutput|null|undefined} output
+                 * @memberof api.v1.messages.OutputMessage
+                 * @instance
+                 */
+                OutputMessage.prototype.output = null;
+
+                /**
+                 * Creates a new OutputMessage instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.messages.OutputMessage
+                 * @static
+                 * @param {api.v1.messages.IOutputMessage=} [properties] Properties to set
+                 * @returns {api.v1.messages.OutputMessage} OutputMessage instance
+                 */
+                OutputMessage.create = function create(properties) {
+                    return new OutputMessage(properties);
+                };
+
+                /**
+                 * Encodes the specified OutputMessage message. Does not implicitly {@link api.v1.messages.OutputMessage.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.messages.OutputMessage
+                 * @static
+                 * @param {api.v1.messages.IOutputMessage} message OutputMessage message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                OutputMessage.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.meta != null && Object.hasOwnProperty.call(message, "meta"))
+                        $root.api.v1.messages.Meta.encode(message.meta, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    if (message.output != null && Object.hasOwnProperty.call(message, "output"))
+                        $root.api.v1.messages.Output.encode(message.output, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified OutputMessage message, length delimited. Does not implicitly {@link api.v1.messages.OutputMessage.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.messages.OutputMessage
+                 * @static
+                 * @param {api.v1.messages.IOutputMessage} message OutputMessage message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                OutputMessage.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes an OutputMessage message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.messages.OutputMessage
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.messages.OutputMessage} OutputMessage
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                OutputMessage.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.messages.OutputMessage();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.meta = $root.api.v1.messages.Meta.decode(reader, reader.uint32());
+                                break;
+                            }
+                        case 2: {
                                 message.output = $root.api.v1.messages.Output.decode(reader, reader.uint32());
                                 break;
                             }
@@ -183,146 +391,121 @@ export const api = $root.api = (() => {
                 };
 
                 /**
-                 * Decodes a IOMessage message from the specified reader or buffer, length delimited.
+                 * Decodes an OutputMessage message from the specified reader or buffer, length delimited.
                  * @function decodeDelimited
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.OutputMessage
                  * @static
                  * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.messages.IOMessage} IOMessage
+                 * @returns {api.v1.messages.OutputMessage} OutputMessage
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                IOMessage.decodeDelimited = function decodeDelimited(reader) {
+                OutputMessage.decodeDelimited = function decodeDelimited(reader) {
                     if (!(reader instanceof $Reader))
                         reader = new $Reader(reader);
                     return this.decode(reader, reader.uint32());
                 };
 
                 /**
-                 * Verifies a IOMessage message.
+                 * Verifies an OutputMessage message.
                  * @function verify
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.OutputMessage
                  * @static
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                IOMessage.verify = function verify(message) {
+                OutputMessage.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    let properties = {};
                     if (message.meta != null && message.hasOwnProperty("meta")) {
                         let error = $root.api.v1.messages.Meta.verify(message.meta);
                         if (error)
                             return "meta." + error;
                     }
-                    if (message.input != null && message.hasOwnProperty("input")) {
-                        properties.data = 1;
-                        {
-                            let error = $root.api.v1.messages.Input.verify(message.input);
-                            if (error)
-                                return "input." + error;
-                        }
-                    }
                     if (message.output != null && message.hasOwnProperty("output")) {
-                        if (properties.data === 1)
-                            return "data: multiple values";
-                        properties.data = 1;
-                        {
-                            let error = $root.api.v1.messages.Output.verify(message.output);
-                            if (error)
-                                return "output." + error;
-                        }
+                        let error = $root.api.v1.messages.Output.verify(message.output);
+                        if (error)
+                            return "output." + error;
                     }
                     return null;
                 };
 
                 /**
-                 * Creates a IOMessage message from a plain object. Also converts values to their respective internal types.
+                 * Creates an OutputMessage message from a plain object. Also converts values to their respective internal types.
                  * @function fromObject
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.OutputMessage
                  * @static
                  * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.messages.IOMessage} IOMessage
+                 * @returns {api.v1.messages.OutputMessage} OutputMessage
                  */
-                IOMessage.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.messages.IOMessage)
+                OutputMessage.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.messages.OutputMessage)
                         return object;
-                    let message = new $root.api.v1.messages.IOMessage();
+                    let message = new $root.api.v1.messages.OutputMessage();
                     if (object.meta != null) {
                         if (typeof object.meta !== "object")
-                            throw TypeError(".api.v1.messages.IOMessage.meta: object expected");
+                            throw TypeError(".api.v1.messages.OutputMessage.meta: object expected");
                         message.meta = $root.api.v1.messages.Meta.fromObject(object.meta);
-                    }
-                    if (object.input != null) {
-                        if (typeof object.input !== "object")
-                            throw TypeError(".api.v1.messages.IOMessage.input: object expected");
-                        message.input = $root.api.v1.messages.Input.fromObject(object.input);
                     }
                     if (object.output != null) {
                         if (typeof object.output !== "object")
-                            throw TypeError(".api.v1.messages.IOMessage.output: object expected");
+                            throw TypeError(".api.v1.messages.OutputMessage.output: object expected");
                         message.output = $root.api.v1.messages.Output.fromObject(object.output);
                     }
                     return message;
                 };
 
                 /**
-                 * Creates a plain object from a IOMessage message. Also converts values to other types if specified.
+                 * Creates a plain object from an OutputMessage message. Also converts values to other types if specified.
                  * @function toObject
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.OutputMessage
                  * @static
-                 * @param {api.v1.messages.IOMessage} message IOMessage
+                 * @param {api.v1.messages.OutputMessage} message OutputMessage
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                IOMessage.toObject = function toObject(message, options) {
+                OutputMessage.toObject = function toObject(message, options) {
                     if (!options)
                         options = {};
                     let object = {};
-                    if (options.defaults)
+                    if (options.defaults) {
                         object.meta = null;
+                        object.output = null;
+                    }
                     if (message.meta != null && message.hasOwnProperty("meta"))
                         object.meta = $root.api.v1.messages.Meta.toObject(message.meta, options);
-                    if (message.input != null && message.hasOwnProperty("input")) {
-                        object.input = $root.api.v1.messages.Input.toObject(message.input, options);
-                        if (options.oneofs)
-                            object.data = "input";
-                    }
-                    if (message.output != null && message.hasOwnProperty("output")) {
+                    if (message.output != null && message.hasOwnProperty("output"))
                         object.output = $root.api.v1.messages.Output.toObject(message.output, options);
-                        if (options.oneofs)
-                            object.data = "output";
-                    }
                     return object;
                 };
 
                 /**
-                 * Converts this IOMessage to JSON.
+                 * Converts this OutputMessage to JSON.
                  * @function toJSON
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.OutputMessage
                  * @instance
                  * @returns {Object.<string,*>} JSON object
                  */
-                IOMessage.prototype.toJSON = function toJSON() {
+                OutputMessage.prototype.toJSON = function toJSON() {
                     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                 };
 
                 /**
-                 * Gets the default type url for IOMessage
+                 * Gets the default type url for OutputMessage
                  * @function getTypeUrl
-                 * @memberof api.v1.messages.IOMessage
+                 * @memberof api.v1.messages.OutputMessage
                  * @static
                  * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns {string} The default type url
                  */
-                IOMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                OutputMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
                     if (typeUrlPrefix === undefined) {
                         typeUrlPrefix = "type.googleapis.com";
                     }
-                    return typeUrlPrefix + "/api.v1.messages.IOMessage";
+                    return typeUrlPrefix + "/api.v1.messages.OutputMessage";
                 };
 
-                return IOMessage;
+                return OutputMessage;
             })();
 
             messages.Meta = (function() {

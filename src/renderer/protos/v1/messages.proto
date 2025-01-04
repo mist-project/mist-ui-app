@@ -3,13 +3,16 @@ syntax = "proto3";
 package api.v1.messages;
 
 // ----- SHARED -----
-message IOMessage {
+message InputMessage {
   Meta meta = 1;
-  oneof data {
-    Input input = 2;
-    Output output = 3;
-  }
+  Input input = 2;
 }
+
+message OutputMessage {
+  Meta meta = 1;
+  Output output = 2;
+}
+
 message Meta { ActionType action = 1; }
 
 enum ActionType {

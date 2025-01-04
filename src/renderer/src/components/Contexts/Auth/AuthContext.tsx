@@ -37,7 +37,7 @@ export const useAuth = (): AuthContextType => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [logged, setLogged] = useState<boolean>(false);
-  const { connect, getWebSocket, sendMessage, closeWebSocket, isSocketOpen } = useIOSocket();
+  const { connect, getWebSocket, sendMessage, closeWebSocket } = useIOSocket();
 
   useEffect(() => {
     window.electron.ipcRenderer.send('authentication-status');
@@ -50,11 +50,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
       // TODO: when communicating with socket; whenever this gets hit; send message to the
       // service so it updates the token stored in memory
       // TODO: update this logic, its a bit hacky
-      if (!getWebSocket()) {
+      const ioSocket = getWebSocket();
+      if (!ioSocket) {
         const url = new URL(window.appEnvs.mistIOServiceUrl);
         url.searchParams.set('authorization', `Bearer ${message.access}`);
         connect(url.toString());
-      } else if (isSocketOpen()) {
+      } else if (ioSocket.readyState === WebSocket.OPEN) {
         sendMessage(
           Pb.InputMessage(pb.api.v1.messages.ActionType.ACTION_TYPE_UPDATE, {
             updateJwtToken: new pb.api.v1.messages.UpdateJwtToken({
