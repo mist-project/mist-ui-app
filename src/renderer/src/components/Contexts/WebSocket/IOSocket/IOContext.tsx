@@ -1,11 +1,13 @@
-import React, { createContext, useContext, useEffect, JSX, useRef } from 'react';
+import React, { createContext, useContext, useEffect, JSX, useRef, useState } from 'react';
 
 import * as pb from '@protos/v1/pb';
 
 type IOSocketContextType = {
   sendMessage: (_message: Uint8Array<ArrayBufferLike>) => void;
   connect: (_url: string) => void;
+
   getWebSocket: () => WebSocket | null;
+  isSocketOpen: () => boolean;
   closeWebSocket: () => void;
 };
 
@@ -21,6 +23,7 @@ export const useIOSocket = (): IOSocketContextType => {
 
 export const IOSocketProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const socketRef = useRef<WebSocket | null>(null); // Ref for WebSocket instance
+  const [readyState, setReadyState] = useState<number>(WebSocket.CLOSED);
 
   useEffect(() => {
     return (): void => {
@@ -33,28 +36,37 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
   // Establish WebSocket connection only when logged in and tokens are available
   const connect = (url: string): void => {
     // Create the WebSocket URL with the token
-    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+    if (socketRef.current && readyState === WebSocket.OPEN) {
       return; // Already connected, no need to connect again
     }
 
+    // TODO: add ability to reconnect
     const ws = new WebSocket(url);
     socketRef.current = ws;
+    socketRef.current.binaryType = 'arraybuffer';
 
+    ws.onopen = (): void => {
+      setReadyState(WebSocket.OPEN);
+    };
     ws.onerror = (error): void => {
+      setReadyState(WebSocket.CLOSED);
       console.error('WebSocket error:', error);
     };
 
-    // Listen for messages and forward to specific components
     ws.onmessage = async (event): Promise<void> => {
-      console.log(
-        pb.api.v1.auth.UpdateJwtToken.decode(new Uint8Array(await event.data.arrayBuffer()))
-      );
+      console.log(pb.api.v1.messages.Output.decode(new Uint8Array(await event.data.arrayBuffer())));
+    };
+
+    ws.onclose = (): void => {
+      setReadyState(WebSocket.CLOSED);
     };
   };
 
   const sendMessage = (message: Uint8Array<ArrayBufferLike>): void => {
     if (socketRef.current) {
-      socketRef.current.send(message);
+      socketRef.current.send(
+        message.buffer.slice(message.byteOffset, message.byteOffset + message.length)
+      );
     }
   };
 
@@ -68,8 +80,17 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
     }
   };
 
+  const isSocketOpen = (): boolean => {
+    if (!socketRef.current) {
+      return false;
+    }
+    return readyState === WebSocket.OPEN;
+  };
+
   return (
-    <IOSocketContext.Provider value={{ sendMessage, connect, getWebSocket, closeWebSocket }}>
+    <IOSocketContext.Provider
+      value={{ sendMessage, connect, getWebSocket, isSocketOpen, closeWebSocket }}
+    >
       {children}
     </IOSocketContext.Provider>
   );

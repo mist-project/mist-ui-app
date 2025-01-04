@@ -34,6 +34,16 @@ export const useAuth = (): AuthContextType => {
   return context;
 };
 
+const test = (
+  action: pb.api.v1.messages.ActionType,
+  input: pb.api.v1.messages.IInput
+): pb.api.v1.messages.IOMessage => {
+  return new pb.api.v1.messages.IOMessage({
+    meta: { action: action },
+    input: input
+  });
+};
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [logged, setLogged] = useState<boolean>(false);
   const { connect, getWebSocket, sendMessage, closeWebSocket } = useIOSocket();
@@ -53,10 +63,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
         url.searchParams.set('authorization', `Bearer ${message.access}`);
         connect(url.toString());
       } else if (getWebSocket()?.readyState === WebSocket.OPEN) {
-        const data = pb.api.v1.auth.UpdateJwtToken.encode(
-          new pb.api.v1.auth.UpdateJwtToken({ access: message.access })
-        ).finish();
-        sendMessage(data);
+        const msg = {
+          updateJwtToken: new pb.api.v1.messages.UpdateJwtToken({
+            access: message.access
+          })
+        };
+
+        test(pb.api.v1.messages.ActionType.ACTION_TYPE_UPDATE, {
+          updateJwtToken: new pb.api.v1.messages.UpdateJwtToken({
+            access: message.access
+          })
+        });
+
+        sendMessage(
+          pb.api.v1.messages.IOMessage.encode(
+            test(pb.api.v1.messages.ActionType.ACTION_TYPE_UPDATE, msg)
+          ).finish()
+        );
       }
     });
   }, []);

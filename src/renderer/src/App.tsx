@@ -6,6 +6,7 @@ import { useAuth } from '@renderer/components/Contexts/Auth';
 import { Home } from '@renderer/components/Home';
 
 import './App.scss';
+import { useIOSocket } from './components/Contexts';
 // import { useIOSocket } from './components/Contexts/';
 // import { useEvent } from './components/Contexts';
 
@@ -49,10 +50,15 @@ const Layout = (): JSX.Element => (
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }): JSX.Element => {
   const { logged } = useAuth();
+  const { getWebSocket } = useIOSocket();
 
   // If not logged in, redirect to login page
   if (!logged) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (getWebSocket()?.readyState !== WebSocket.OPEN) {
+    return <div> connecting ... </div>;
   }
 
   return children; // If logged in, render the protected route

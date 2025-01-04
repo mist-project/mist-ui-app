@@ -6,8 +6,328 @@ export namespace api {
     /** Namespace v1. */
     namespace v1 {
 
-        /** Namespace auth. */
-        namespace auth {
+        /** Namespace messages. */
+        namespace messages {
+
+            /** Properties of a IOMessage. */
+            interface IIOMessage {
+
+                /** IOMessage meta */
+                meta?: (api.v1.messages.IMeta|null);
+
+                /** IOMessage input */
+                input?: (api.v1.messages.IInput|null);
+
+                /** IOMessage output */
+                output?: (api.v1.messages.IOutput|null);
+            }
+
+            /** Represents a IOMessage. */
+            class IOMessage implements IIOMessage {
+
+                /**
+                 * Constructs a new IOMessage.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.messages.IIOMessage);
+
+                /** IOMessage meta. */
+                public meta?: (api.v1.messages.IMeta|null);
+
+                /** IOMessage input. */
+                public input?: (api.v1.messages.IInput|null);
+
+                /** IOMessage output. */
+                public output?: (api.v1.messages.IOutput|null);
+
+                /** IOMessage data. */
+                public data?: ("input"|"output");
+
+                /**
+                 * Creates a new IOMessage instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns IOMessage instance
+                 */
+                public static create(properties?: api.v1.messages.IIOMessage): api.v1.messages.IOMessage;
+
+                /**
+                 * Encodes the specified IOMessage message. Does not implicitly {@link api.v1.messages.IOMessage.verify|verify} messages.
+                 * @param message IOMessage message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.messages.IIOMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified IOMessage message, length delimited. Does not implicitly {@link api.v1.messages.IOMessage.verify|verify} messages.
+                 * @param message IOMessage message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.messages.IIOMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a IOMessage message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns IOMessage
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.IOMessage;
+
+                /**
+                 * Decodes a IOMessage message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns IOMessage
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.IOMessage;
+
+                /**
+                 * Verifies a IOMessage message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a IOMessage message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns IOMessage
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.messages.IOMessage;
+
+                /**
+                 * Creates a plain object from a IOMessage message. Also converts values to other types if specified.
+                 * @param message IOMessage
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.messages.IOMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this IOMessage to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for IOMessage
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a Meta. */
+            interface IMeta {
+
+                /** Meta action */
+                action?: (api.v1.messages.ActionType|null);
+            }
+
+            /** Represents a Meta. */
+            class Meta implements IMeta {
+
+                /**
+                 * Constructs a new Meta.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.messages.IMeta);
+
+                /** Meta action. */
+                public action: api.v1.messages.ActionType;
+
+                /**
+                 * Creates a new Meta instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns Meta instance
+                 */
+                public static create(properties?: api.v1.messages.IMeta): api.v1.messages.Meta;
+
+                /**
+                 * Encodes the specified Meta message. Does not implicitly {@link api.v1.messages.Meta.verify|verify} messages.
+                 * @param message Meta message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.messages.IMeta, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified Meta message, length delimited. Does not implicitly {@link api.v1.messages.Meta.verify|verify} messages.
+                 * @param message Meta message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.messages.IMeta, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a Meta message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns Meta
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.Meta;
+
+                /**
+                 * Decodes a Meta message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns Meta
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.Meta;
+
+                /**
+                 * Verifies a Meta message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a Meta message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns Meta
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.messages.Meta;
+
+                /**
+                 * Creates a plain object from a Meta message. Also converts values to other types if specified.
+                 * @param message Meta
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.messages.Meta, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this Meta to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for Meta
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** ActionType enum. */
+            enum ActionType {
+                ACTION_TYPE_UNSPECIFIED = 0,
+                ACTION_TYPE_GET = 1,
+                ACTION_TYPE_LIST = 2,
+                ACTION_TYPE_CREATE = 3,
+                ACTION_TYPE_UPDATE = 4,
+                ACTION_TYPE_DELETE = 5,
+                ACTION_TYPE_NOTIFICATION = 6
+            }
+
+            /** Properties of an Input. */
+            interface IInput {
+
+                /** Input updateJwtToken */
+                updateJwtToken?: (api.v1.messages.IUpdateJwtToken|null);
+            }
+
+            /** Represents an Input. */
+            class Input implements IInput {
+
+                /**
+                 * Constructs a new Input.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.messages.IInput);
+
+                /** Input updateJwtToken. */
+                public updateJwtToken?: (api.v1.messages.IUpdateJwtToken|null);
+
+                /** Input data. */
+                public data?: "updateJwtToken";
+
+                /**
+                 * Creates a new Input instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns Input instance
+                 */
+                public static create(properties?: api.v1.messages.IInput): api.v1.messages.Input;
+
+                /**
+                 * Encodes the specified Input message. Does not implicitly {@link api.v1.messages.Input.verify|verify} messages.
+                 * @param message Input message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.messages.IInput, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified Input message, length delimited. Does not implicitly {@link api.v1.messages.Input.verify|verify} messages.
+                 * @param message Input message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.messages.IInput, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes an Input message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns Input
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.Input;
+
+                /**
+                 * Decodes an Input message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns Input
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.Input;
+
+                /**
+                 * Verifies an Input message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates an Input message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns Input
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.messages.Input;
+
+                /**
+                 * Creates a plain object from an Input message. Also converts values to other types if specified.
+                 * @param message Input
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.messages.Input, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this Input to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for Input
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
 
             /** Properties of an UpdateJwtToken. */
             interface IUpdateJwtToken {
@@ -23,7 +343,7 @@ export namespace api {
                  * Constructs a new UpdateJwtToken.
                  * @param [properties] Properties to set
                  */
-                constructor(properties?: api.v1.auth.IUpdateJwtToken);
+                constructor(properties?: api.v1.messages.IUpdateJwtToken);
 
                 /** UpdateJwtToken access. */
                 public access: string;
@@ -33,23 +353,23 @@ export namespace api {
                  * @param [properties] Properties to set
                  * @returns UpdateJwtToken instance
                  */
-                public static create(properties?: api.v1.auth.IUpdateJwtToken): api.v1.auth.UpdateJwtToken;
+                public static create(properties?: api.v1.messages.IUpdateJwtToken): api.v1.messages.UpdateJwtToken;
 
                 /**
-                 * Encodes the specified UpdateJwtToken message. Does not implicitly {@link api.v1.auth.UpdateJwtToken.verify|verify} messages.
+                 * Encodes the specified UpdateJwtToken message. Does not implicitly {@link api.v1.messages.UpdateJwtToken.verify|verify} messages.
                  * @param message UpdateJwtToken message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encode(message: api.v1.auth.IUpdateJwtToken, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encode(message: api.v1.messages.IUpdateJwtToken, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Encodes the specified UpdateJwtToken message, length delimited. Does not implicitly {@link api.v1.auth.UpdateJwtToken.verify|verify} messages.
+                 * Encodes the specified UpdateJwtToken message, length delimited. Does not implicitly {@link api.v1.messages.UpdateJwtToken.verify|verify} messages.
                  * @param message UpdateJwtToken message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encodeDelimited(message: api.v1.auth.IUpdateJwtToken, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encodeDelimited(message: api.v1.messages.IUpdateJwtToken, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
                  * Decodes an UpdateJwtToken message from the specified reader or buffer.
@@ -59,7 +379,7 @@ export namespace api {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.auth.UpdateJwtToken;
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.UpdateJwtToken;
 
                 /**
                  * Decodes an UpdateJwtToken message from the specified reader or buffer, length delimited.
@@ -68,7 +388,7 @@ export namespace api {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.auth.UpdateJwtToken;
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.UpdateJwtToken;
 
                 /**
                  * Verifies an UpdateJwtToken message.
@@ -82,7 +402,7 @@ export namespace api {
                  * @param object Plain object
                  * @returns UpdateJwtToken
                  */
-                public static fromObject(object: { [k: string]: any }): api.v1.auth.UpdateJwtToken;
+                public static fromObject(object: { [k: string]: any }): api.v1.messages.UpdateJwtToken;
 
                 /**
                  * Creates a plain object from an UpdateJwtToken message. Also converts values to other types if specified.
@@ -90,7 +410,7 @@ export namespace api {
                  * @param [options] Conversion options
                  * @returns Plain object
                  */
-                public static toObject(message: api.v1.auth.UpdateJwtToken, options?: $protobuf.IConversionOptions): { [k: string]: any };
+                public static toObject(message: api.v1.messages.UpdateJwtToken, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
                 /**
                  * Converts this UpdateJwtToken to JSON.
@@ -100,117 +420,6 @@ export namespace api {
 
                 /**
                  * Gets the default type url for UpdateJwtToken
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-        }
-
-        /** Namespace shared. */
-        namespace shared {
-
-            /** ActionType enum. */
-            enum ActionType {
-                GET = 0,
-                LIST = 1,
-                CREATE = 2,
-                UPDATE = 3,
-                DELETE = 4,
-                NOTIFICATION = 5
-            }
-
-            /** Properties of a Meta. */
-            interface IMeta {
-
-                /** Meta action */
-                action?: (api.v1.shared.ActionType|null);
-            }
-
-            /** Represents a Meta. */
-            class Meta implements IMeta {
-
-                /**
-                 * Constructs a new Meta.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.shared.IMeta);
-
-                /** Meta action. */
-                public action: api.v1.shared.ActionType;
-
-                /**
-                 * Creates a new Meta instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns Meta instance
-                 */
-                public static create(properties?: api.v1.shared.IMeta): api.v1.shared.Meta;
-
-                /**
-                 * Encodes the specified Meta message. Does not implicitly {@link api.v1.shared.Meta.verify|verify} messages.
-                 * @param message Meta message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.shared.IMeta, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified Meta message, length delimited. Does not implicitly {@link api.v1.shared.Meta.verify|verify} messages.
-                 * @param message Meta message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.shared.IMeta, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a Meta message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns Meta
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.shared.Meta;
-
-                /**
-                 * Decodes a Meta message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns Meta
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.shared.Meta;
-
-                /**
-                 * Verifies a Meta message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a Meta message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns Meta
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.shared.Meta;
-
-                /**
-                 * Creates a plain object from a Meta message. Also converts values to other types if specified.
-                 * @param message Meta
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.shared.Meta, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this Meta to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for Meta
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
@@ -228,30 +437,30 @@ export namespace api {
                  * Constructs a new Output.
                  * @param [properties] Properties to set
                  */
-                constructor(properties?: api.v1.shared.IOutput);
+                constructor(properties?: api.v1.messages.IOutput);
 
                 /**
                  * Creates a new Output instance using the specified properties.
                  * @param [properties] Properties to set
                  * @returns Output instance
                  */
-                public static create(properties?: api.v1.shared.IOutput): api.v1.shared.Output;
+                public static create(properties?: api.v1.messages.IOutput): api.v1.messages.Output;
 
                 /**
-                 * Encodes the specified Output message. Does not implicitly {@link api.v1.shared.Output.verify|verify} messages.
+                 * Encodes the specified Output message. Does not implicitly {@link api.v1.messages.Output.verify|verify} messages.
                  * @param message Output message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encode(message: api.v1.shared.IOutput, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encode(message: api.v1.messages.IOutput, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Encodes the specified Output message, length delimited. Does not implicitly {@link api.v1.shared.Output.verify|verify} messages.
+                 * Encodes the specified Output message, length delimited. Does not implicitly {@link api.v1.messages.Output.verify|verify} messages.
                  * @param message Output message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encodeDelimited(message: api.v1.shared.IOutput, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encodeDelimited(message: api.v1.messages.IOutput, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
                  * Decodes an Output message from the specified reader or buffer.
@@ -261,7 +470,7 @@ export namespace api {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.shared.Output;
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.Output;
 
                 /**
                  * Decodes an Output message from the specified reader or buffer, length delimited.
@@ -270,7 +479,7 @@ export namespace api {
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.shared.Output;
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.Output;
 
                 /**
                  * Verifies an Output message.
@@ -284,7 +493,7 @@ export namespace api {
                  * @param object Plain object
                  * @returns Output
                  */
-                public static fromObject(object: { [k: string]: any }): api.v1.shared.Output;
+                public static fromObject(object: { [k: string]: any }): api.v1.messages.Output;
 
                 /**
                  * Creates a plain object from an Output message. Also converts values to other types if specified.
@@ -292,7 +501,7 @@ export namespace api {
                  * @param [options] Conversion options
                  * @returns Plain object
                  */
-                public static toObject(message: api.v1.shared.Output, options?: $protobuf.IConversionOptions): { [k: string]: any };
+                public static toObject(message: api.v1.messages.Output, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
                 /**
                  * Converts this Output to JSON.
@@ -302,218 +511,6 @@ export namespace api {
 
                 /**
                  * Gets the default type url for Output
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of an Input. */
-            interface IInput {
-
-                /** Input updateJwtToken */
-                updateJwtToken?: (api.v1.auth.IUpdateJwtToken|null);
-            }
-
-            /** Represents an Input. */
-            class Input implements IInput {
-
-                /**
-                 * Constructs a new Input.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.shared.IInput);
-
-                /** Input updateJwtToken. */
-                public updateJwtToken?: (api.v1.auth.IUpdateJwtToken|null);
-
-                /** Input data. */
-                public data?: "updateJwtToken";
-
-                /**
-                 * Creates a new Input instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns Input instance
-                 */
-                public static create(properties?: api.v1.shared.IInput): api.v1.shared.Input;
-
-                /**
-                 * Encodes the specified Input message. Does not implicitly {@link api.v1.shared.Input.verify|verify} messages.
-                 * @param message Input message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.shared.IInput, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified Input message, length delimited. Does not implicitly {@link api.v1.shared.Input.verify|verify} messages.
-                 * @param message Input message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.shared.IInput, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes an Input message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns Input
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.shared.Input;
-
-                /**
-                 * Decodes an Input message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns Input
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.shared.Input;
-
-                /**
-                 * Verifies an Input message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates an Input message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns Input
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.shared.Input;
-
-                /**
-                 * Creates a plain object from an Input message. Also converts values to other types if specified.
-                 * @param message Input
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.shared.Input, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this Input to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for Input
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a IOMessage. */
-            interface IIOMessage {
-
-                /** IOMessage meta */
-                meta?: (api.v1.shared.IMeta|null);
-
-                /** IOMessage input */
-                input?: (api.v1.shared.IInput|null);
-
-                /** IOMessage output */
-                output?: (api.v1.shared.IOutput|null);
-            }
-
-            /** Represents a IOMessage. */
-            class IOMessage implements IIOMessage {
-
-                /**
-                 * Constructs a new IOMessage.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.shared.IIOMessage);
-
-                /** IOMessage meta. */
-                public meta?: (api.v1.shared.IMeta|null);
-
-                /** IOMessage input. */
-                public input?: (api.v1.shared.IInput|null);
-
-                /** IOMessage output. */
-                public output?: (api.v1.shared.IOutput|null);
-
-                /** IOMessage data. */
-                public data?: ("input"|"output");
-
-                /**
-                 * Creates a new IOMessage instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns IOMessage instance
-                 */
-                public static create(properties?: api.v1.shared.IIOMessage): api.v1.shared.IOMessage;
-
-                /**
-                 * Encodes the specified IOMessage message. Does not implicitly {@link api.v1.shared.IOMessage.verify|verify} messages.
-                 * @param message IOMessage message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.shared.IIOMessage, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified IOMessage message, length delimited. Does not implicitly {@link api.v1.shared.IOMessage.verify|verify} messages.
-                 * @param message IOMessage message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.shared.IIOMessage, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a IOMessage message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns IOMessage
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.shared.IOMessage;
-
-                /**
-                 * Decodes a IOMessage message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns IOMessage
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.shared.IOMessage;
-
-                /**
-                 * Verifies a IOMessage message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a IOMessage message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns IOMessage
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.shared.IOMessage;
-
-                /**
-                 * Creates a plain object from a IOMessage message. Also converts values to other types if specified.
-                 * @param message IOMessage
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.shared.IOMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this IOMessage to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for IOMessage
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
