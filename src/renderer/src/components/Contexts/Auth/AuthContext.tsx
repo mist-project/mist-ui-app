@@ -3,6 +3,7 @@ import { createContext, useState, use, useEffect, JSX } from 'react';
 import * as pb from '@protos/v1/pb';
 import { useIOSocket } from '@renderer/components/Contexts';
 import MistApiService from '@renderer/services/mistApiService';
+import Pb from '@renderer/utils/pb';
 
 // Create a Context for Authentication
 export type LoginCredentials = {
@@ -34,19 +35,9 @@ export const useAuth = (): AuthContextType => {
   return context;
 };
 
-const test = (
-  action: pb.api.v1.messages.ActionType,
-  input: pb.api.v1.messages.IInput
-): pb.api.v1.messages.IOMessage => {
-  return new pb.api.v1.messages.IOMessage({
-    meta: { action: action },
-    input: input
-  });
-};
-
 export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [logged, setLogged] = useState<boolean>(false);
-  const { connect, getWebSocket, sendMessage, closeWebSocket } = useIOSocket();
+  const { connect, getWebSocket, sendMessage, closeWebSocket, isSocketOpen } = useIOSocket();
 
   useEffect(() => {
     window.electron.ipcRenderer.send('authentication-status');
@@ -58,27 +49,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     window.api.jwtTokens((message) => {
       // TODO: when communicating with socket; whenever this gets hit; send message to the
       // service so it updates the token stored in memory
+      // TODO: update this logic, its a bit hacky
       if (!getWebSocket()) {
         const url = new URL(window.appEnvs.mistIOServiceUrl);
         url.searchParams.set('authorization', `Bearer ${message.access}`);
         connect(url.toString());
-      } else if (getWebSocket()?.readyState === WebSocket.OPEN) {
-        const msg = {
-          updateJwtToken: new pb.api.v1.messages.UpdateJwtToken({
-            access: message.access
-          })
-        };
-
-        test(pb.api.v1.messages.ActionType.ACTION_TYPE_UPDATE, {
-          updateJwtToken: new pb.api.v1.messages.UpdateJwtToken({
-            access: message.access
-          })
-        });
-
+      } else if (isSocketOpen()) {
         sendMessage(
-          pb.api.v1.messages.IOMessage.encode(
-            test(pb.api.v1.messages.ActionType.ACTION_TYPE_UPDATE, msg)
-          ).finish()
+          Pb.InputMessage(pb.api.v1.messages.ActionType.ACTION_TYPE_UPDATE, {
+            updateJwtToken: new pb.api.v1.messages.UpdateJwtToken({
+              access: message.access
+            })
+          })
         );
       }
     });
