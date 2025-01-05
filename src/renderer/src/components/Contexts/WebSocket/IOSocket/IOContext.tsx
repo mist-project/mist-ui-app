@@ -87,8 +87,8 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
     socketRef.current.onmessage = (event): void => {
       const output = pb_v1.Output.decode(new Uint8Array(event.data));
       // TODO: probably should create a handler class
-      if (output.serverListing) {
-        emitter.emit('serverListing', output.serverListing);
+      if (output.appserverListing) {
+        emitter.emit('appserverListing', output.appserverListing);
       } else {
         console.log('over here ');
       }

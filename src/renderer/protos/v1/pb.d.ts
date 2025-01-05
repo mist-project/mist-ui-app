@@ -329,8 +329,11 @@ export namespace api {
                 /** Input updateJwtToken */
                 updateJwtToken?: (api.v1.messages.IUpdateJwtToken|null);
 
-                /** Input serverListing */
-                serverListing?: (api.v1.messages.IServerListingRequest|null);
+                /** Input appserverListing */
+                appserverListing?: (api.v1.messages.IAppserverListingRequest|null);
+
+                /** Input createAppserver */
+                createAppserver?: (api.v1.messages.ICreateAppserverRequest|null);
             }
 
             /** Represents an Input. */
@@ -345,11 +348,14 @@ export namespace api {
                 /** Input updateJwtToken. */
                 public updateJwtToken?: (api.v1.messages.IUpdateJwtToken|null);
 
-                /** Input serverListing. */
-                public serverListing?: (api.v1.messages.IServerListingRequest|null);
+                /** Input appserverListing. */
+                public appserverListing?: (api.v1.messages.IAppserverListingRequest|null);
+
+                /** Input createAppserver. */
+                public createAppserver?: (api.v1.messages.ICreateAppserverRequest|null);
 
                 /** Input data. */
-                public data?: ("updateJwtToken"|"serverListing");
+                public data?: ("updateJwtToken"|"appserverListing"|"createAppserver");
 
                 /**
                  * Creates a new Input instance using the specified properties.
@@ -529,8 +535,8 @@ export namespace api {
             /** Properties of an Output. */
             interface IOutput {
 
-                /** Output serverListing */
-                serverListing?: (api.v1.messages.IServerListingResponse|null);
+                /** Output appserverListing */
+                appserverListing?: (api.v1.messages.IAppserverListingResponse|null);
             }
 
             /** Represents an Output. */
@@ -542,11 +548,11 @@ export namespace api {
                  */
                 constructor(properties?: api.v1.messages.IOutput);
 
-                /** Output serverListing. */
-                public serverListing?: (api.v1.messages.IServerListingResponse|null);
+                /** Output appserverListing. */
+                public appserverListing?: (api.v1.messages.IAppserverListingResponse|null);
 
                 /** Output data. */
-                public data?: "serverListing";
+                public data?: "appserverListing";
 
                 /**
                  * Creates a new Output instance using the specified properties.
@@ -844,188 +850,285 @@ export namespace api {
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
-            /** Properties of a ServerListingRequest. */
-            interface IServerListingRequest {
+            /** Properties of an AppserverListingRequest. */
+            interface IAppserverListingRequest {
             }
 
-            /** Represents a ServerListingRequest. */
-            class ServerListingRequest implements IServerListingRequest {
+            /** Represents an AppserverListingRequest. */
+            class AppserverListingRequest implements IAppserverListingRequest {
 
                 /**
-                 * Constructs a new ServerListingRequest.
+                 * Constructs a new AppserverListingRequest.
                  * @param [properties] Properties to set
                  */
-                constructor(properties?: api.v1.messages.IServerListingRequest);
+                constructor(properties?: api.v1.messages.IAppserverListingRequest);
 
                 /**
-                 * Creates a new ServerListingRequest instance using the specified properties.
+                 * Creates a new AppserverListingRequest instance using the specified properties.
                  * @param [properties] Properties to set
-                 * @returns ServerListingRequest instance
+                 * @returns AppserverListingRequest instance
                  */
-                public static create(properties?: api.v1.messages.IServerListingRequest): api.v1.messages.ServerListingRequest;
+                public static create(properties?: api.v1.messages.IAppserverListingRequest): api.v1.messages.AppserverListingRequest;
 
                 /**
-                 * Encodes the specified ServerListingRequest message. Does not implicitly {@link api.v1.messages.ServerListingRequest.verify|verify} messages.
-                 * @param message ServerListingRequest message or plain object to encode
+                 * Encodes the specified AppserverListingRequest message. Does not implicitly {@link api.v1.messages.AppserverListingRequest.verify|verify} messages.
+                 * @param message AppserverListingRequest message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encode(message: api.v1.messages.IServerListingRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encode(message: api.v1.messages.IAppserverListingRequest, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Encodes the specified ServerListingRequest message, length delimited. Does not implicitly {@link api.v1.messages.ServerListingRequest.verify|verify} messages.
-                 * @param message ServerListingRequest message or plain object to encode
+                 * Encodes the specified AppserverListingRequest message, length delimited. Does not implicitly {@link api.v1.messages.AppserverListingRequest.verify|verify} messages.
+                 * @param message AppserverListingRequest message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encodeDelimited(message: api.v1.messages.IServerListingRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encodeDelimited(message: api.v1.messages.IAppserverListingRequest, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Decodes a ServerListingRequest message from the specified reader or buffer.
+                 * Decodes an AppserverListingRequest message from the specified reader or buffer.
                  * @param reader Reader or buffer to decode from
                  * @param [length] Message length if known beforehand
-                 * @returns ServerListingRequest
+                 * @returns AppserverListingRequest
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.ServerListingRequest;
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.AppserverListingRequest;
 
                 /**
-                 * Decodes a ServerListingRequest message from the specified reader or buffer, length delimited.
+                 * Decodes an AppserverListingRequest message from the specified reader or buffer, length delimited.
                  * @param reader Reader or buffer to decode from
-                 * @returns ServerListingRequest
+                 * @returns AppserverListingRequest
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.ServerListingRequest;
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.AppserverListingRequest;
 
                 /**
-                 * Verifies a ServerListingRequest message.
+                 * Verifies an AppserverListingRequest message.
                  * @param message Plain object to verify
                  * @returns `null` if valid, otherwise the reason why it is not
                  */
                 public static verify(message: { [k: string]: any }): (string|null);
 
                 /**
-                 * Creates a ServerListingRequest message from a plain object. Also converts values to their respective internal types.
+                 * Creates an AppserverListingRequest message from a plain object. Also converts values to their respective internal types.
                  * @param object Plain object
-                 * @returns ServerListingRequest
+                 * @returns AppserverListingRequest
                  */
-                public static fromObject(object: { [k: string]: any }): api.v1.messages.ServerListingRequest;
+                public static fromObject(object: { [k: string]: any }): api.v1.messages.AppserverListingRequest;
 
                 /**
-                 * Creates a plain object from a ServerListingRequest message. Also converts values to other types if specified.
-                 * @param message ServerListingRequest
+                 * Creates a plain object from an AppserverListingRequest message. Also converts values to other types if specified.
+                 * @param message AppserverListingRequest
                  * @param [options] Conversion options
                  * @returns Plain object
                  */
-                public static toObject(message: api.v1.messages.ServerListingRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+                public static toObject(message: api.v1.messages.AppserverListingRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
                 /**
-                 * Converts this ServerListingRequest to JSON.
+                 * Converts this AppserverListingRequest to JSON.
                  * @returns JSON object
                  */
                 public toJSON(): { [k: string]: any };
 
                 /**
-                 * Gets the default type url for ServerListingRequest
+                 * Gets the default type url for AppserverListingRequest
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
-            /** Properties of a ServerListingResponse. */
-            interface IServerListingResponse {
+            /** Properties of an AppserverListingResponse. */
+            interface IAppserverListingResponse {
 
-                /** ServerListingResponse appservers */
+                /** AppserverListingResponse appservers */
                 appservers?: (api.v1.messages.IAppserverAndSub[]|null);
             }
 
-            /** Represents a ServerListingResponse. */
-            class ServerListingResponse implements IServerListingResponse {
+            /** Represents an AppserverListingResponse. */
+            class AppserverListingResponse implements IAppserverListingResponse {
 
                 /**
-                 * Constructs a new ServerListingResponse.
+                 * Constructs a new AppserverListingResponse.
                  * @param [properties] Properties to set
                  */
-                constructor(properties?: api.v1.messages.IServerListingResponse);
+                constructor(properties?: api.v1.messages.IAppserverListingResponse);
 
-                /** ServerListingResponse appservers. */
+                /** AppserverListingResponse appservers. */
                 public appservers: api.v1.messages.IAppserverAndSub[];
 
                 /**
-                 * Creates a new ServerListingResponse instance using the specified properties.
+                 * Creates a new AppserverListingResponse instance using the specified properties.
                  * @param [properties] Properties to set
-                 * @returns ServerListingResponse instance
+                 * @returns AppserverListingResponse instance
                  */
-                public static create(properties?: api.v1.messages.IServerListingResponse): api.v1.messages.ServerListingResponse;
+                public static create(properties?: api.v1.messages.IAppserverListingResponse): api.v1.messages.AppserverListingResponse;
 
                 /**
-                 * Encodes the specified ServerListingResponse message. Does not implicitly {@link api.v1.messages.ServerListingResponse.verify|verify} messages.
-                 * @param message ServerListingResponse message or plain object to encode
+                 * Encodes the specified AppserverListingResponse message. Does not implicitly {@link api.v1.messages.AppserverListingResponse.verify|verify} messages.
+                 * @param message AppserverListingResponse message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encode(message: api.v1.messages.IServerListingResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encode(message: api.v1.messages.IAppserverListingResponse, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Encodes the specified ServerListingResponse message, length delimited. Does not implicitly {@link api.v1.messages.ServerListingResponse.verify|verify} messages.
-                 * @param message ServerListingResponse message or plain object to encode
+                 * Encodes the specified AppserverListingResponse message, length delimited. Does not implicitly {@link api.v1.messages.AppserverListingResponse.verify|verify} messages.
+                 * @param message AppserverListingResponse message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encodeDelimited(message: api.v1.messages.IServerListingResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encodeDelimited(message: api.v1.messages.IAppserverListingResponse, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Decodes a ServerListingResponse message from the specified reader or buffer.
+                 * Decodes an AppserverListingResponse message from the specified reader or buffer.
                  * @param reader Reader or buffer to decode from
                  * @param [length] Message length if known beforehand
-                 * @returns ServerListingResponse
+                 * @returns AppserverListingResponse
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.ServerListingResponse;
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.AppserverListingResponse;
 
                 /**
-                 * Decodes a ServerListingResponse message from the specified reader or buffer, length delimited.
+                 * Decodes an AppserverListingResponse message from the specified reader or buffer, length delimited.
                  * @param reader Reader or buffer to decode from
-                 * @returns ServerListingResponse
+                 * @returns AppserverListingResponse
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.ServerListingResponse;
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.AppserverListingResponse;
 
                 /**
-                 * Verifies a ServerListingResponse message.
+                 * Verifies an AppserverListingResponse message.
                  * @param message Plain object to verify
                  * @returns `null` if valid, otherwise the reason why it is not
                  */
                 public static verify(message: { [k: string]: any }): (string|null);
 
                 /**
-                 * Creates a ServerListingResponse message from a plain object. Also converts values to their respective internal types.
+                 * Creates an AppserverListingResponse message from a plain object. Also converts values to their respective internal types.
                  * @param object Plain object
-                 * @returns ServerListingResponse
+                 * @returns AppserverListingResponse
                  */
-                public static fromObject(object: { [k: string]: any }): api.v1.messages.ServerListingResponse;
+                public static fromObject(object: { [k: string]: any }): api.v1.messages.AppserverListingResponse;
 
                 /**
-                 * Creates a plain object from a ServerListingResponse message. Also converts values to other types if specified.
-                 * @param message ServerListingResponse
+                 * Creates a plain object from an AppserverListingResponse message. Also converts values to other types if specified.
+                 * @param message AppserverListingResponse
                  * @param [options] Conversion options
                  * @returns Plain object
                  */
-                public static toObject(message: api.v1.messages.ServerListingResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+                public static toObject(message: api.v1.messages.AppserverListingResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
                 /**
-                 * Converts this ServerListingResponse to JSON.
+                 * Converts this AppserverListingResponse to JSON.
                  * @returns JSON object
                  */
                 public toJSON(): { [k: string]: any };
 
                 /**
-                 * Gets the default type url for ServerListingResponse
+                 * Gets the default type url for AppserverListingResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a CreateAppserverRequest. */
+            interface ICreateAppserverRequest {
+
+                /** CreateAppserverRequest name */
+                name?: (string|null);
+            }
+
+            /** Represents a CreateAppserverRequest. */
+            class CreateAppserverRequest implements ICreateAppserverRequest {
+
+                /**
+                 * Constructs a new CreateAppserverRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.messages.ICreateAppserverRequest);
+
+                /** CreateAppserverRequest name. */
+                public name: string;
+
+                /**
+                 * Creates a new CreateAppserverRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns CreateAppserverRequest instance
+                 */
+                public static create(properties?: api.v1.messages.ICreateAppserverRequest): api.v1.messages.CreateAppserverRequest;
+
+                /**
+                 * Encodes the specified CreateAppserverRequest message. Does not implicitly {@link api.v1.messages.CreateAppserverRequest.verify|verify} messages.
+                 * @param message CreateAppserverRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.messages.ICreateAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified CreateAppserverRequest message, length delimited. Does not implicitly {@link api.v1.messages.CreateAppserverRequest.verify|verify} messages.
+                 * @param message CreateAppserverRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.messages.ICreateAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a CreateAppserverRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns CreateAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.CreateAppserverRequest;
+
+                /**
+                 * Decodes a CreateAppserverRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns CreateAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.CreateAppserverRequest;
+
+                /**
+                 * Verifies a CreateAppserverRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a CreateAppserverRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns CreateAppserverRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.messages.CreateAppserverRequest;
+
+                /**
+                 * Creates a plain object from a CreateAppserverRequest message. Also converts values to other types if specified.
+                 * @param message CreateAppserverRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.messages.CreateAppserverRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this CreateAppserverRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for CreateAppserverRequest
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
