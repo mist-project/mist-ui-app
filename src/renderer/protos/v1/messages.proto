@@ -50,5 +50,10 @@ message Appserver {
   google.protobuf.Timestamp updated_at = 4;
 }
 
+message AppserverAndSub {
+  string sub_id = 1;
+  Appserver appserver = 2;
+}
+
 message ServerListingRequest {}
-message ServerListingResponse { repeated Appserver appservers = 1; }
+message ServerListingResponse { repeated AppserverAndSub appservers = 1; }

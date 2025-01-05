@@ -1754,6 +1754,238 @@ export const api = $root.api = (() => {
                 return Appserver;
             })();
 
+            messages.AppserverAndSub = (function() {
+
+                /**
+                 * Properties of an AppserverAndSub.
+                 * @memberof api.v1.messages
+                 * @interface IAppserverAndSub
+                 * @property {string|null} [subId] AppserverAndSub subId
+                 * @property {api.v1.messages.IAppserver|null} [appserver] AppserverAndSub appserver
+                 */
+
+                /**
+                 * Constructs a new AppserverAndSub.
+                 * @memberof api.v1.messages
+                 * @classdesc Represents an AppserverAndSub.
+                 * @implements IAppserverAndSub
+                 * @constructor
+                 * @param {api.v1.messages.IAppserverAndSub=} [properties] Properties to set
+                 */
+                function AppserverAndSub(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * AppserverAndSub subId.
+                 * @member {string} subId
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @instance
+                 */
+                AppserverAndSub.prototype.subId = "";
+
+                /**
+                 * AppserverAndSub appserver.
+                 * @member {api.v1.messages.IAppserver|null|undefined} appserver
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @instance
+                 */
+                AppserverAndSub.prototype.appserver = null;
+
+                /**
+                 * Creates a new AppserverAndSub instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @static
+                 * @param {api.v1.messages.IAppserverAndSub=} [properties] Properties to set
+                 * @returns {api.v1.messages.AppserverAndSub} AppserverAndSub instance
+                 */
+                AppserverAndSub.create = function create(properties) {
+                    return new AppserverAndSub(properties);
+                };
+
+                /**
+                 * Encodes the specified AppserverAndSub message. Does not implicitly {@link api.v1.messages.AppserverAndSub.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @static
+                 * @param {api.v1.messages.IAppserverAndSub} message AppserverAndSub message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                AppserverAndSub.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.subId != null && Object.hasOwnProperty.call(message, "subId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.subId);
+                    if (message.appserver != null && Object.hasOwnProperty.call(message, "appserver"))
+                        $root.api.v1.messages.Appserver.encode(message.appserver, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified AppserverAndSub message, length delimited. Does not implicitly {@link api.v1.messages.AppserverAndSub.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @static
+                 * @param {api.v1.messages.IAppserverAndSub} message AppserverAndSub message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                AppserverAndSub.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes an AppserverAndSub message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.messages.AppserverAndSub} AppserverAndSub
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                AppserverAndSub.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.messages.AppserverAndSub();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.subId = reader.string();
+                                break;
+                            }
+                        case 2: {
+                                message.appserver = $root.api.v1.messages.Appserver.decode(reader, reader.uint32());
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes an AppserverAndSub message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.messages.AppserverAndSub} AppserverAndSub
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                AppserverAndSub.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies an AppserverAndSub message.
+                 * @function verify
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                AppserverAndSub.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.subId != null && message.hasOwnProperty("subId"))
+                        if (!$util.isString(message.subId))
+                            return "subId: string expected";
+                    if (message.appserver != null && message.hasOwnProperty("appserver")) {
+                        let error = $root.api.v1.messages.Appserver.verify(message.appserver);
+                        if (error)
+                            return "appserver." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates an AppserverAndSub message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.messages.AppserverAndSub} AppserverAndSub
+                 */
+                AppserverAndSub.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.messages.AppserverAndSub)
+                        return object;
+                    let message = new $root.api.v1.messages.AppserverAndSub();
+                    if (object.subId != null)
+                        message.subId = String(object.subId);
+                    if (object.appserver != null) {
+                        if (typeof object.appserver !== "object")
+                            throw TypeError(".api.v1.messages.AppserverAndSub.appserver: object expected");
+                        message.appserver = $root.api.v1.messages.Appserver.fromObject(object.appserver);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from an AppserverAndSub message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @static
+                 * @param {api.v1.messages.AppserverAndSub} message AppserverAndSub
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                AppserverAndSub.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults) {
+                        object.subId = "";
+                        object.appserver = null;
+                    }
+                    if (message.subId != null && message.hasOwnProperty("subId"))
+                        object.subId = message.subId;
+                    if (message.appserver != null && message.hasOwnProperty("appserver"))
+                        object.appserver = $root.api.v1.messages.Appserver.toObject(message.appserver, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this AppserverAndSub to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                AppserverAndSub.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for AppserverAndSub
+                 * @function getTypeUrl
+                 * @memberof api.v1.messages.AppserverAndSub
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                AppserverAndSub.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.messages.AppserverAndSub";
+                };
+
+                return AppserverAndSub;
+            })();
+
             messages.ServerListingRequest = (function() {
 
                 /**
@@ -1935,7 +2167,7 @@ export const api = $root.api = (() => {
                  * Properties of a ServerListingResponse.
                  * @memberof api.v1.messages
                  * @interface IServerListingResponse
-                 * @property {Array.<api.v1.messages.IAppserver>|null} [appservers] ServerListingResponse appservers
+                 * @property {Array.<api.v1.messages.IAppserverAndSub>|null} [appservers] ServerListingResponse appservers
                  */
 
                 /**
@@ -1956,7 +2188,7 @@ export const api = $root.api = (() => {
 
                 /**
                  * ServerListingResponse appservers.
-                 * @member {Array.<api.v1.messages.IAppserver>} appservers
+                 * @member {Array.<api.v1.messages.IAppserverAndSub>} appservers
                  * @memberof api.v1.messages.ServerListingResponse
                  * @instance
                  */
@@ -1988,7 +2220,7 @@ export const api = $root.api = (() => {
                         writer = $Writer.create();
                     if (message.appservers != null && message.appservers.length)
                         for (let i = 0; i < message.appservers.length; ++i)
-                            $root.api.v1.messages.Appserver.encode(message.appservers[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                            $root.api.v1.messages.AppserverAndSub.encode(message.appservers[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                     return writer;
                 };
 
@@ -2026,7 +2258,7 @@ export const api = $root.api = (() => {
                         case 1: {
                                 if (!(message.appservers && message.appservers.length))
                                     message.appservers = [];
-                                message.appservers.push($root.api.v1.messages.Appserver.decode(reader, reader.uint32()));
+                                message.appservers.push($root.api.v1.messages.AppserverAndSub.decode(reader, reader.uint32()));
                                 break;
                             }
                         default:
@@ -2068,7 +2300,7 @@ export const api = $root.api = (() => {
                         if (!Array.isArray(message.appservers))
                             return "appservers: array expected";
                         for (let i = 0; i < message.appservers.length; ++i) {
-                            let error = $root.api.v1.messages.Appserver.verify(message.appservers[i]);
+                            let error = $root.api.v1.messages.AppserverAndSub.verify(message.appservers[i]);
                             if (error)
                                 return "appservers." + error;
                         }
@@ -2095,7 +2327,7 @@ export const api = $root.api = (() => {
                         for (let i = 0; i < object.appservers.length; ++i) {
                             if (typeof object.appservers[i] !== "object")
                                 throw TypeError(".api.v1.messages.ServerListingResponse.appservers: object expected");
-                            message.appservers[i] = $root.api.v1.messages.Appserver.fromObject(object.appservers[i]);
+                            message.appservers[i] = $root.api.v1.messages.AppserverAndSub.fromObject(object.appservers[i]);
                         }
                     }
                     return message;
@@ -2119,7 +2351,7 @@ export const api = $root.api = (() => {
                     if (message.appservers && message.appservers.length) {
                         object.appservers = [];
                         for (let j = 0; j < message.appservers.length; ++j)
-                            object.appservers[j] = $root.api.v1.messages.Appserver.toObject(message.appservers[j], options);
+                            object.appservers[j] = $root.api.v1.messages.AppserverAndSub.toObject(message.appservers[j], options);
                     }
                     return object;
                 };

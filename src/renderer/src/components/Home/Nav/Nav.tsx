@@ -2,17 +2,18 @@ import { JSX, useEffect, useState } from 'react';
 
 import * as pb from '@protos/v1/pb';
 import { Button } from '@renderer/components/common/Button';
-import ServerRequest from '@renderer/requests/server';
+import AppserverRequest from '@renderer/requests/appserver';
 import { useEvent, useIOSocket } from '@renderer/components/Contexts';
 
 const Nav = (): JSX.Element => {
   const { sendMessage } = useIOSocket();
   const { emitter } = useEvent();
-  const [servers, setServers] = useState<pb.api.v1.messages.IAppserver[]>([]);
+  const [servers, setServers] = useState<pb.api.v1.messages.IAppserverAndSub[]>([]);
 
   useEffect(() => {
-    new ServerRequest(sendMessage).userServers();
+    new AppserverRequest(sendMessage).userServers();
     emitter.on('serverListing', (listing) => {
+      console.log(listing);
       if (listing.appservers) {
         setServers(listing.appservers);
       }
@@ -24,8 +25,8 @@ const Nav = (): JSX.Element => {
       <div>
         {servers.map((s): JSX.Element => {
           return (
-            <div key={s.id} className="mb-[10px]">
-              <Button onClick={() => {}}>{s.name}</Button>
+            <div key={s.appserver?.id} className="mb-[10px]">
+              <Button onClick={() => {}}>{s.appserver?.name}</Button>
             </div>
           );
         })}

@@ -741,6 +741,109 @@ export namespace api {
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
+            /** Properties of an AppserverAndSub. */
+            interface IAppserverAndSub {
+
+                /** AppserverAndSub subId */
+                subId?: (string|null);
+
+                /** AppserverAndSub appserver */
+                appserver?: (api.v1.messages.IAppserver|null);
+            }
+
+            /** Represents an AppserverAndSub. */
+            class AppserverAndSub implements IAppserverAndSub {
+
+                /**
+                 * Constructs a new AppserverAndSub.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.messages.IAppserverAndSub);
+
+                /** AppserverAndSub subId. */
+                public subId: string;
+
+                /** AppserverAndSub appserver. */
+                public appserver?: (api.v1.messages.IAppserver|null);
+
+                /**
+                 * Creates a new AppserverAndSub instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns AppserverAndSub instance
+                 */
+                public static create(properties?: api.v1.messages.IAppserverAndSub): api.v1.messages.AppserverAndSub;
+
+                /**
+                 * Encodes the specified AppserverAndSub message. Does not implicitly {@link api.v1.messages.AppserverAndSub.verify|verify} messages.
+                 * @param message AppserverAndSub message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.messages.IAppserverAndSub, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified AppserverAndSub message, length delimited. Does not implicitly {@link api.v1.messages.AppserverAndSub.verify|verify} messages.
+                 * @param message AppserverAndSub message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.messages.IAppserverAndSub, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes an AppserverAndSub message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns AppserverAndSub
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.AppserverAndSub;
+
+                /**
+                 * Decodes an AppserverAndSub message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns AppserverAndSub
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.AppserverAndSub;
+
+                /**
+                 * Verifies an AppserverAndSub message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates an AppserverAndSub message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns AppserverAndSub
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.messages.AppserverAndSub;
+
+                /**
+                 * Creates a plain object from an AppserverAndSub message. Also converts values to other types if specified.
+                 * @param message AppserverAndSub
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.messages.AppserverAndSub, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this AppserverAndSub to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for AppserverAndSub
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
             /** Properties of a ServerListingRequest. */
             interface IServerListingRequest {
             }
@@ -836,7 +939,7 @@ export namespace api {
             interface IServerListingResponse {
 
                 /** ServerListingResponse appservers */
-                appservers?: (api.v1.messages.IAppserver[]|null);
+                appservers?: (api.v1.messages.IAppserverAndSub[]|null);
             }
 
             /** Represents a ServerListingResponse. */
@@ -849,7 +952,7 @@ export namespace api {
                 constructor(properties?: api.v1.messages.IServerListingResponse);
 
                 /** ServerListingResponse appservers. */
-                public appservers: api.v1.messages.IAppserver[];
+                public appservers: api.v1.messages.IAppserverAndSub[];
 
                 /**
                  * Creates a new ServerListingResponse instance using the specified properties.
