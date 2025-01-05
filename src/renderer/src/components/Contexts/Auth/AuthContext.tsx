@@ -1,9 +1,7 @@
 import { createContext, useState, use, useEffect, JSX } from 'react';
 
-import * as pb from '@protos/v1/pb';
-import { useIOSocket } from '@renderer/components/Contexts';
+import { useEvent } from '@renderer/components/Contexts/';
 import MistApiService from '@renderer/services/mistApiService';
-import Pb from '@renderer/utils/pb';
 
 // Create a Context for Authentication
 export type LoginCredentials = {
@@ -37,33 +35,18 @@ export const useAuth = (): AuthContextType => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [logged, setLogged] = useState<boolean>(false);
-  const { connect, getWebSocket, sendMessage, closeWebSocket } = useIOSocket();
+  const { emitter } = useEvent();
+  // const { connect, getWebSocket, sendMessage, closeWebSocket } = useIOSocket();
 
   useEffect(() => {
     window.electron.ipcRenderer.send('authentication-status');
 
-    window.api.isAuthenticated((message) => {
-      setLogged(message);
+    window.api.isAuthenticated((logged: boolean) => {
+      setLogged(logged);
     });
 
     window.api.jwtTokens((message) => {
-      // TODO: when communicating with socket; whenever this gets hit; send message to the
-      // service so it updates the token stored in memory
-      // TODO: update this logic, its a bit hacky
-      const ioSocket = getWebSocket();
-      if (!ioSocket) {
-        const url = new URL(window.appEnvs.mistIOServiceUrl);
-        url.searchParams.set('authorization', `Bearer ${message.access}`);
-        connect(url.toString());
-      } else if (ioSocket.readyState === WebSocket.OPEN) {
-        sendMessage(
-          Pb.InputMessage(pb.api.v1.messages.ActionType.ACTION_TYPE_UPDATE, {
-            updateJwtToken: new pb.api.v1.messages.UpdateJwtToken({
-              access: message.access
-            })
-          })
-        );
-      }
+      emitter.emit('socketToken', message.access);
     });
   }, []);
 
@@ -84,7 +67,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
   };
 
   const logout = (): void => {
-    closeWebSocket();
     window.electron.ipcRenderer.send('remove-jwt-main');
   };
 

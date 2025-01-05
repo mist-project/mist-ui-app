@@ -8,6 +8,8 @@ module.exports = {
   ],
   rules: {
     semi: ['error', 'always'], // Enforces semicolons at the end of each statement
-    'no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }]
+    // 'no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }]
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error']
   }
 };

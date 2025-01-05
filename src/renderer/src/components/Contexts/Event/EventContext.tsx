@@ -3,6 +3,7 @@ import mitt, { Emitter } from 'mitt';
 
 export type Events = {
   test: Uint8Array<ArrayBufferLike>;
+  socketToken: string;
 };
 
 type EmitterContextType = {

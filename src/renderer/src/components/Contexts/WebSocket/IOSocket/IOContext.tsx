@@ -1,11 +1,18 @@
-import React, { createContext, useContext, useEffect, JSX, useRef } from 'react';
+import React, { createContext, useContext, useEffect, JSX, useRef, useState } from 'react';
 
-import * as pb from '@protos/v1/pb';
+import { useAuth } from '../../Auth/AuthContext';
+import { useEvent } from '../../Event';
+import AuthRequest from '@renderer/requests/auth';
+
+export enum WSConnectionStatus {
+  Closed,
+  Connected,
+  Connecting
+}
 
 type IOSocketContextType = {
   sendMessage: (_message: Uint8Array<ArrayBufferLike>) => void;
-  connect: (_url: string) => void;
-
+  connectionState: WSConnectionStatus;
   getWebSocket: () => WebSocket | null;
   closeWebSocket: () => void;
 };
@@ -21,41 +28,65 @@ export const useIOSocket = (): IOSocketContextType => {
 };
 
 export const IOSocketProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
+  const { logged } = useAuth();
+  const { emitter } = useEvent();
+
   const socketRef = useRef<WebSocket | null>(null); // Ref for WebSocket instance
+  const [connectionState, setConnectionState] = useState<WSConnectionStatus>(
+    WSConnectionStatus.Closed
+  );
 
   useEffect(() => {
+    if (logged) {
+      emitter.on('socketToken', (token) => {
+        connect(token);
+      });
+    }
+
     return (): void => {
       if (socketRef.current) {
         socketRef.current.close();
       }
     };
-  }, []);
+  }, [logged]);
 
   // Establish WebSocket connection only when logged in and tokens are available
-  const connect = (url: string): void => {
-    // Create the WebSocket URL with the token
+  const connect = (token: string): void => {
+    // TODO: add ability to reconnect
     if (socketRef.current) {
+      // Using current state cause connection state within this context is not properly updated
+      // due to living inside the emitter's definition
+      if (socketRef.current.readyState === WebSocket.OPEN) {
+        new AuthRequest(sendMessage).updateJwtToken(token);
+      }
       return; // Already connected, no need to connect again
     }
 
-    // TODO: add ability to reconnect
+    setConnectionState(() => WSConnectionStatus.Connecting);
+    const url = new URL(window.appEnvs.mistIOServiceUrl);
+    url.searchParams.set('authorization', `Bearer ${token}`);
+
     const ws = new WebSocket(url);
     socketRef.current = ws;
     socketRef.current.binaryType = 'arraybuffer';
 
-    ws.onopen = (): void => {};
-
-    ws.onerror = (error): void => {
-      console.error('WebSocket error:', error);
+    socketRef.current.onopen = (): void => {
+      setConnectionState(() => WSConnectionStatus.Connected);
     };
 
-    ws.onmessage = async (event): Promise<void> => {
+    socketRef.current.onclose = (): void => {
+      setConnectionState(() => WSConnectionStatus.Closed);
+    };
+
+    socketRef.current.onerror = (error): void => {
+      console.log('WebSocket error:', error);
+    };
+
+    socketRef.current.onmessage = async (event): Promise<void> => {
       //todo: add message handler
       console.log('socket message', event);
       // console.log(pb.api.v1.messages.Output.decode(new Uint8Array(await event.data.arrayBuffer())));
     };
-
-    ws.onclose = (): void => {};
   };
 
   const sendMessage = (message: Uint8Array<ArrayBufferLike>): void => {
@@ -77,7 +108,9 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
   };
 
   return (
-    <IOSocketContext.Provider value={{ sendMessage, connect, getWebSocket, closeWebSocket }}>
+    <IOSocketContext.Provider
+      value={{ sendMessage, getWebSocket, closeWebSocket, connectionState }}
+    >
       {children}
     </IOSocketContext.Provider>
   );
