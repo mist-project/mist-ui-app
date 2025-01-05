@@ -1,9 +1,15 @@
 import { createContext, JSX, use, useState } from 'react';
 import mitt, { Emitter } from 'mitt';
 
+import * as pb from '@protos/v1/pb';
+
 export type Events = {
   test: Uint8Array<ArrayBufferLike>;
   socketToken: string;
+
+  // UPDATES
+  // ----- SERVER -----
+  serverListing: pb.api.v1.messages.IServerListingResponse;
 };
 
 type EmitterContextType = {

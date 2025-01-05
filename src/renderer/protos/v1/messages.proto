@@ -1,5 +1,8 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
 package api.v1.messages;
 
 // ----- SHARED -----
@@ -27,12 +30,25 @@ enum ActionType {
 
 // ----- INPUT -----
 message Input {
-  oneof data { UpdateJwtToken update_jwt_token = 1; }
+  oneof data {
+    UpdateJwtToken update_jwt_token = 1;
+    ServerListingRequest server_listing = 2;
+  }
 }
 
 message UpdateJwtToken { string access = 1; }
 
 // ----- OUTPUT -----
 message Output {
-  // data sent from socket to user
+  oneof data { ServerListingResponse server_listing = 1; }
 }
+
+message Appserver {
+  string id = 1;
+  string name = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+message ServerListingRequest {}
+message ServerListingResponse { repeated Appserver appservers = 1; }

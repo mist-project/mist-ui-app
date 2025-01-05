@@ -4,6 +4,8 @@ import { useAuth } from '../../Auth/AuthContext';
 import { useEvent } from '../../Event';
 import AuthRequest from '@renderer/requests/auth';
 
+import { pb_v1 } from '@renderer/requests/base';
+
 export enum WSConnectionStatus {
   Closed,
   Connected,
@@ -82,10 +84,14 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
       console.log('WebSocket error:', error);
     };
 
-    socketRef.current.onmessage = async (event): Promise<void> => {
-      //todo: add message handler
-      console.log('socket message', event);
-      // console.log(pb.api.v1.messages.Output.decode(new Uint8Array(await event.data.arrayBuffer())));
+    socketRef.current.onmessage = (event): void => {
+      const output = pb_v1.Output.decode(new Uint8Array(event.data));
+      // TODO: probably should create a handler class
+      if (output.serverListing) {
+        emitter.emit('serverListing', output.serverListing);
+      } else {
+        console.log('over here ');
+      }
     };
   };
 

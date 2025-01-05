@@ -1,17 +1,31 @@
-import { JSX } from 'react';
+import { JSX, useEffect, useState } from 'react';
 
+import * as pb from '@protos/v1/pb';
 import { Button } from '@renderer/components/common/Button';
-
-const dummyServer = ['Server 1', 'Server 2'];
+import ServerRequest from '@renderer/requests/server';
+import { useEvent, useIOSocket } from '@renderer/components/Contexts';
 
 const Nav = (): JSX.Element => {
+  const { sendMessage } = useIOSocket();
+  const { emitter } = useEvent();
+  const [servers, setServers] = useState<pb.api.v1.messages.IAppserver[]>([]);
+
+  useEffect(() => {
+    new ServerRequest(sendMessage).userServers();
+    emitter.on('serverListing', (listing) => {
+      if (listing.appservers) {
+        setServers(listing.appservers);
+      }
+    });
+  }, []);
+
   const renderServers = (): JSX.Element => {
     return (
       <div>
-        {dummyServer.map((s): JSX.Element => {
+        {servers.map((s): JSX.Element => {
           return (
-            <div key={s}>
-              <Button onClick={() => {}}>{s}</Button>
+            <div key={s.id} className="mb-[10px]">
+              <Button onClick={() => {}}>{s.name}</Button>
             </div>
           );
         })}
