@@ -11,6 +11,7 @@ const Content = (): JSX.Element => {
     <div>
       {message}
       <button onClick={() => logout()}>logout ( this will be removed )</button>
+      <div>---------</div>
     </div>
   );
 };

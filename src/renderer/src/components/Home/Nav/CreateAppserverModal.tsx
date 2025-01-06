@@ -3,10 +3,10 @@ import { CommonFooter } from '@renderer/components/common/Modal';
 import AppserverRequest from '@renderer/requests/appserver';
 import { JSX, useState } from 'react';
 
-type CreateServerModalProps = {
+type CreateAppserverModalProps = {
   sendMessage: (_message: Uint8Array<ArrayBufferLike>) => void;
 };
-const CreateServerModal = ({ sendMessage }: CreateServerModalProps): JSX.Element => {
+const CreateAppserverModal = ({ sendMessage }: CreateAppserverModalProps): JSX.Element => {
   const [serverName, setServerName] = useState<string>('');
 
   return (
@@ -27,4 +27,4 @@ const CreateServerModal = ({ sendMessage }: CreateServerModalProps): JSX.Element
   );
 };
 
-export default CreateServerModal;
+export default CreateAppserverModal;

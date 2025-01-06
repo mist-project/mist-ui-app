@@ -788,6 +788,7 @@ export const api = $root.api = (() => {
                  * @property {api.v1.messages.IUpdateJwtToken|null} [updateJwtToken] Input updateJwtToken
                  * @property {api.v1.messages.IAppserverListingRequest|null} [appserverListing] Input appserverListing
                  * @property {api.v1.messages.ICreateAppserverRequest|null} [createAppserver] Input createAppserver
+                 * @property {api.v1.messages.IDeleteAppserverRequest|null} [deleteAppserver] Input deleteAppserver
                  */
 
                 /**
@@ -829,17 +830,25 @@ export const api = $root.api = (() => {
                  */
                 Input.prototype.createAppserver = null;
 
+                /**
+                 * Input deleteAppserver.
+                 * @member {api.v1.messages.IDeleteAppserverRequest|null|undefined} deleteAppserver
+                 * @memberof api.v1.messages.Input
+                 * @instance
+                 */
+                Input.prototype.deleteAppserver = null;
+
                 // OneOf field names bound to virtual getters and setters
                 let $oneOfFields;
 
                 /**
                  * Input data.
-                 * @member {"updateJwtToken"|"appserverListing"|"createAppserver"|undefined} data
+                 * @member {"updateJwtToken"|"appserverListing"|"createAppserver"|"deleteAppserver"|undefined} data
                  * @memberof api.v1.messages.Input
                  * @instance
                  */
                 Object.defineProperty(Input.prototype, "data", {
-                    get: $util.oneOfGetter($oneOfFields = ["updateJwtToken", "appserverListing", "createAppserver"]),
+                    get: $util.oneOfGetter($oneOfFields = ["updateJwtToken", "appserverListing", "createAppserver", "deleteAppserver"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -873,6 +882,8 @@ export const api = $root.api = (() => {
                         $root.api.v1.messages.AppserverListingRequest.encode(message.appserverListing, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                     if (message.createAppserver != null && Object.hasOwnProperty.call(message, "createAppserver"))
                         $root.api.v1.messages.CreateAppserverRequest.encode(message.createAppserver, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    if (message.deleteAppserver != null && Object.hasOwnProperty.call(message, "deleteAppserver"))
+                        $root.api.v1.messages.DeleteAppserverRequest.encode(message.deleteAppserver, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                     return writer;
                 };
 
@@ -917,6 +928,10 @@ export const api = $root.api = (() => {
                             }
                         case 3: {
                                 message.createAppserver = $root.api.v1.messages.CreateAppserverRequest.decode(reader, reader.uint32());
+                                break;
+                            }
+                        case 4: {
+                                message.deleteAppserver = $root.api.v1.messages.DeleteAppserverRequest.decode(reader, reader.uint32());
                                 break;
                             }
                         default:
@@ -983,6 +998,16 @@ export const api = $root.api = (() => {
                                 return "createAppserver." + error;
                         }
                     }
+                    if (message.deleteAppserver != null && message.hasOwnProperty("deleteAppserver")) {
+                        if (properties.data === 1)
+                            return "data: multiple values";
+                        properties.data = 1;
+                        {
+                            let error = $root.api.v1.messages.DeleteAppserverRequest.verify(message.deleteAppserver);
+                            if (error)
+                                return "deleteAppserver." + error;
+                        }
+                    }
                     return null;
                 };
 
@@ -1012,6 +1037,11 @@ export const api = $root.api = (() => {
                         if (typeof object.createAppserver !== "object")
                             throw TypeError(".api.v1.messages.Input.createAppserver: object expected");
                         message.createAppserver = $root.api.v1.messages.CreateAppserverRequest.fromObject(object.createAppserver);
+                    }
+                    if (object.deleteAppserver != null) {
+                        if (typeof object.deleteAppserver !== "object")
+                            throw TypeError(".api.v1.messages.Input.deleteAppserver: object expected");
+                        message.deleteAppserver = $root.api.v1.messages.DeleteAppserverRequest.fromObject(object.deleteAppserver);
                     }
                     return message;
                 };
@@ -1043,6 +1073,11 @@ export const api = $root.api = (() => {
                         object.createAppserver = $root.api.v1.messages.CreateAppserverRequest.toObject(message.createAppserver, options);
                         if (options.oneofs)
                             object.data = "createAppserver";
+                    }
+                    if (message.deleteAppserver != null && message.hasOwnProperty("deleteAppserver")) {
+                        object.deleteAppserver = $root.api.v1.messages.DeleteAppserverRequest.toObject(message.deleteAppserver, options);
+                        if (options.oneofs)
+                            object.data = "deleteAppserver";
                     }
                     return object;
                 };
@@ -2621,6 +2656,209 @@ export const api = $root.api = (() => {
                 };
 
                 return CreateAppserverRequest;
+            })();
+
+            messages.DeleteAppserverRequest = (function() {
+
+                /**
+                 * Properties of a DeleteAppserverRequest.
+                 * @memberof api.v1.messages
+                 * @interface IDeleteAppserverRequest
+                 * @property {string|null} [id] DeleteAppserverRequest id
+                 */
+
+                /**
+                 * Constructs a new DeleteAppserverRequest.
+                 * @memberof api.v1.messages
+                 * @classdesc Represents a DeleteAppserverRequest.
+                 * @implements IDeleteAppserverRequest
+                 * @constructor
+                 * @param {api.v1.messages.IDeleteAppserverRequest=} [properties] Properties to set
+                 */
+                function DeleteAppserverRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * DeleteAppserverRequest id.
+                 * @member {string} id
+                 * @memberof api.v1.messages.DeleteAppserverRequest
+                 * @instance
+                 */
+                DeleteAppserverRequest.prototype.id = "";
+
+                /**
+                 * Creates a new DeleteAppserverRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.messages.DeleteAppserverRequest
+                 * @static
+                 * @param {api.v1.messages.IDeleteAppserverRequest=} [properties] Properties to set
+                 * @returns {api.v1.messages.DeleteAppserverRequest} DeleteAppserverRequest instance
+                 */
+                DeleteAppserverRequest.create = function create(properties) {
+                    return new DeleteAppserverRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified DeleteAppserverRequest message. Does not implicitly {@link api.v1.messages.DeleteAppserverRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.messages.DeleteAppserverRequest
+                 * @static
+                 * @param {api.v1.messages.IDeleteAppserverRequest} message DeleteAppserverRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteAppserverRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified DeleteAppserverRequest message, length delimited. Does not implicitly {@link api.v1.messages.DeleteAppserverRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.messages.DeleteAppserverRequest
+                 * @static
+                 * @param {api.v1.messages.IDeleteAppserverRequest} message DeleteAppserverRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteAppserverRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.messages.DeleteAppserverRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.messages.DeleteAppserverRequest} DeleteAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteAppserverRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.messages.DeleteAppserverRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.id = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.messages.DeleteAppserverRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.messages.DeleteAppserverRequest} DeleteAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteAppserverRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a DeleteAppserverRequest message.
+                 * @function verify
+                 * @memberof api.v1.messages.DeleteAppserverRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                DeleteAppserverRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        if (!$util.isString(message.id))
+                            return "id: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a DeleteAppserverRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.messages.DeleteAppserverRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.messages.DeleteAppserverRequest} DeleteAppserverRequest
+                 */
+                DeleteAppserverRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.messages.DeleteAppserverRequest)
+                        return object;
+                    let message = new $root.api.v1.messages.DeleteAppserverRequest();
+                    if (object.id != null)
+                        message.id = String(object.id);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a DeleteAppserverRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.messages.DeleteAppserverRequest
+                 * @static
+                 * @param {api.v1.messages.DeleteAppserverRequest} message DeleteAppserverRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                DeleteAppserverRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.id = "";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        object.id = message.id;
+                    return object;
+                };
+
+                /**
+                 * Converts this DeleteAppserverRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.messages.DeleteAppserverRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                DeleteAppserverRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for DeleteAppserverRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.messages.DeleteAppserverRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                DeleteAppserverRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.messages.DeleteAppserverRequest";
+                };
+
+                return DeleteAppserverRequest;
             })();
 
             return messages;

@@ -334,6 +334,9 @@ export namespace api {
 
                 /** Input createAppserver */
                 createAppserver?: (api.v1.messages.ICreateAppserverRequest|null);
+
+                /** Input deleteAppserver */
+                deleteAppserver?: (api.v1.messages.IDeleteAppserverRequest|null);
             }
 
             /** Represents an Input. */
@@ -354,8 +357,11 @@ export namespace api {
                 /** Input createAppserver. */
                 public createAppserver?: (api.v1.messages.ICreateAppserverRequest|null);
 
+                /** Input deleteAppserver. */
+                public deleteAppserver?: (api.v1.messages.IDeleteAppserverRequest|null);
+
                 /** Input data. */
-                public data?: ("updateJwtToken"|"appserverListing"|"createAppserver");
+                public data?: ("updateJwtToken"|"appserverListing"|"createAppserver"|"deleteAppserver");
 
                 /**
                  * Creates a new Input instance using the specified properties.
@@ -1129,6 +1135,103 @@ export namespace api {
 
                 /**
                  * Gets the default type url for CreateAppserverRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a DeleteAppserverRequest. */
+            interface IDeleteAppserverRequest {
+
+                /** DeleteAppserverRequest id */
+                id?: (string|null);
+            }
+
+            /** Represents a DeleteAppserverRequest. */
+            class DeleteAppserverRequest implements IDeleteAppserverRequest {
+
+                /**
+                 * Constructs a new DeleteAppserverRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.messages.IDeleteAppserverRequest);
+
+                /** DeleteAppserverRequest id. */
+                public id: string;
+
+                /**
+                 * Creates a new DeleteAppserverRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns DeleteAppserverRequest instance
+                 */
+                public static create(properties?: api.v1.messages.IDeleteAppserverRequest): api.v1.messages.DeleteAppserverRequest;
+
+                /**
+                 * Encodes the specified DeleteAppserverRequest message. Does not implicitly {@link api.v1.messages.DeleteAppserverRequest.verify|verify} messages.
+                 * @param message DeleteAppserverRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.messages.IDeleteAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified DeleteAppserverRequest message, length delimited. Does not implicitly {@link api.v1.messages.DeleteAppserverRequest.verify|verify} messages.
+                 * @param message DeleteAppserverRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.messages.IDeleteAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns DeleteAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.DeleteAppserverRequest;
+
+                /**
+                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns DeleteAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.DeleteAppserverRequest;
+
+                /**
+                 * Verifies a DeleteAppserverRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a DeleteAppserverRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns DeleteAppserverRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.messages.DeleteAppserverRequest;
+
+                /**
+                 * Creates a plain object from a DeleteAppserverRequest message. Also converts values to other types if specified.
+                 * @param message DeleteAppserverRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.messages.DeleteAppserverRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this DeleteAppserverRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for DeleteAppserverRequest
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */

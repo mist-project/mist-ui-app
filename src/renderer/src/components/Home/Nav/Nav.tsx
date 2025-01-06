@@ -1,10 +1,17 @@
-import { JSX, useEffect, useState } from 'react';
+import { JSX, useCallback, useEffect, useState } from 'react';
 
 import * as pb from '@protos/v1/pb';
-import { Button } from '@renderer/components/common/Button';
-import AppserverRequest from '@renderer/requests/appserver';
+import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
+import MenuItem from '@renderer/components/common/Menu/MenuItem';
 import { useEvent, useIOSocket, useModal } from '@renderer/components/Contexts';
-import CreateServerModal from './CreateServerModal';
+import AppserverRequest from '@renderer/requests/appserver';
+
+import CreateAppserverModal from './CreateAppserverModal';
+import DeleteAppserverModal from './DeleteAppserverModal';
+
+type AppserverButtonsProps = {
+  servers: pb.api.v1.messages.IAppserverAndSub[];
+};
 
 const Nav = (): JSX.Element => {
   const { sendMessage } = useIOSocket();
@@ -16,35 +23,58 @@ const Nav = (): JSX.Element => {
   useEffect(() => {
     new AppserverRequest(sendMessage).getAppserverListing();
     emitter.on('appserverListing', (listing) => {
-      console.log(listing);
       if (listing.appservers) {
         setServers(listing.appservers);
       }
     });
   }, []);
 
-  const renderServers = (): JSX.Element => {
+  const AppserverButtons = useCallback(({ servers }: AppserverButtonsProps): JSX.Element => {
     return (
       <div>
         {servers.map((s): JSX.Element => {
           return (
             <div key={s.appserver?.id} className="mb-[10px]">
-              <Button onClick={() => {}}>{s.appserver?.name}</Button>
+              <ButtonWithMenu
+                onClick={() => {}}
+                menuItems={[AppServerMenuItems(s.appserver as pb.api.v1.messages.IAppserver)]}
+              >
+                {s.appserver?.name}
+              </ButtonWithMenu>
             </div>
           );
         })}
       </div>
     );
-  };
+  }, []);
+
+  const AppServerMenuItems = useCallback(
+    (appserver: pb.api.v1.messages.IAppserver): JSX.Element => {
+      return (
+        <MenuItem
+          key={`delete-${appserver?.id}`}
+          onClick={() => {
+            setModalContent(
+              <DeleteAppserverModal sendMessage={sendMessage} appserver={appserver} />
+            );
+            showModal(true);
+          }}
+        >
+          Delete
+        </MenuItem>
+      );
+    },
+    []
+  );
 
   //TODO Remove opacity in the future for a color
   return (
     <div className="h-full w-[75px] bg-black bg-opacity-30">
-      {renderServers()}
+      {<AppserverButtons servers={servers} />}
       <div>
         <Button
           onClick={() => {
-            setModalContent(<CreateServerModal sendMessage={sendMessage} />);
+            setModalContent(<CreateAppserverModal sendMessage={sendMessage} />);
             showModal(true);
           }}
         >

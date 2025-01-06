@@ -34,6 +34,7 @@ message Input {
     UpdateJwtToken update_jwt_token = 1;
     AppserverListingRequest appserver_listing = 2;
     CreateAppserverRequest create_appserver = 3;
+    DeleteAppserverRequest delete_appserver = 4;
   }
 }
 
@@ -65,3 +66,6 @@ message AppserverListingResponse { repeated AppserverAndSub appservers = 1; }
 
 // CREATE
 message CreateAppserverRequest { string name = 1; }
+
+// DELETE
+message DeleteAppserverRequest { string id = 1; }

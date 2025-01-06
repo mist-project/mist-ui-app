@@ -12,6 +12,12 @@ class AppserverRequest extends BaseRequest {
       createAppserver: new pb_v1.CreateAppserverRequest({ name: name })
     });
   }
+
+  public deleteAppserver(id: string): void {
+    this.sendMesage(pb_v1.ActionType.ACTION_TYPE_LIST, {
+      deleteAppserver: new pb_v1.DeleteAppserverRequest({ id: id })
+    });
+  }
 }
 
 export default AppserverRequest;
