@@ -1,12 +1,23 @@
 import { JSX } from 'react';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonColor = 'default' | 'warning' | 'success' | 'danger' | 'none';
+
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
+  // TODO: buttons without props automatically will use default
+  // TODO: add color functionality
+  buttonColor?: ButtonColor;
 }
 
-const Button = ({ className, onClick, children }: ButtonProps): JSX.Element => {
+const Button = ({
+  className,
+  children,
+  buttonColor,
+  ...remainingProps
+}: ButtonProps): JSX.Element => {
+  // TODO: do something with bottom color in the future
   return (
-    <button onClick={onClick} className={`border-solid bg-blue-500 rounded p-2 ${className}`}>
+    <button className={`border-solid bg-blue-600 rounded p-2 ${className}`} {...remainingProps}>
       {children}
     </button>
   );
