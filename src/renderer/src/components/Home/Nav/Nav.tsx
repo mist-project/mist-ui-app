@@ -1,9 +1,11 @@
 import { JSX, useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import * as pb from '@protos/v1/pb';
-import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
+import { Button, ButtonWithContextMenu } from '@renderer/components/common/Button';
 import MenuItem from '@renderer/components/common/Menu/MenuItem';
 import { useEvent, useIOSocket, useModal } from '@renderer/components/Contexts';
+import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
 import AppserverRequest from '@renderer/requests/appserver';
 
 import CreateAppserverModal from './CreateAppserverModal';
@@ -14,20 +16,23 @@ type AppserverButtonsProps = {
 };
 
 const Nav = (): JSX.Element => {
-  const { sendMessage } = useIOSocket();
+  const { sendMessage, connectionState } = useIOSocket();
   const { emitter } = useEvent();
   const { showModal, setModalContent } = useModal();
+  const navigate = useNavigate();
 
   const [servers, setServers] = useState<pb.api.v1.messages.IAppserverAndSub[]>([]);
 
   useEffect(() => {
-    new AppserverRequest(sendMessage).getAppserverListing();
-    emitter.on('appserverListing', (listing) => {
-      if (listing.appservers) {
-        setServers(listing.appservers);
-      }
-    });
-  }, []);
+    if (connectionState === WSConnectionStatus.Connected) {
+      new AppserverRequest(sendMessage).getAppserverListing();
+      emitter.on('appserverListing', (listing) => {
+        if (listing.appservers) {
+          setServers(listing.appservers);
+        }
+      });
+    }
+  }, [connectionState]);
 
   const AppserverButtons = useCallback(({ servers }: AppserverButtonsProps): JSX.Element => {
     return (
@@ -35,12 +40,14 @@ const Nav = (): JSX.Element => {
         {servers.map((s): JSX.Element => {
           return (
             <div key={s.appserver?.id} className="mb-[10px]">
-              <ButtonWithMenu
-                onClick={() => {}}
+              <ButtonWithContextMenu
+                onClick={() => {
+                  navigate(`/appserver/${s.appserver?.id}`);
+                }}
                 menuItems={[AppServerMenuItems(s.appserver as pb.api.v1.messages.IAppserver)]}
               >
                 {s.appserver?.name}
-              </ButtonWithMenu>
+              </ButtonWithContextMenu>
             </div>
           );
         })}
@@ -69,7 +76,7 @@ const Nav = (): JSX.Element => {
 
   //TODO Remove opacity in the future for a color
   return (
-    <div className="h-full w-[75px] bg-black bg-opacity-30">
+    <div className="h-full w-[75px] bg-black bg-opacity-30 p-1">
       {<AppserverButtons servers={servers} />}
       <div>
         <Button

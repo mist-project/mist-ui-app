@@ -1,14 +1,7 @@
 import { JSX } from 'react';
-import { Nav } from './Nav';
-import { Content } from './Content';
 
 const Home = (): JSX.Element => {
-  return (
-    <div className="h-full flex">
-      <Nav />
-      <Content />
-    </div>
-  );
+  return <div className="h-full flex">{'<<<< '}Select a server</div>;
 };
 
 export default Home;
