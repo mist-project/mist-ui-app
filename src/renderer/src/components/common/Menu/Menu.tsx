@@ -1,10 +1,9 @@
 import { Children, JSX } from 'react';
 
 import { ReactSetState } from '@renderer/types';
+import classNames from 'classnames';
 
 import MenuItem from './MenuItem';
-import React from 'react';
-import classNames from 'classnames';
 
 export type Position = {
   top: number;
@@ -33,6 +32,7 @@ const Menu = ({ children, setShow, ref, position }: MenuProps): JSX.Element => {
       ref={ref}
       className={menuClass}
       style={{ top: position ? position.top : 0, left: position ? position.left : 0 }}
+      className="menu absolute left-0 mt-2 w-48 rounded-md bg-gray-800 shadow-lg  z-50 ring-1 ring-black ring-opacity-5 focus:outline-none"
     >
       {Children.map(children, (child) => {
         if (React.isValidElement(child) && child.type === MenuItem) {
