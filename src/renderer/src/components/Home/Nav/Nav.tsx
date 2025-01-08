@@ -2,7 +2,7 @@ import { JSX, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as pb from '@protos/v1/pb';
-import { Button, ButtonWithContextMenu } from '@renderer/components/common/Button';
+import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
 import MenuItem from '@renderer/components/common/Menu/MenuItem';
 import { useEvent, useIOSocket, useModal } from '@renderer/components/Contexts';
 import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
@@ -40,14 +40,16 @@ const Nav = (): JSX.Element => {
         {servers.map((s): JSX.Element => {
           return (
             <div key={s.appserver?.id} className="mb-[10px]">
-              <ButtonWithContextMenu
+              <ButtonWithMenu
                 onClick={() => {
                   navigate(`/appserver/${s.appserver?.id}`);
                 }}
-                menuItems={[AppServerMenuItems(s.appserver as pb.api.v1.messages.IAppserver)]}
+                contextMenuItems={[
+                  AppServerMenuItems(s.appserver as pb.api.v1.messages.IAppserver)
+                ]}
               >
                 {s.appserver?.name}
-              </ButtonWithContextMenu>
+              </ButtonWithMenu>
             </div>
           );
         })}
