@@ -6,10 +6,14 @@ import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSo
 import { Login } from '@renderer/components/Login';
 import { Home } from '@renderer/components/Home';
 
+import { Nav } from './components/Home/Nav';
+import { Appserver } from './components/Appserver';
+
 import './App.scss';
 
 const Layout = (): JSX.Element => (
-  <div className="bg-gray-900 text-white h-full">
+  <div className="bg-gray-900 text-white h-full flex">
+    <Nav />
     <Outlet />
   </div>
 );
@@ -46,8 +50,16 @@ function App(): JSX.Element {
               </ProtectedRoute>
             }
           />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/appserver/:appserverId"
+            element={
+              <ProtectedRoute>
+                <Appserver />
+              </ProtectedRoute>
+            }
+          />
         </Route>
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

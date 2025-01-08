@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, JSX, ComponentType } from 'react';
 
-// ANY is fine here
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// Can probably get rid of this. not using it
 export const hideOnClickOutside = <T extends object>(
   WrappedComponent: ComponentType<T>
 ): ((props: T) => JSX.Element) => {
@@ -28,18 +27,3 @@ export const hideOnClickOutside = <T extends object>(
 
   return DecoratedComponent;
 };
-
-// const { onClick, children, ...restProps } = props as any;
-
-// const handleClick = (event: React.MouseEvent): void => {
-//   console.log('Logging before onClick');
-//   if (onClick) {
-//     onClick(event);
-//   }
-// };
-
-// return (
-//   <WrappedComponent {...restProps} onClick={handleClick}>
-//     {children}
-//   </WrappedComponent>
-// );
