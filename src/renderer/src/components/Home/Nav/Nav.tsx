@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as pb from '@protos/v1/pb';
 import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
 import MenuItem from '@renderer/components/common/Menu/MenuItem';
-import { useEvent, useIOSocket, useModal } from '@renderer/components/Contexts';
+import { useAuth, useEvent, useIOSocket, useModal } from '@renderer/components/Contexts';
 import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
 import AppserverRequest from '@renderer/requests/appserver';
 
@@ -19,6 +19,7 @@ const Nav = (): JSX.Element => {
   const { sendMessage, connectionState } = useIOSocket();
   const { emitter } = useEvent();
   const { showModal, setModalContent } = useModal();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const [servers, setServers] = useState<pb.api.v1.messages.IAppserverAndSub[]>([]);
@@ -80,7 +81,7 @@ const Nav = (): JSX.Element => {
   return (
     <div className="h-full w-[75px] bg-black bg-opacity-30 p-1">
       {<AppserverButtons servers={servers} />}
-      <div>
+      <div className="flex flex-col gap-2">
         <Button
           onClick={() => {
             setModalContent(<CreateAppserverModal sendMessage={sendMessage} />);
@@ -88,6 +89,14 @@ const Nav = (): JSX.Element => {
           }}
         >
           Create
+        </Button>
+
+        <Button
+          onClick={() => {
+            logout();
+          }}
+        >
+          Logout
         </Button>
       </div>
     </div>

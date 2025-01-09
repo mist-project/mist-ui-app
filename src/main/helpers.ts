@@ -1,10 +1,11 @@
 import Store from 'electron-store';
 import { safeStorage } from 'electron';
 
-const ACCESS_KEYS = {
+export const ACCESS_KEYS = {
   ACCESS_TOKEN: 'access_token',
   REFRESH_TOKEN: 'refresh_token',
-  HAS_STORED_TOKENS: 'has_stored_tokens'
+  HAS_STORED_TOKENS: 'has_stored_tokens',
+  REMEMBER_USERNAME: 'remember_username'
 };
 
 export type AuthTokens = {

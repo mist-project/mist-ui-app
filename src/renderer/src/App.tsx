@@ -18,6 +18,11 @@ const Layout = (): JSX.Element => (
   </div>
 );
 
+const LoginLayout = (): JSX.Element => (
+  <div className="bg-gray-900 text-white h-full flex">
+    <Outlet />
+  </div>
+);
 const ProtectedRoute = ({ children }: { children: JSX.Element }): JSX.Element => {
   const { logged } = useAuth();
   const { connectionState } = useIOSocket();
@@ -59,7 +64,9 @@ function App(): JSX.Element {
             }
           />
         </Route>
-        <Route path="/login" element={<Login />} />
+        <Route element={<LoginLayout />}>
+          <Route path="/login" element={<Login />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

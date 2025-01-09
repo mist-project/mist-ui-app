@@ -18,7 +18,9 @@ const api = {
   jwtTokens: (callback: JwtTokensCallback) =>
     ipcRenderer.on('jwt-tokens', (_event, value) => callback(value)),
 
-  isAuthenticated: (callback) => ipcRenderer.on('is-authenticated', (_, value) => callback(value))
+  isAuthenticated: (callback) => ipcRenderer.on('is-authenticated', (_, value) => callback(value)),
+  getRememberUsername: (callback) =>
+    ipcRenderer.on('get-remember-username', (_, value) => callback(value))
 } as ApiMessages;
 
 const getEnv = (key: string, strict: boolean = false): string | undefined => {

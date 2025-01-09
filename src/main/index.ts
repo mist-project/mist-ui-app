@@ -5,7 +5,14 @@ import path from 'node:path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 
-import { AuthTokens, DeepLinkRouter, JwtAuthManager, MistApiService } from './helpers';
+import {
+  ACCESS_KEYS,
+  AuthTokens,
+  DeepLinkRouter,
+  JsonStore,
+  JwtAuthManager,
+  MistApiService
+} from './helpers';
 
 if (process.defaultApp) {
   if (process.argv.length >= 2) {
@@ -98,6 +105,7 @@ if (!gotTheLock) {
       if (mainWindow.isMinimized()) mainWindow.restore();
       mainWindow.focus();
     }
+
     // the commandLine is array of strings in which last element is deep link url
     const url = commandLine.pop();
     if (url) {
@@ -121,18 +129,6 @@ if (!gotTheLock) {
     app.on('browser-window-created', (_, window) => {
       optimizer.watchWindowShortcuts(window);
     });
-
-    // ipcMain.on('login-jwt-main', () => {
-    //   const accessToken = JwtAuthManager.getToken();
-    //   const refreshToken = JwtAuthManager.getToken();
-
-    //   if (mainWindow) {
-    //     mainWindow.webContents.send('login-jwt', {
-    //       accessToken,
-    //       refreshToken
-    //     });
-    //   }
-    // });
 
     // Token refresh
     if (JwtAuthManager.isAuthenticated()) {
@@ -187,6 +183,24 @@ if (!gotTheLock) {
       if (mainWindow) {
         // isAuthenticated should return false
         mainWindow.webContents.send('is-authenticated', JwtAuthManager.isAuthenticated());
+      }
+    });
+
+    ipcMain.on('store-remember-username', (_, username: string) => {
+      new JsonStore().set(ACCESS_KEYS.REMEMBER_USERNAME, username);
+    });
+
+    ipcMain.on('delete-remember-username', () => {
+      new JsonStore().delete(ACCESS_KEYS.REMEMBER_USERNAME);
+    });
+
+    ipcMain.on('get-remember-username', () => {
+      const username = new JsonStore().get(ACCESS_KEYS.REMEMBER_USERNAME);
+      if (!username) {
+        return;
+      }
+      if (mainWindow) {
+        mainWindow.webContents.send('get-remember-username', username);
       }
     });
 

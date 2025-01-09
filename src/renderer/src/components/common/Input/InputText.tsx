@@ -13,8 +13,8 @@ const focus = ['border-white-600'].map((css) => `focus:${css}`).join(' ');
 
 const InputText = ({ label, className, type, value, setValue }: InputTextProps): JSX.Element => {
   return (
-    <div className="p-3">
-      {label && <p className="font-bold">{label}</p>}
+    <div className="p-3 flex flex-col">
+      {label && <label className="font-bold">{label}</label>}
       <input
         className={`bg-gray-600 border-solid border-1 rounded p-[5px] border-gray-500 ${focusVisible} ${focus} ${className}`}
         type={type}

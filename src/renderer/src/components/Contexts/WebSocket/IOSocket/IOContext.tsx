@@ -61,7 +61,11 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
       if (socketRef.current.readyState === WebSocket.OPEN) {
         new AuthRequest(sendMessage).updateJwtToken(token);
       }
-      return; // Already connected, no need to connect again
+
+      if (socketRef.current.readyState != WebSocket.CLOSED) {
+        return; // may or may not be connected, don't attempt to reestablish connection until
+        // guaranteed closed
+      }
     }
 
     setConnectionState(() => WSConnectionStatus.Connecting);
