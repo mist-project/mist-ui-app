@@ -12,7 +12,7 @@ import CreateAppserverModal from './CreateAppserverModal';
 import DeleteAppserverModal from './DeleteAppserverModal';
 
 type AppserverButtonsProps = {
-  servers: pb.api.v1.messages.IAppserverAndSub[];
+  servers: pb.api.v1.server.IAppserverAndSub[];
 };
 
 const Nav = (): JSX.Element => {
@@ -22,7 +22,7 @@ const Nav = (): JSX.Element => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const [servers, setServers] = useState<pb.api.v1.messages.IAppserverAndSub[]>([]);
+  const [servers, setServers] = useState<pb.api.v1.server.IAppserverAndSub[]>([]);
 
   useEffect(() => {
     if (connectionState === WSConnectionStatus.Connected) {
@@ -45,9 +45,7 @@ const Nav = (): JSX.Element => {
                 onClick={() => {
                   navigate(`/appserver/${s.appserver?.id}`);
                 }}
-                contextMenuItems={[
-                  AppServerMenuItems(s.appserver as pb.api.v1.messages.IAppserver)
-                ]}
+                contextMenuItems={[AppServerMenuItems(s.appserver as pb.api.v1.server.IAppserver)]}
               >
                 {s.appserver?.name}
               </ButtonWithMenu>
@@ -58,28 +56,23 @@ const Nav = (): JSX.Element => {
     );
   }, []);
 
-  const AppServerMenuItems = useCallback(
-    (appserver: pb.api.v1.messages.IAppserver): JSX.Element => {
-      return (
-        <MenuItem
-          key={`delete-${appserver?.id}`}
-          onClick={() => {
-            setModalContent(
-              <DeleteAppserverModal sendMessage={sendMessage} appserver={appserver} />
-            );
-            showModal(true);
-          }}
-        >
-          Delete
-        </MenuItem>
-      );
-    },
-    []
-  );
+  const AppServerMenuItems = useCallback((appserver: pb.api.v1.server.IAppserver): JSX.Element => {
+    return (
+      <MenuItem
+        key={`delete-${appserver?.id}`}
+        onClick={() => {
+          setModalContent(<DeleteAppserverModal sendMessage={sendMessage} appserver={appserver} />);
+          showModal(true);
+        }}
+      >
+        Delete
+      </MenuItem>
+    );
+  }, []);
 
   //TODO Remove opacity in the future for a color
   return (
-    <div className="h-full w-[75px] bg-black bg-opacity-30 p-1">
+    <div className="h-full w-[72px] bg-black bg-opacity-30 p-1">
       {<AppserverButtons servers={servers} />}
       <div className="flex flex-col gap-2">
         <Button

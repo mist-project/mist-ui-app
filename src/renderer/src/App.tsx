@@ -12,7 +12,7 @@ import { Appserver } from './components/Appserver';
 import './App.scss';
 
 const Layout = (): JSX.Element => (
-  <div className="bg-gray-900 text-white h-full flex">
+  <div className="bg-gray-950 text-white h-full flex">
     <Nav />
     <Outlet />
   </div>

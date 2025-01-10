@@ -1,6 +1,6 @@
 import * as pb from '@protos/v1/pb';
 
-export const pb_v1 = pb.api.v1.messages;
+export const pb_v1 = pb.api.v1;
 
 class BaseRequest {
   private sendMessage: (_message: Uint8Array) => void;
