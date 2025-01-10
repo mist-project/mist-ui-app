@@ -337,6 +337,9 @@ export namespace api {
 
                 /** Input deleteAppserver */
                 deleteAppserver?: (api.v1.server.IDeleteAppserverRequest|null);
+
+                /** Input createChannel */
+                createChannel?: (api.v1.channel.ICreateChannelRequest|null);
             }
 
             /** Represents an Input. */
@@ -360,8 +363,11 @@ export namespace api {
                 /** Input deleteAppserver. */
                 public deleteAppserver?: (api.v1.server.IDeleteAppserverRequest|null);
 
+                /** Input createChannel. */
+                public createChannel?: (api.v1.channel.ICreateChannelRequest|null);
+
                 /** Input data. */
-                public data?: ("updateJwtToken"|"appserverListing"|"createAppserver"|"deleteAppserver");
+                public data?: ("updateJwtToken"|"appserverListing"|"createAppserver"|"deleteAppserver"|"createChannel");
 
                 /**
                  * Creates a new Input instance using the specified properties.
@@ -820,6 +826,1021 @@ export namespace api {
 
                 /**
                  * Gets the default type url for AppserverListingRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+        }
+
+        /** Namespace channel. */
+        namespace channel {
+
+            /** Represents a ChannelService */
+            class ChannelService extends $protobuf.rpc.Service {
+
+                /**
+                 * Constructs a new ChannelService service.
+                 * @param rpcImpl RPC implementation
+                 * @param [requestDelimited=false] Whether requests are length-delimited
+                 * @param [responseDelimited=false] Whether responses are length-delimited
+                 */
+                constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+                /**
+                 * Creates new ChannelService service using the specified rpc implementation.
+                 * @param rpcImpl RPC implementation
+                 * @param [requestDelimited=false] Whether requests are length-delimited
+                 * @param [responseDelimited=false] Whether responses are length-delimited
+                 * @returns RPC service. Useful where requests and/or responses are streamed.
+                 */
+                public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): ChannelService;
+
+                /**
+                 * Calls CreateChannel.
+                 * @param request CreateChannelRequest message or plain object
+                 * @param callback Node-style callback called with the error, if any, and CreateChannelResponse
+                 */
+                public createChannel(request: api.v1.channel.ICreateChannelRequest, callback: api.v1.channel.ChannelService.CreateChannelCallback): void;
+
+                /**
+                 * Calls CreateChannel.
+                 * @param request CreateChannelRequest message or plain object
+                 * @returns Promise
+                 */
+                public createChannel(request: api.v1.channel.ICreateChannelRequest): Promise<api.v1.channel.CreateChannelResponse>;
+
+                /**
+                 * Calls GetByIdChannel.
+                 * @param request GetByIdChannelRequest message or plain object
+                 * @param callback Node-style callback called with the error, if any, and GetByIdChannelResponse
+                 */
+                public getByIdChannel(request: api.v1.channel.IGetByIdChannelRequest, callback: api.v1.channel.ChannelService.GetByIdChannelCallback): void;
+
+                /**
+                 * Calls GetByIdChannel.
+                 * @param request GetByIdChannelRequest message or plain object
+                 * @returns Promise
+                 */
+                public getByIdChannel(request: api.v1.channel.IGetByIdChannelRequest): Promise<api.v1.channel.GetByIdChannelResponse>;
+
+                /**
+                 * Calls ListChannels.
+                 * @param request ListChannelsRequest message or plain object
+                 * @param callback Node-style callback called with the error, if any, and ListChannelsResponse
+                 */
+                public listChannels(request: api.v1.channel.IListChannelsRequest, callback: api.v1.channel.ChannelService.ListChannelsCallback): void;
+
+                /**
+                 * Calls ListChannels.
+                 * @param request ListChannelsRequest message or plain object
+                 * @returns Promise
+                 */
+                public listChannels(request: api.v1.channel.IListChannelsRequest): Promise<api.v1.channel.ListChannelsResponse>;
+
+                /**
+                 * Calls DeleteChannel.
+                 * @param request DeleteChannelRequest message or plain object
+                 * @param callback Node-style callback called with the error, if any, and DeleteChannelResponse
+                 */
+                public deleteChannel(request: api.v1.channel.IDeleteChannelRequest, callback: api.v1.channel.ChannelService.DeleteChannelCallback): void;
+
+                /**
+                 * Calls DeleteChannel.
+                 * @param request DeleteChannelRequest message or plain object
+                 * @returns Promise
+                 */
+                public deleteChannel(request: api.v1.channel.IDeleteChannelRequest): Promise<api.v1.channel.DeleteChannelResponse>;
+            }
+
+            namespace ChannelService {
+
+                /**
+                 * Callback as used by {@link api.v1.channel.ChannelService#createChannel}.
+                 * @param error Error, if any
+                 * @param [response] CreateChannelResponse
+                 */
+                type CreateChannelCallback = (error: (Error|null), response?: api.v1.channel.CreateChannelResponse) => void;
+
+                /**
+                 * Callback as used by {@link api.v1.channel.ChannelService#getByIdChannel}.
+                 * @param error Error, if any
+                 * @param [response] GetByIdChannelResponse
+                 */
+                type GetByIdChannelCallback = (error: (Error|null), response?: api.v1.channel.GetByIdChannelResponse) => void;
+
+                /**
+                 * Callback as used by {@link api.v1.channel.ChannelService#listChannels}.
+                 * @param error Error, if any
+                 * @param [response] ListChannelsResponse
+                 */
+                type ListChannelsCallback = (error: (Error|null), response?: api.v1.channel.ListChannelsResponse) => void;
+
+                /**
+                 * Callback as used by {@link api.v1.channel.ChannelService#deleteChannel}.
+                 * @param error Error, if any
+                 * @param [response] DeleteChannelResponse
+                 */
+                type DeleteChannelCallback = (error: (Error|null), response?: api.v1.channel.DeleteChannelResponse) => void;
+            }
+
+            /** Properties of a Channel. */
+            interface IChannel {
+
+                /** Channel id */
+                id?: (string|null);
+
+                /** Channel name */
+                name?: (string|null);
+
+                /** Channel appserverId */
+                appserverId?: (string|null);
+
+                /** Channel createdAt */
+                createdAt?: (google.protobuf.ITimestamp|null);
+
+                /** Channel updatedAt */
+                updatedAt?: (google.protobuf.ITimestamp|null);
+            }
+
+            /** Represents a Channel. */
+            class Channel implements IChannel {
+
+                /**
+                 * Constructs a new Channel.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.channel.IChannel);
+
+                /** Channel id. */
+                public id: string;
+
+                /** Channel name. */
+                public name: string;
+
+                /** Channel appserverId. */
+                public appserverId: string;
+
+                /** Channel createdAt. */
+                public createdAt?: (google.protobuf.ITimestamp|null);
+
+                /** Channel updatedAt. */
+                public updatedAt?: (google.protobuf.ITimestamp|null);
+
+                /**
+                 * Creates a new Channel instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns Channel instance
+                 */
+                public static create(properties?: api.v1.channel.IChannel): api.v1.channel.Channel;
+
+                /**
+                 * Encodes the specified Channel message. Does not implicitly {@link api.v1.channel.Channel.verify|verify} messages.
+                 * @param message Channel message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.channel.IChannel, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified Channel message, length delimited. Does not implicitly {@link api.v1.channel.Channel.verify|verify} messages.
+                 * @param message Channel message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.channel.IChannel, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a Channel message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns Channel
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.Channel;
+
+                /**
+                 * Decodes a Channel message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns Channel
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.Channel;
+
+                /**
+                 * Verifies a Channel message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a Channel message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns Channel
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.channel.Channel;
+
+                /**
+                 * Creates a plain object from a Channel message. Also converts values to other types if specified.
+                 * @param message Channel
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.channel.Channel, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this Channel to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for Channel
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a CreateChannelRequest. */
+            interface ICreateChannelRequest {
+
+                /** CreateChannelRequest name */
+                name?: (string|null);
+
+                /** CreateChannelRequest appserverId */
+                appserverId?: (string|null);
+            }
+
+            /** Represents a CreateChannelRequest. */
+            class CreateChannelRequest implements ICreateChannelRequest {
+
+                /**
+                 * Constructs a new CreateChannelRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.channel.ICreateChannelRequest);
+
+                /** CreateChannelRequest name. */
+                public name: string;
+
+                /** CreateChannelRequest appserverId. */
+                public appserverId: string;
+
+                /**
+                 * Creates a new CreateChannelRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns CreateChannelRequest instance
+                 */
+                public static create(properties?: api.v1.channel.ICreateChannelRequest): api.v1.channel.CreateChannelRequest;
+
+                /**
+                 * Encodes the specified CreateChannelRequest message. Does not implicitly {@link api.v1.channel.CreateChannelRequest.verify|verify} messages.
+                 * @param message CreateChannelRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.channel.ICreateChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified CreateChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.CreateChannelRequest.verify|verify} messages.
+                 * @param message CreateChannelRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.channel.ICreateChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a CreateChannelRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns CreateChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.CreateChannelRequest;
+
+                /**
+                 * Decodes a CreateChannelRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns CreateChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.CreateChannelRequest;
+
+                /**
+                 * Verifies a CreateChannelRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a CreateChannelRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns CreateChannelRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.channel.CreateChannelRequest;
+
+                /**
+                 * Creates a plain object from a CreateChannelRequest message. Also converts values to other types if specified.
+                 * @param message CreateChannelRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.channel.CreateChannelRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this CreateChannelRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for CreateChannelRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a GetByIdChannelRequest. */
+            interface IGetByIdChannelRequest {
+
+                /** GetByIdChannelRequest id */
+                id?: (string|null);
+            }
+
+            /** Represents a GetByIdChannelRequest. */
+            class GetByIdChannelRequest implements IGetByIdChannelRequest {
+
+                /**
+                 * Constructs a new GetByIdChannelRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.channel.IGetByIdChannelRequest);
+
+                /** GetByIdChannelRequest id. */
+                public id: string;
+
+                /**
+                 * Creates a new GetByIdChannelRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns GetByIdChannelRequest instance
+                 */
+                public static create(properties?: api.v1.channel.IGetByIdChannelRequest): api.v1.channel.GetByIdChannelRequest;
+
+                /**
+                 * Encodes the specified GetByIdChannelRequest message. Does not implicitly {@link api.v1.channel.GetByIdChannelRequest.verify|verify} messages.
+                 * @param message GetByIdChannelRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.channel.IGetByIdChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified GetByIdChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.GetByIdChannelRequest.verify|verify} messages.
+                 * @param message GetByIdChannelRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.channel.IGetByIdChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a GetByIdChannelRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns GetByIdChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.GetByIdChannelRequest;
+
+                /**
+                 * Decodes a GetByIdChannelRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns GetByIdChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.GetByIdChannelRequest;
+
+                /**
+                 * Verifies a GetByIdChannelRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a GetByIdChannelRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns GetByIdChannelRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.channel.GetByIdChannelRequest;
+
+                /**
+                 * Creates a plain object from a GetByIdChannelRequest message. Also converts values to other types if specified.
+                 * @param message GetByIdChannelRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.channel.GetByIdChannelRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this GetByIdChannelRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for GetByIdChannelRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a ListChannelsRequest. */
+            interface IListChannelsRequest {
+
+                /** ListChannelsRequest name */
+                name?: (google.protobuf.IStringValue|null);
+
+                /** ListChannelsRequest appserverId */
+                appserverId?: (google.protobuf.IStringValue|null);
+            }
+
+            /** Represents a ListChannelsRequest. */
+            class ListChannelsRequest implements IListChannelsRequest {
+
+                /**
+                 * Constructs a new ListChannelsRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.channel.IListChannelsRequest);
+
+                /** ListChannelsRequest name. */
+                public name?: (google.protobuf.IStringValue|null);
+
+                /** ListChannelsRequest appserverId. */
+                public appserverId?: (google.protobuf.IStringValue|null);
+
+                /**
+                 * Creates a new ListChannelsRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns ListChannelsRequest instance
+                 */
+                public static create(properties?: api.v1.channel.IListChannelsRequest): api.v1.channel.ListChannelsRequest;
+
+                /**
+                 * Encodes the specified ListChannelsRequest message. Does not implicitly {@link api.v1.channel.ListChannelsRequest.verify|verify} messages.
+                 * @param message ListChannelsRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.channel.IListChannelsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified ListChannelsRequest message, length delimited. Does not implicitly {@link api.v1.channel.ListChannelsRequest.verify|verify} messages.
+                 * @param message ListChannelsRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.channel.IListChannelsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a ListChannelsRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns ListChannelsRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.ListChannelsRequest;
+
+                /**
+                 * Decodes a ListChannelsRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns ListChannelsRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.ListChannelsRequest;
+
+                /**
+                 * Verifies a ListChannelsRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a ListChannelsRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns ListChannelsRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.channel.ListChannelsRequest;
+
+                /**
+                 * Creates a plain object from a ListChannelsRequest message. Also converts values to other types if specified.
+                 * @param message ListChannelsRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.channel.ListChannelsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this ListChannelsRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for ListChannelsRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a DeleteChannelRequest. */
+            interface IDeleteChannelRequest {
+
+                /** DeleteChannelRequest id */
+                id?: (string|null);
+            }
+
+            /** Represents a DeleteChannelRequest. */
+            class DeleteChannelRequest implements IDeleteChannelRequest {
+
+                /**
+                 * Constructs a new DeleteChannelRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.channel.IDeleteChannelRequest);
+
+                /** DeleteChannelRequest id. */
+                public id: string;
+
+                /**
+                 * Creates a new DeleteChannelRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns DeleteChannelRequest instance
+                 */
+                public static create(properties?: api.v1.channel.IDeleteChannelRequest): api.v1.channel.DeleteChannelRequest;
+
+                /**
+                 * Encodes the specified DeleteChannelRequest message. Does not implicitly {@link api.v1.channel.DeleteChannelRequest.verify|verify} messages.
+                 * @param message DeleteChannelRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.channel.IDeleteChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified DeleteChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.DeleteChannelRequest.verify|verify} messages.
+                 * @param message DeleteChannelRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.channel.IDeleteChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a DeleteChannelRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns DeleteChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.DeleteChannelRequest;
+
+                /**
+                 * Decodes a DeleteChannelRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns DeleteChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.DeleteChannelRequest;
+
+                /**
+                 * Verifies a DeleteChannelRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a DeleteChannelRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns DeleteChannelRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.channel.DeleteChannelRequest;
+
+                /**
+                 * Creates a plain object from a DeleteChannelRequest message. Also converts values to other types if specified.
+                 * @param message DeleteChannelRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.channel.DeleteChannelRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this DeleteChannelRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for DeleteChannelRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a CreateChannelResponse. */
+            interface ICreateChannelResponse {
+
+                /** CreateChannelResponse channel */
+                channel?: (api.v1.channel.IChannel|null);
+            }
+
+            /** Represents a CreateChannelResponse. */
+            class CreateChannelResponse implements ICreateChannelResponse {
+
+                /**
+                 * Constructs a new CreateChannelResponse.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.channel.ICreateChannelResponse);
+
+                /** CreateChannelResponse channel. */
+                public channel?: (api.v1.channel.IChannel|null);
+
+                /**
+                 * Creates a new CreateChannelResponse instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns CreateChannelResponse instance
+                 */
+                public static create(properties?: api.v1.channel.ICreateChannelResponse): api.v1.channel.CreateChannelResponse;
+
+                /**
+                 * Encodes the specified CreateChannelResponse message. Does not implicitly {@link api.v1.channel.CreateChannelResponse.verify|verify} messages.
+                 * @param message CreateChannelResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.channel.ICreateChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified CreateChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.CreateChannelResponse.verify|verify} messages.
+                 * @param message CreateChannelResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.channel.ICreateChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a CreateChannelResponse message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns CreateChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.CreateChannelResponse;
+
+                /**
+                 * Decodes a CreateChannelResponse message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns CreateChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.CreateChannelResponse;
+
+                /**
+                 * Verifies a CreateChannelResponse message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a CreateChannelResponse message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns CreateChannelResponse
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.channel.CreateChannelResponse;
+
+                /**
+                 * Creates a plain object from a CreateChannelResponse message. Also converts values to other types if specified.
+                 * @param message CreateChannelResponse
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.channel.CreateChannelResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this CreateChannelResponse to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for CreateChannelResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a GetByIdChannelResponse. */
+            interface IGetByIdChannelResponse {
+
+                /** GetByIdChannelResponse channel */
+                channel?: (api.v1.channel.IChannel|null);
+            }
+
+            /** Represents a GetByIdChannelResponse. */
+            class GetByIdChannelResponse implements IGetByIdChannelResponse {
+
+                /**
+                 * Constructs a new GetByIdChannelResponse.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.channel.IGetByIdChannelResponse);
+
+                /** GetByIdChannelResponse channel. */
+                public channel?: (api.v1.channel.IChannel|null);
+
+                /**
+                 * Creates a new GetByIdChannelResponse instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns GetByIdChannelResponse instance
+                 */
+                public static create(properties?: api.v1.channel.IGetByIdChannelResponse): api.v1.channel.GetByIdChannelResponse;
+
+                /**
+                 * Encodes the specified GetByIdChannelResponse message. Does not implicitly {@link api.v1.channel.GetByIdChannelResponse.verify|verify} messages.
+                 * @param message GetByIdChannelResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.channel.IGetByIdChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified GetByIdChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.GetByIdChannelResponse.verify|verify} messages.
+                 * @param message GetByIdChannelResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.channel.IGetByIdChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a GetByIdChannelResponse message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns GetByIdChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.GetByIdChannelResponse;
+
+                /**
+                 * Decodes a GetByIdChannelResponse message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns GetByIdChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.GetByIdChannelResponse;
+
+                /**
+                 * Verifies a GetByIdChannelResponse message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a GetByIdChannelResponse message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns GetByIdChannelResponse
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.channel.GetByIdChannelResponse;
+
+                /**
+                 * Creates a plain object from a GetByIdChannelResponse message. Also converts values to other types if specified.
+                 * @param message GetByIdChannelResponse
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.channel.GetByIdChannelResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this GetByIdChannelResponse to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for GetByIdChannelResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a ListChannelsResponse. */
+            interface IListChannelsResponse {
+
+                /** ListChannelsResponse channels */
+                channels?: (api.v1.channel.IChannel[]|null);
+            }
+
+            /** Represents a ListChannelsResponse. */
+            class ListChannelsResponse implements IListChannelsResponse {
+
+                /**
+                 * Constructs a new ListChannelsResponse.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.channel.IListChannelsResponse);
+
+                /** ListChannelsResponse channels. */
+                public channels: api.v1.channel.IChannel[];
+
+                /**
+                 * Creates a new ListChannelsResponse instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns ListChannelsResponse instance
+                 */
+                public static create(properties?: api.v1.channel.IListChannelsResponse): api.v1.channel.ListChannelsResponse;
+
+                /**
+                 * Encodes the specified ListChannelsResponse message. Does not implicitly {@link api.v1.channel.ListChannelsResponse.verify|verify} messages.
+                 * @param message ListChannelsResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.channel.IListChannelsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified ListChannelsResponse message, length delimited. Does not implicitly {@link api.v1.channel.ListChannelsResponse.verify|verify} messages.
+                 * @param message ListChannelsResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.channel.IListChannelsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a ListChannelsResponse message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns ListChannelsResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.ListChannelsResponse;
+
+                /**
+                 * Decodes a ListChannelsResponse message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns ListChannelsResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.ListChannelsResponse;
+
+                /**
+                 * Verifies a ListChannelsResponse message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a ListChannelsResponse message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns ListChannelsResponse
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.channel.ListChannelsResponse;
+
+                /**
+                 * Creates a plain object from a ListChannelsResponse message. Also converts values to other types if specified.
+                 * @param message ListChannelsResponse
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.channel.ListChannelsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this ListChannelsResponse to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for ListChannelsResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a DeleteChannelResponse. */
+            interface IDeleteChannelResponse {
+            }
+
+            /** Represents a DeleteChannelResponse. */
+            class DeleteChannelResponse implements IDeleteChannelResponse {
+
+                /**
+                 * Constructs a new DeleteChannelResponse.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.channel.IDeleteChannelResponse);
+
+                /**
+                 * Creates a new DeleteChannelResponse instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns DeleteChannelResponse instance
+                 */
+                public static create(properties?: api.v1.channel.IDeleteChannelResponse): api.v1.channel.DeleteChannelResponse;
+
+                /**
+                 * Encodes the specified DeleteChannelResponse message. Does not implicitly {@link api.v1.channel.DeleteChannelResponse.verify|verify} messages.
+                 * @param message DeleteChannelResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.channel.IDeleteChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified DeleteChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.DeleteChannelResponse.verify|verify} messages.
+                 * @param message DeleteChannelResponse message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.channel.IDeleteChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a DeleteChannelResponse message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns DeleteChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.DeleteChannelResponse;
+
+                /**
+                 * Decodes a DeleteChannelResponse message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns DeleteChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.DeleteChannelResponse;
+
+                /**
+                 * Verifies a DeleteChannelResponse message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a DeleteChannelResponse message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns DeleteChannelResponse
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.channel.DeleteChannelResponse;
+
+                /**
+                 * Creates a plain object from a DeleteChannelResponse message. Also converts values to other types if specified.
+                 * @param message DeleteChannelResponse
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.channel.DeleteChannelResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this DeleteChannelResponse to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for DeleteChannelResponse
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
@@ -3973,1021 +4994,6 @@ export namespace api {
 
                 /**
                  * Gets the default type url for DeleteAppserverRoleSubResponse
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-        }
-
-        /** Namespace channel. */
-        namespace channel {
-
-            /** Represents a ChannelService */
-            class ChannelService extends $protobuf.rpc.Service {
-
-                /**
-                 * Constructs a new ChannelService service.
-                 * @param rpcImpl RPC implementation
-                 * @param [requestDelimited=false] Whether requests are length-delimited
-                 * @param [responseDelimited=false] Whether responses are length-delimited
-                 */
-                constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
-
-                /**
-                 * Creates new ChannelService service using the specified rpc implementation.
-                 * @param rpcImpl RPC implementation
-                 * @param [requestDelimited=false] Whether requests are length-delimited
-                 * @param [responseDelimited=false] Whether responses are length-delimited
-                 * @returns RPC service. Useful where requests and/or responses are streamed.
-                 */
-                public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): ChannelService;
-
-                /**
-                 * Calls CreateChannel.
-                 * @param request CreateChannelRequest message or plain object
-                 * @param callback Node-style callback called with the error, if any, and CreateChannelResponse
-                 */
-                public createChannel(request: api.v1.channel.ICreateChannelRequest, callback: api.v1.channel.ChannelService.CreateChannelCallback): void;
-
-                /**
-                 * Calls CreateChannel.
-                 * @param request CreateChannelRequest message or plain object
-                 * @returns Promise
-                 */
-                public createChannel(request: api.v1.channel.ICreateChannelRequest): Promise<api.v1.channel.CreateChannelResponse>;
-
-                /**
-                 * Calls GetByIdChannel.
-                 * @param request GetByIdChannelRequest message or plain object
-                 * @param callback Node-style callback called with the error, if any, and GetByIdChannelResponse
-                 */
-                public getByIdChannel(request: api.v1.channel.IGetByIdChannelRequest, callback: api.v1.channel.ChannelService.GetByIdChannelCallback): void;
-
-                /**
-                 * Calls GetByIdChannel.
-                 * @param request GetByIdChannelRequest message or plain object
-                 * @returns Promise
-                 */
-                public getByIdChannel(request: api.v1.channel.IGetByIdChannelRequest): Promise<api.v1.channel.GetByIdChannelResponse>;
-
-                /**
-                 * Calls ListChannels.
-                 * @param request ListChannelsRequest message or plain object
-                 * @param callback Node-style callback called with the error, if any, and ListChannelsResponse
-                 */
-                public listChannels(request: api.v1.channel.IListChannelsRequest, callback: api.v1.channel.ChannelService.ListChannelsCallback): void;
-
-                /**
-                 * Calls ListChannels.
-                 * @param request ListChannelsRequest message or plain object
-                 * @returns Promise
-                 */
-                public listChannels(request: api.v1.channel.IListChannelsRequest): Promise<api.v1.channel.ListChannelsResponse>;
-
-                /**
-                 * Calls DeleteChannel.
-                 * @param request DeleteChannelRequest message or plain object
-                 * @param callback Node-style callback called with the error, if any, and DeleteChannelResponse
-                 */
-                public deleteChannel(request: api.v1.channel.IDeleteChannelRequest, callback: api.v1.channel.ChannelService.DeleteChannelCallback): void;
-
-                /**
-                 * Calls DeleteChannel.
-                 * @param request DeleteChannelRequest message or plain object
-                 * @returns Promise
-                 */
-                public deleteChannel(request: api.v1.channel.IDeleteChannelRequest): Promise<api.v1.channel.DeleteChannelResponse>;
-            }
-
-            namespace ChannelService {
-
-                /**
-                 * Callback as used by {@link api.v1.channel.ChannelService#createChannel}.
-                 * @param error Error, if any
-                 * @param [response] CreateChannelResponse
-                 */
-                type CreateChannelCallback = (error: (Error|null), response?: api.v1.channel.CreateChannelResponse) => void;
-
-                /**
-                 * Callback as used by {@link api.v1.channel.ChannelService#getByIdChannel}.
-                 * @param error Error, if any
-                 * @param [response] GetByIdChannelResponse
-                 */
-                type GetByIdChannelCallback = (error: (Error|null), response?: api.v1.channel.GetByIdChannelResponse) => void;
-
-                /**
-                 * Callback as used by {@link api.v1.channel.ChannelService#listChannels}.
-                 * @param error Error, if any
-                 * @param [response] ListChannelsResponse
-                 */
-                type ListChannelsCallback = (error: (Error|null), response?: api.v1.channel.ListChannelsResponse) => void;
-
-                /**
-                 * Callback as used by {@link api.v1.channel.ChannelService#deleteChannel}.
-                 * @param error Error, if any
-                 * @param [response] DeleteChannelResponse
-                 */
-                type DeleteChannelCallback = (error: (Error|null), response?: api.v1.channel.DeleteChannelResponse) => void;
-            }
-
-            /** Properties of a Channel. */
-            interface IChannel {
-
-                /** Channel id */
-                id?: (string|null);
-
-                /** Channel name */
-                name?: (string|null);
-
-                /** Channel appserverId */
-                appserverId?: (string|null);
-
-                /** Channel createdAt */
-                createdAt?: (google.protobuf.ITimestamp|null);
-
-                /** Channel updatedAt */
-                updatedAt?: (google.protobuf.ITimestamp|null);
-            }
-
-            /** Represents a Channel. */
-            class Channel implements IChannel {
-
-                /**
-                 * Constructs a new Channel.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.channel.IChannel);
-
-                /** Channel id. */
-                public id: string;
-
-                /** Channel name. */
-                public name: string;
-
-                /** Channel appserverId. */
-                public appserverId: string;
-
-                /** Channel createdAt. */
-                public createdAt?: (google.protobuf.ITimestamp|null);
-
-                /** Channel updatedAt. */
-                public updatedAt?: (google.protobuf.ITimestamp|null);
-
-                /**
-                 * Creates a new Channel instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns Channel instance
-                 */
-                public static create(properties?: api.v1.channel.IChannel): api.v1.channel.Channel;
-
-                /**
-                 * Encodes the specified Channel message. Does not implicitly {@link api.v1.channel.Channel.verify|verify} messages.
-                 * @param message Channel message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.channel.IChannel, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified Channel message, length delimited. Does not implicitly {@link api.v1.channel.Channel.verify|verify} messages.
-                 * @param message Channel message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.channel.IChannel, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a Channel message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns Channel
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.Channel;
-
-                /**
-                 * Decodes a Channel message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns Channel
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.Channel;
-
-                /**
-                 * Verifies a Channel message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a Channel message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns Channel
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.channel.Channel;
-
-                /**
-                 * Creates a plain object from a Channel message. Also converts values to other types if specified.
-                 * @param message Channel
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.channel.Channel, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this Channel to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for Channel
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a CreateChannelRequest. */
-            interface ICreateChannelRequest {
-
-                /** CreateChannelRequest name */
-                name?: (string|null);
-
-                /** CreateChannelRequest appserverId */
-                appserverId?: (string|null);
-            }
-
-            /** Represents a CreateChannelRequest. */
-            class CreateChannelRequest implements ICreateChannelRequest {
-
-                /**
-                 * Constructs a new CreateChannelRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.channel.ICreateChannelRequest);
-
-                /** CreateChannelRequest name. */
-                public name: string;
-
-                /** CreateChannelRequest appserverId. */
-                public appserverId: string;
-
-                /**
-                 * Creates a new CreateChannelRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns CreateChannelRequest instance
-                 */
-                public static create(properties?: api.v1.channel.ICreateChannelRequest): api.v1.channel.CreateChannelRequest;
-
-                /**
-                 * Encodes the specified CreateChannelRequest message. Does not implicitly {@link api.v1.channel.CreateChannelRequest.verify|verify} messages.
-                 * @param message CreateChannelRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.channel.ICreateChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified CreateChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.CreateChannelRequest.verify|verify} messages.
-                 * @param message CreateChannelRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.channel.ICreateChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a CreateChannelRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns CreateChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.CreateChannelRequest;
-
-                /**
-                 * Decodes a CreateChannelRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns CreateChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.CreateChannelRequest;
-
-                /**
-                 * Verifies a CreateChannelRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a CreateChannelRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns CreateChannelRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.channel.CreateChannelRequest;
-
-                /**
-                 * Creates a plain object from a CreateChannelRequest message. Also converts values to other types if specified.
-                 * @param message CreateChannelRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.channel.CreateChannelRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this CreateChannelRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for CreateChannelRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a GetByIdChannelRequest. */
-            interface IGetByIdChannelRequest {
-
-                /** GetByIdChannelRequest id */
-                id?: (string|null);
-            }
-
-            /** Represents a GetByIdChannelRequest. */
-            class GetByIdChannelRequest implements IGetByIdChannelRequest {
-
-                /**
-                 * Constructs a new GetByIdChannelRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.channel.IGetByIdChannelRequest);
-
-                /** GetByIdChannelRequest id. */
-                public id: string;
-
-                /**
-                 * Creates a new GetByIdChannelRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns GetByIdChannelRequest instance
-                 */
-                public static create(properties?: api.v1.channel.IGetByIdChannelRequest): api.v1.channel.GetByIdChannelRequest;
-
-                /**
-                 * Encodes the specified GetByIdChannelRequest message. Does not implicitly {@link api.v1.channel.GetByIdChannelRequest.verify|verify} messages.
-                 * @param message GetByIdChannelRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.channel.IGetByIdChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified GetByIdChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.GetByIdChannelRequest.verify|verify} messages.
-                 * @param message GetByIdChannelRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.channel.IGetByIdChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a GetByIdChannelRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns GetByIdChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.GetByIdChannelRequest;
-
-                /**
-                 * Decodes a GetByIdChannelRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns GetByIdChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.GetByIdChannelRequest;
-
-                /**
-                 * Verifies a GetByIdChannelRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a GetByIdChannelRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns GetByIdChannelRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.channel.GetByIdChannelRequest;
-
-                /**
-                 * Creates a plain object from a GetByIdChannelRequest message. Also converts values to other types if specified.
-                 * @param message GetByIdChannelRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.channel.GetByIdChannelRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this GetByIdChannelRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for GetByIdChannelRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a ListChannelsRequest. */
-            interface IListChannelsRequest {
-
-                /** ListChannelsRequest name */
-                name?: (google.protobuf.IStringValue|null);
-
-                /** ListChannelsRequest appserverId */
-                appserverId?: (google.protobuf.IStringValue|null);
-            }
-
-            /** Represents a ListChannelsRequest. */
-            class ListChannelsRequest implements IListChannelsRequest {
-
-                /**
-                 * Constructs a new ListChannelsRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.channel.IListChannelsRequest);
-
-                /** ListChannelsRequest name. */
-                public name?: (google.protobuf.IStringValue|null);
-
-                /** ListChannelsRequest appserverId. */
-                public appserverId?: (google.protobuf.IStringValue|null);
-
-                /**
-                 * Creates a new ListChannelsRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns ListChannelsRequest instance
-                 */
-                public static create(properties?: api.v1.channel.IListChannelsRequest): api.v1.channel.ListChannelsRequest;
-
-                /**
-                 * Encodes the specified ListChannelsRequest message. Does not implicitly {@link api.v1.channel.ListChannelsRequest.verify|verify} messages.
-                 * @param message ListChannelsRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.channel.IListChannelsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified ListChannelsRequest message, length delimited. Does not implicitly {@link api.v1.channel.ListChannelsRequest.verify|verify} messages.
-                 * @param message ListChannelsRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.channel.IListChannelsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a ListChannelsRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns ListChannelsRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.ListChannelsRequest;
-
-                /**
-                 * Decodes a ListChannelsRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns ListChannelsRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.ListChannelsRequest;
-
-                /**
-                 * Verifies a ListChannelsRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a ListChannelsRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns ListChannelsRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.channel.ListChannelsRequest;
-
-                /**
-                 * Creates a plain object from a ListChannelsRequest message. Also converts values to other types if specified.
-                 * @param message ListChannelsRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.channel.ListChannelsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this ListChannelsRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for ListChannelsRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a DeleteChannelRequest. */
-            interface IDeleteChannelRequest {
-
-                /** DeleteChannelRequest id */
-                id?: (string|null);
-            }
-
-            /** Represents a DeleteChannelRequest. */
-            class DeleteChannelRequest implements IDeleteChannelRequest {
-
-                /**
-                 * Constructs a new DeleteChannelRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.channel.IDeleteChannelRequest);
-
-                /** DeleteChannelRequest id. */
-                public id: string;
-
-                /**
-                 * Creates a new DeleteChannelRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns DeleteChannelRequest instance
-                 */
-                public static create(properties?: api.v1.channel.IDeleteChannelRequest): api.v1.channel.DeleteChannelRequest;
-
-                /**
-                 * Encodes the specified DeleteChannelRequest message. Does not implicitly {@link api.v1.channel.DeleteChannelRequest.verify|verify} messages.
-                 * @param message DeleteChannelRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.channel.IDeleteChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified DeleteChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.DeleteChannelRequest.verify|verify} messages.
-                 * @param message DeleteChannelRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.channel.IDeleteChannelRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a DeleteChannelRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns DeleteChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.DeleteChannelRequest;
-
-                /**
-                 * Decodes a DeleteChannelRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns DeleteChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.DeleteChannelRequest;
-
-                /**
-                 * Verifies a DeleteChannelRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a DeleteChannelRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns DeleteChannelRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.channel.DeleteChannelRequest;
-
-                /**
-                 * Creates a plain object from a DeleteChannelRequest message. Also converts values to other types if specified.
-                 * @param message DeleteChannelRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.channel.DeleteChannelRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this DeleteChannelRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for DeleteChannelRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a CreateChannelResponse. */
-            interface ICreateChannelResponse {
-
-                /** CreateChannelResponse channel */
-                channel?: (api.v1.channel.IChannel|null);
-            }
-
-            /** Represents a CreateChannelResponse. */
-            class CreateChannelResponse implements ICreateChannelResponse {
-
-                /**
-                 * Constructs a new CreateChannelResponse.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.channel.ICreateChannelResponse);
-
-                /** CreateChannelResponse channel. */
-                public channel?: (api.v1.channel.IChannel|null);
-
-                /**
-                 * Creates a new CreateChannelResponse instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns CreateChannelResponse instance
-                 */
-                public static create(properties?: api.v1.channel.ICreateChannelResponse): api.v1.channel.CreateChannelResponse;
-
-                /**
-                 * Encodes the specified CreateChannelResponse message. Does not implicitly {@link api.v1.channel.CreateChannelResponse.verify|verify} messages.
-                 * @param message CreateChannelResponse message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.channel.ICreateChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified CreateChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.CreateChannelResponse.verify|verify} messages.
-                 * @param message CreateChannelResponse message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.channel.ICreateChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a CreateChannelResponse message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns CreateChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.CreateChannelResponse;
-
-                /**
-                 * Decodes a CreateChannelResponse message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns CreateChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.CreateChannelResponse;
-
-                /**
-                 * Verifies a CreateChannelResponse message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a CreateChannelResponse message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns CreateChannelResponse
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.channel.CreateChannelResponse;
-
-                /**
-                 * Creates a plain object from a CreateChannelResponse message. Also converts values to other types if specified.
-                 * @param message CreateChannelResponse
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.channel.CreateChannelResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this CreateChannelResponse to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for CreateChannelResponse
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a GetByIdChannelResponse. */
-            interface IGetByIdChannelResponse {
-
-                /** GetByIdChannelResponse channel */
-                channel?: (api.v1.channel.IChannel|null);
-            }
-
-            /** Represents a GetByIdChannelResponse. */
-            class GetByIdChannelResponse implements IGetByIdChannelResponse {
-
-                /**
-                 * Constructs a new GetByIdChannelResponse.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.channel.IGetByIdChannelResponse);
-
-                /** GetByIdChannelResponse channel. */
-                public channel?: (api.v1.channel.IChannel|null);
-
-                /**
-                 * Creates a new GetByIdChannelResponse instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns GetByIdChannelResponse instance
-                 */
-                public static create(properties?: api.v1.channel.IGetByIdChannelResponse): api.v1.channel.GetByIdChannelResponse;
-
-                /**
-                 * Encodes the specified GetByIdChannelResponse message. Does not implicitly {@link api.v1.channel.GetByIdChannelResponse.verify|verify} messages.
-                 * @param message GetByIdChannelResponse message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.channel.IGetByIdChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified GetByIdChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.GetByIdChannelResponse.verify|verify} messages.
-                 * @param message GetByIdChannelResponse message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.channel.IGetByIdChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a GetByIdChannelResponse message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns GetByIdChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.GetByIdChannelResponse;
-
-                /**
-                 * Decodes a GetByIdChannelResponse message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns GetByIdChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.GetByIdChannelResponse;
-
-                /**
-                 * Verifies a GetByIdChannelResponse message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a GetByIdChannelResponse message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns GetByIdChannelResponse
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.channel.GetByIdChannelResponse;
-
-                /**
-                 * Creates a plain object from a GetByIdChannelResponse message. Also converts values to other types if specified.
-                 * @param message GetByIdChannelResponse
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.channel.GetByIdChannelResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this GetByIdChannelResponse to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for GetByIdChannelResponse
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a ListChannelsResponse. */
-            interface IListChannelsResponse {
-
-                /** ListChannelsResponse channels */
-                channels?: (api.v1.channel.IChannel[]|null);
-            }
-
-            /** Represents a ListChannelsResponse. */
-            class ListChannelsResponse implements IListChannelsResponse {
-
-                /**
-                 * Constructs a new ListChannelsResponse.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.channel.IListChannelsResponse);
-
-                /** ListChannelsResponse channels. */
-                public channels: api.v1.channel.IChannel[];
-
-                /**
-                 * Creates a new ListChannelsResponse instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns ListChannelsResponse instance
-                 */
-                public static create(properties?: api.v1.channel.IListChannelsResponse): api.v1.channel.ListChannelsResponse;
-
-                /**
-                 * Encodes the specified ListChannelsResponse message. Does not implicitly {@link api.v1.channel.ListChannelsResponse.verify|verify} messages.
-                 * @param message ListChannelsResponse message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.channel.IListChannelsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified ListChannelsResponse message, length delimited. Does not implicitly {@link api.v1.channel.ListChannelsResponse.verify|verify} messages.
-                 * @param message ListChannelsResponse message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.channel.IListChannelsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a ListChannelsResponse message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns ListChannelsResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.ListChannelsResponse;
-
-                /**
-                 * Decodes a ListChannelsResponse message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns ListChannelsResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.ListChannelsResponse;
-
-                /**
-                 * Verifies a ListChannelsResponse message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a ListChannelsResponse message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns ListChannelsResponse
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.channel.ListChannelsResponse;
-
-                /**
-                 * Creates a plain object from a ListChannelsResponse message. Also converts values to other types if specified.
-                 * @param message ListChannelsResponse
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.channel.ListChannelsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this ListChannelsResponse to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for ListChannelsResponse
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a DeleteChannelResponse. */
-            interface IDeleteChannelResponse {
-            }
-
-            /** Represents a DeleteChannelResponse. */
-            class DeleteChannelResponse implements IDeleteChannelResponse {
-
-                /**
-                 * Constructs a new DeleteChannelResponse.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.channel.IDeleteChannelResponse);
-
-                /**
-                 * Creates a new DeleteChannelResponse instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns DeleteChannelResponse instance
-                 */
-                public static create(properties?: api.v1.channel.IDeleteChannelResponse): api.v1.channel.DeleteChannelResponse;
-
-                /**
-                 * Encodes the specified DeleteChannelResponse message. Does not implicitly {@link api.v1.channel.DeleteChannelResponse.verify|verify} messages.
-                 * @param message DeleteChannelResponse message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.channel.IDeleteChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified DeleteChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.DeleteChannelResponse.verify|verify} messages.
-                 * @param message DeleteChannelResponse message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.channel.IDeleteChannelResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a DeleteChannelResponse message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns DeleteChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.channel.DeleteChannelResponse;
-
-                /**
-                 * Decodes a DeleteChannelResponse message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns DeleteChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.channel.DeleteChannelResponse;
-
-                /**
-                 * Verifies a DeleteChannelResponse message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a DeleteChannelResponse message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns DeleteChannelResponse
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.channel.DeleteChannelResponse;
-
-                /**
-                 * Creates a plain object from a DeleteChannelResponse message. Also converts values to other types if specified.
-                 * @param message DeleteChannelResponse
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.channel.DeleteChannelResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this DeleteChannelResponse to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for DeleteChannelResponse
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */

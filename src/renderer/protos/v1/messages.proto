@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+import "channel.proto";
 import "server.proto";
 
 package api.v1.messages;
@@ -31,9 +32,12 @@ enum ActionType {
 message Input {
   oneof data {
     UpdateJwtToken update_jwt_token = 1;
+
     AppserverListingRequest appserver_listing = 2;
     server.CreateAppserverRequest create_appserver = 3;
     server.DeleteAppserverRequest delete_appserver = 4;
+
+    channel.CreateChannelRequest create_channel = 5;
   }
 }
 

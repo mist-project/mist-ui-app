@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import * as pb from '@protos/v1/pb';
 import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
-import MenuItem from '@renderer/components/common/Menu/MenuItem';
+import MenuItem from '@renderer/components/common/Button/ButtonWithMenu/MenuItem';
 import { useAuth, useEvent, useIOSocket, useModal } from '@renderer/components/Contexts';
 import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
 import AppserverRequest from '@renderer/requests/appserver';

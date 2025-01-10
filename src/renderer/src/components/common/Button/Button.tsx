@@ -10,7 +10,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   buttonColor?: ButtonColor;
 }
 
-const Button = forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, children, buttonColor, ...remainingProps }: ButtonProps, ref): JSX.Element => {
     // TODO: do something with bottom color in the future
     const btnClass = classNames(
@@ -28,6 +28,5 @@ const Button = forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButt
 );
 
 Button.displayName = 'Button';
-
 
 export default Button;

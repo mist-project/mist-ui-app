@@ -789,6 +789,7 @@ export const api = $root.api = (() => {
                  * @property {api.v1.messages.IAppserverListingRequest|null} [appserverListing] Input appserverListing
                  * @property {api.v1.server.ICreateAppserverRequest|null} [createAppserver] Input createAppserver
                  * @property {api.v1.server.IDeleteAppserverRequest|null} [deleteAppserver] Input deleteAppserver
+                 * @property {api.v1.channel.ICreateChannelRequest|null} [createChannel] Input createChannel
                  */
 
                 /**
@@ -838,17 +839,25 @@ export const api = $root.api = (() => {
                  */
                 Input.prototype.deleteAppserver = null;
 
+                /**
+                 * Input createChannel.
+                 * @member {api.v1.channel.ICreateChannelRequest|null|undefined} createChannel
+                 * @memberof api.v1.messages.Input
+                 * @instance
+                 */
+                Input.prototype.createChannel = null;
+
                 // OneOf field names bound to virtual getters and setters
                 let $oneOfFields;
 
                 /**
                  * Input data.
-                 * @member {"updateJwtToken"|"appserverListing"|"createAppserver"|"deleteAppserver"|undefined} data
+                 * @member {"updateJwtToken"|"appserverListing"|"createAppserver"|"deleteAppserver"|"createChannel"|undefined} data
                  * @memberof api.v1.messages.Input
                  * @instance
                  */
                 Object.defineProperty(Input.prototype, "data", {
-                    get: $util.oneOfGetter($oneOfFields = ["updateJwtToken", "appserverListing", "createAppserver", "deleteAppserver"]),
+                    get: $util.oneOfGetter($oneOfFields = ["updateJwtToken", "appserverListing", "createAppserver", "deleteAppserver", "createChannel"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -884,6 +893,8 @@ export const api = $root.api = (() => {
                         $root.api.v1.server.CreateAppserverRequest.encode(message.createAppserver, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     if (message.deleteAppserver != null && Object.hasOwnProperty.call(message, "deleteAppserver"))
                         $root.api.v1.server.DeleteAppserverRequest.encode(message.deleteAppserver, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    if (message.createChannel != null && Object.hasOwnProperty.call(message, "createChannel"))
+                        $root.api.v1.channel.CreateChannelRequest.encode(message.createChannel, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                     return writer;
                 };
 
@@ -932,6 +943,10 @@ export const api = $root.api = (() => {
                             }
                         case 4: {
                                 message.deleteAppserver = $root.api.v1.server.DeleteAppserverRequest.decode(reader, reader.uint32());
+                                break;
+                            }
+                        case 5: {
+                                message.createChannel = $root.api.v1.channel.CreateChannelRequest.decode(reader, reader.uint32());
                                 break;
                             }
                         default:
@@ -1008,6 +1023,16 @@ export const api = $root.api = (() => {
                                 return "deleteAppserver." + error;
                         }
                     }
+                    if (message.createChannel != null && message.hasOwnProperty("createChannel")) {
+                        if (properties.data === 1)
+                            return "data: multiple values";
+                        properties.data = 1;
+                        {
+                            let error = $root.api.v1.channel.CreateChannelRequest.verify(message.createChannel);
+                            if (error)
+                                return "createChannel." + error;
+                        }
+                    }
                     return null;
                 };
 
@@ -1042,6 +1067,11 @@ export const api = $root.api = (() => {
                         if (typeof object.deleteAppserver !== "object")
                             throw TypeError(".api.v1.messages.Input.deleteAppserver: object expected");
                         message.deleteAppserver = $root.api.v1.server.DeleteAppserverRequest.fromObject(object.deleteAppserver);
+                    }
+                    if (object.createChannel != null) {
+                        if (typeof object.createChannel !== "object")
+                            throw TypeError(".api.v1.messages.Input.createChannel: object expected");
+                        message.createChannel = $root.api.v1.channel.CreateChannelRequest.fromObject(object.createChannel);
                     }
                     return message;
                 };
@@ -1078,6 +1108,11 @@ export const api = $root.api = (() => {
                         object.deleteAppserver = $root.api.v1.server.DeleteAppserverRequest.toObject(message.deleteAppserver, options);
                         if (options.oneofs)
                             object.data = "deleteAppserver";
+                    }
+                    if (message.createChannel != null && message.hasOwnProperty("createChannel")) {
+                        object.createChannel = $root.api.v1.channel.CreateChannelRequest.toObject(message.createChannel, options);
+                        if (options.oneofs)
+                            object.data = "createChannel";
                     }
                     return object;
                 };
@@ -1925,6 +1960,2176 @@ export const api = $root.api = (() => {
             })();
 
             return messages;
+        })();
+
+        v1.channel = (function() {
+
+            /**
+             * Namespace channel.
+             * @memberof api.v1
+             * @namespace
+             */
+            const channel = {};
+
+            channel.ChannelService = (function() {
+
+                /**
+                 * Constructs a new ChannelService service.
+                 * @memberof api.v1.channel
+                 * @classdesc Represents a ChannelService
+                 * @extends $protobuf.rpc.Service
+                 * @constructor
+                 * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+                 * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+                 * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+                 */
+                function ChannelService(rpcImpl, requestDelimited, responseDelimited) {
+                    $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
+                }
+
+                (ChannelService.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = ChannelService;
+
+                /**
+                 * Creates new ChannelService service using the specified rpc implementation.
+                 * @function create
+                 * @memberof api.v1.channel.ChannelService
+                 * @static
+                 * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+                 * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+                 * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+                 * @returns {ChannelService} RPC service. Useful where requests and/or responses are streamed.
+                 */
+                ChannelService.create = function create(rpcImpl, requestDelimited, responseDelimited) {
+                    return new this(rpcImpl, requestDelimited, responseDelimited);
+                };
+
+                /**
+                 * Callback as used by {@link api.v1.channel.ChannelService#createChannel}.
+                 * @memberof api.v1.channel.ChannelService
+                 * @typedef CreateChannelCallback
+                 * @type {function}
+                 * @param {Error|null} error Error, if any
+                 * @param {api.v1.channel.CreateChannelResponse} [response] CreateChannelResponse
+                 */
+
+                /**
+                 * Calls CreateChannel.
+                 * @function createChannel
+                 * @memberof api.v1.channel.ChannelService
+                 * @instance
+                 * @param {api.v1.channel.ICreateChannelRequest} request CreateChannelRequest message or plain object
+                 * @param {api.v1.channel.ChannelService.CreateChannelCallback} callback Node-style callback called with the error, if any, and CreateChannelResponse
+                 * @returns {undefined}
+                 * @variation 1
+                 */
+                Object.defineProperty(ChannelService.prototype.createChannel = function createChannel(request, callback) {
+                    return this.rpcCall(createChannel, $root.api.v1.channel.CreateChannelRequest, $root.api.v1.channel.CreateChannelResponse, request, callback);
+                }, "name", { value: "CreateChannel" });
+
+                /**
+                 * Calls CreateChannel.
+                 * @function createChannel
+                 * @memberof api.v1.channel.ChannelService
+                 * @instance
+                 * @param {api.v1.channel.ICreateChannelRequest} request CreateChannelRequest message or plain object
+                 * @returns {Promise<api.v1.channel.CreateChannelResponse>} Promise
+                 * @variation 2
+                 */
+
+                /**
+                 * Callback as used by {@link api.v1.channel.ChannelService#getByIdChannel}.
+                 * @memberof api.v1.channel.ChannelService
+                 * @typedef GetByIdChannelCallback
+                 * @type {function}
+                 * @param {Error|null} error Error, if any
+                 * @param {api.v1.channel.GetByIdChannelResponse} [response] GetByIdChannelResponse
+                 */
+
+                /**
+                 * Calls GetByIdChannel.
+                 * @function getByIdChannel
+                 * @memberof api.v1.channel.ChannelService
+                 * @instance
+                 * @param {api.v1.channel.IGetByIdChannelRequest} request GetByIdChannelRequest message or plain object
+                 * @param {api.v1.channel.ChannelService.GetByIdChannelCallback} callback Node-style callback called with the error, if any, and GetByIdChannelResponse
+                 * @returns {undefined}
+                 * @variation 1
+                 */
+                Object.defineProperty(ChannelService.prototype.getByIdChannel = function getByIdChannel(request, callback) {
+                    return this.rpcCall(getByIdChannel, $root.api.v1.channel.GetByIdChannelRequest, $root.api.v1.channel.GetByIdChannelResponse, request, callback);
+                }, "name", { value: "GetByIdChannel" });
+
+                /**
+                 * Calls GetByIdChannel.
+                 * @function getByIdChannel
+                 * @memberof api.v1.channel.ChannelService
+                 * @instance
+                 * @param {api.v1.channel.IGetByIdChannelRequest} request GetByIdChannelRequest message or plain object
+                 * @returns {Promise<api.v1.channel.GetByIdChannelResponse>} Promise
+                 * @variation 2
+                 */
+
+                /**
+                 * Callback as used by {@link api.v1.channel.ChannelService#listChannels}.
+                 * @memberof api.v1.channel.ChannelService
+                 * @typedef ListChannelsCallback
+                 * @type {function}
+                 * @param {Error|null} error Error, if any
+                 * @param {api.v1.channel.ListChannelsResponse} [response] ListChannelsResponse
+                 */
+
+                /**
+                 * Calls ListChannels.
+                 * @function listChannels
+                 * @memberof api.v1.channel.ChannelService
+                 * @instance
+                 * @param {api.v1.channel.IListChannelsRequest} request ListChannelsRequest message or plain object
+                 * @param {api.v1.channel.ChannelService.ListChannelsCallback} callback Node-style callback called with the error, if any, and ListChannelsResponse
+                 * @returns {undefined}
+                 * @variation 1
+                 */
+                Object.defineProperty(ChannelService.prototype.listChannels = function listChannels(request, callback) {
+                    return this.rpcCall(listChannels, $root.api.v1.channel.ListChannelsRequest, $root.api.v1.channel.ListChannelsResponse, request, callback);
+                }, "name", { value: "ListChannels" });
+
+                /**
+                 * Calls ListChannels.
+                 * @function listChannels
+                 * @memberof api.v1.channel.ChannelService
+                 * @instance
+                 * @param {api.v1.channel.IListChannelsRequest} request ListChannelsRequest message or plain object
+                 * @returns {Promise<api.v1.channel.ListChannelsResponse>} Promise
+                 * @variation 2
+                 */
+
+                /**
+                 * Callback as used by {@link api.v1.channel.ChannelService#deleteChannel}.
+                 * @memberof api.v1.channel.ChannelService
+                 * @typedef DeleteChannelCallback
+                 * @type {function}
+                 * @param {Error|null} error Error, if any
+                 * @param {api.v1.channel.DeleteChannelResponse} [response] DeleteChannelResponse
+                 */
+
+                /**
+                 * Calls DeleteChannel.
+                 * @function deleteChannel
+                 * @memberof api.v1.channel.ChannelService
+                 * @instance
+                 * @param {api.v1.channel.IDeleteChannelRequest} request DeleteChannelRequest message or plain object
+                 * @param {api.v1.channel.ChannelService.DeleteChannelCallback} callback Node-style callback called with the error, if any, and DeleteChannelResponse
+                 * @returns {undefined}
+                 * @variation 1
+                 */
+                Object.defineProperty(ChannelService.prototype.deleteChannel = function deleteChannel(request, callback) {
+                    return this.rpcCall(deleteChannel, $root.api.v1.channel.DeleteChannelRequest, $root.api.v1.channel.DeleteChannelResponse, request, callback);
+                }, "name", { value: "DeleteChannel" });
+
+                /**
+                 * Calls DeleteChannel.
+                 * @function deleteChannel
+                 * @memberof api.v1.channel.ChannelService
+                 * @instance
+                 * @param {api.v1.channel.IDeleteChannelRequest} request DeleteChannelRequest message or plain object
+                 * @returns {Promise<api.v1.channel.DeleteChannelResponse>} Promise
+                 * @variation 2
+                 */
+
+                return ChannelService;
+            })();
+
+            channel.Channel = (function() {
+
+                /**
+                 * Properties of a Channel.
+                 * @memberof api.v1.channel
+                 * @interface IChannel
+                 * @property {string|null} [id] Channel id
+                 * @property {string|null} [name] Channel name
+                 * @property {string|null} [appserverId] Channel appserverId
+                 * @property {google.protobuf.ITimestamp|null} [createdAt] Channel createdAt
+                 * @property {google.protobuf.ITimestamp|null} [updatedAt] Channel updatedAt
+                 */
+
+                /**
+                 * Constructs a new Channel.
+                 * @memberof api.v1.channel
+                 * @classdesc Represents a Channel.
+                 * @implements IChannel
+                 * @constructor
+                 * @param {api.v1.channel.IChannel=} [properties] Properties to set
+                 */
+                function Channel(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * Channel id.
+                 * @member {string} id
+                 * @memberof api.v1.channel.Channel
+                 * @instance
+                 */
+                Channel.prototype.id = "";
+
+                /**
+                 * Channel name.
+                 * @member {string} name
+                 * @memberof api.v1.channel.Channel
+                 * @instance
+                 */
+                Channel.prototype.name = "";
+
+                /**
+                 * Channel appserverId.
+                 * @member {string} appserverId
+                 * @memberof api.v1.channel.Channel
+                 * @instance
+                 */
+                Channel.prototype.appserverId = "";
+
+                /**
+                 * Channel createdAt.
+                 * @member {google.protobuf.ITimestamp|null|undefined} createdAt
+                 * @memberof api.v1.channel.Channel
+                 * @instance
+                 */
+                Channel.prototype.createdAt = null;
+
+                /**
+                 * Channel updatedAt.
+                 * @member {google.protobuf.ITimestamp|null|undefined} updatedAt
+                 * @memberof api.v1.channel.Channel
+                 * @instance
+                 */
+                Channel.prototype.updatedAt = null;
+
+                /**
+                 * Creates a new Channel instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.channel.Channel
+                 * @static
+                 * @param {api.v1.channel.IChannel=} [properties] Properties to set
+                 * @returns {api.v1.channel.Channel} Channel instance
+                 */
+                Channel.create = function create(properties) {
+                    return new Channel(properties);
+                };
+
+                /**
+                 * Encodes the specified Channel message. Does not implicitly {@link api.v1.channel.Channel.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.channel.Channel
+                 * @static
+                 * @param {api.v1.channel.IChannel} message Channel message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Channel.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
+                    if (message.appserverId != null && Object.hasOwnProperty.call(message, "appserverId"))
+                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.appserverId);
+                    if (message.createdAt != null && Object.hasOwnProperty.call(message, "createdAt"))
+                        $root.google.protobuf.Timestamp.encode(message.createdAt, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    if (message.updatedAt != null && Object.hasOwnProperty.call(message, "updatedAt"))
+                        $root.google.protobuf.Timestamp.encode(message.updatedAt, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified Channel message, length delimited. Does not implicitly {@link api.v1.channel.Channel.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.channel.Channel
+                 * @static
+                 * @param {api.v1.channel.IChannel} message Channel message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Channel.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a Channel message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.channel.Channel
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.channel.Channel} Channel
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Channel.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.Channel();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.id = reader.string();
+                                break;
+                            }
+                        case 2: {
+                                message.name = reader.string();
+                                break;
+                            }
+                        case 3: {
+                                message.appserverId = reader.string();
+                                break;
+                            }
+                        case 4: {
+                                message.createdAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                                break;
+                            }
+                        case 5: {
+                                message.updatedAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a Channel message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.channel.Channel
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.channel.Channel} Channel
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Channel.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a Channel message.
+                 * @function verify
+                 * @memberof api.v1.channel.Channel
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                Channel.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        if (!$util.isString(message.id))
+                            return "id: string expected";
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        if (!$util.isString(message.name))
+                            return "name: string expected";
+                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
+                        if (!$util.isString(message.appserverId))
+                            return "appserverId: string expected";
+                    if (message.createdAt != null && message.hasOwnProperty("createdAt")) {
+                        let error = $root.google.protobuf.Timestamp.verify(message.createdAt);
+                        if (error)
+                            return "createdAt." + error;
+                    }
+                    if (message.updatedAt != null && message.hasOwnProperty("updatedAt")) {
+                        let error = $root.google.protobuf.Timestamp.verify(message.updatedAt);
+                        if (error)
+                            return "updatedAt." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a Channel message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.channel.Channel
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.channel.Channel} Channel
+                 */
+                Channel.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.channel.Channel)
+                        return object;
+                    let message = new $root.api.v1.channel.Channel();
+                    if (object.id != null)
+                        message.id = String(object.id);
+                    if (object.name != null)
+                        message.name = String(object.name);
+                    if (object.appserverId != null)
+                        message.appserverId = String(object.appserverId);
+                    if (object.createdAt != null) {
+                        if (typeof object.createdAt !== "object")
+                            throw TypeError(".api.v1.channel.Channel.createdAt: object expected");
+                        message.createdAt = $root.google.protobuf.Timestamp.fromObject(object.createdAt);
+                    }
+                    if (object.updatedAt != null) {
+                        if (typeof object.updatedAt !== "object")
+                            throw TypeError(".api.v1.channel.Channel.updatedAt: object expected");
+                        message.updatedAt = $root.google.protobuf.Timestamp.fromObject(object.updatedAt);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a Channel message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.channel.Channel
+                 * @static
+                 * @param {api.v1.channel.Channel} message Channel
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                Channel.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults) {
+                        object.id = "";
+                        object.name = "";
+                        object.appserverId = "";
+                        object.createdAt = null;
+                        object.updatedAt = null;
+                    }
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        object.id = message.id;
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        object.name = message.name;
+                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
+                        object.appserverId = message.appserverId;
+                    if (message.createdAt != null && message.hasOwnProperty("createdAt"))
+                        object.createdAt = $root.google.protobuf.Timestamp.toObject(message.createdAt, options);
+                    if (message.updatedAt != null && message.hasOwnProperty("updatedAt"))
+                        object.updatedAt = $root.google.protobuf.Timestamp.toObject(message.updatedAt, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this Channel to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.channel.Channel
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                Channel.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for Channel
+                 * @function getTypeUrl
+                 * @memberof api.v1.channel.Channel
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                Channel.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.channel.Channel";
+                };
+
+                return Channel;
+            })();
+
+            channel.CreateChannelRequest = (function() {
+
+                /**
+                 * Properties of a CreateChannelRequest.
+                 * @memberof api.v1.channel
+                 * @interface ICreateChannelRequest
+                 * @property {string|null} [name] CreateChannelRequest name
+                 * @property {string|null} [appserverId] CreateChannelRequest appserverId
+                 */
+
+                /**
+                 * Constructs a new CreateChannelRequest.
+                 * @memberof api.v1.channel
+                 * @classdesc Represents a CreateChannelRequest.
+                 * @implements ICreateChannelRequest
+                 * @constructor
+                 * @param {api.v1.channel.ICreateChannelRequest=} [properties] Properties to set
+                 */
+                function CreateChannelRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * CreateChannelRequest name.
+                 * @member {string} name
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @instance
+                 */
+                CreateChannelRequest.prototype.name = "";
+
+                /**
+                 * CreateChannelRequest appserverId.
+                 * @member {string} appserverId
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @instance
+                 */
+                CreateChannelRequest.prototype.appserverId = "";
+
+                /**
+                 * Creates a new CreateChannelRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @static
+                 * @param {api.v1.channel.ICreateChannelRequest=} [properties] Properties to set
+                 * @returns {api.v1.channel.CreateChannelRequest} CreateChannelRequest instance
+                 */
+                CreateChannelRequest.create = function create(properties) {
+                    return new CreateChannelRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified CreateChannelRequest message. Does not implicitly {@link api.v1.channel.CreateChannelRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @static
+                 * @param {api.v1.channel.ICreateChannelRequest} message CreateChannelRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                CreateChannelRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                    if (message.appserverId != null && Object.hasOwnProperty.call(message, "appserverId"))
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.appserverId);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified CreateChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.CreateChannelRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @static
+                 * @param {api.v1.channel.ICreateChannelRequest} message CreateChannelRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                CreateChannelRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a CreateChannelRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.channel.CreateChannelRequest} CreateChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                CreateChannelRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.CreateChannelRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.name = reader.string();
+                                break;
+                            }
+                        case 2: {
+                                message.appserverId = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a CreateChannelRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.channel.CreateChannelRequest} CreateChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                CreateChannelRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a CreateChannelRequest message.
+                 * @function verify
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                CreateChannelRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        if (!$util.isString(message.name))
+                            return "name: string expected";
+                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
+                        if (!$util.isString(message.appserverId))
+                            return "appserverId: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a CreateChannelRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.channel.CreateChannelRequest} CreateChannelRequest
+                 */
+                CreateChannelRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.channel.CreateChannelRequest)
+                        return object;
+                    let message = new $root.api.v1.channel.CreateChannelRequest();
+                    if (object.name != null)
+                        message.name = String(object.name);
+                    if (object.appserverId != null)
+                        message.appserverId = String(object.appserverId);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a CreateChannelRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @static
+                 * @param {api.v1.channel.CreateChannelRequest} message CreateChannelRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                CreateChannelRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults) {
+                        object.name = "";
+                        object.appserverId = "";
+                    }
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        object.name = message.name;
+                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
+                        object.appserverId = message.appserverId;
+                    return object;
+                };
+
+                /**
+                 * Converts this CreateChannelRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                CreateChannelRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for CreateChannelRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.channel.CreateChannelRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                CreateChannelRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.channel.CreateChannelRequest";
+                };
+
+                return CreateChannelRequest;
+            })();
+
+            channel.GetByIdChannelRequest = (function() {
+
+                /**
+                 * Properties of a GetByIdChannelRequest.
+                 * @memberof api.v1.channel
+                 * @interface IGetByIdChannelRequest
+                 * @property {string|null} [id] GetByIdChannelRequest id
+                 */
+
+                /**
+                 * Constructs a new GetByIdChannelRequest.
+                 * @memberof api.v1.channel
+                 * @classdesc Represents a GetByIdChannelRequest.
+                 * @implements IGetByIdChannelRequest
+                 * @constructor
+                 * @param {api.v1.channel.IGetByIdChannelRequest=} [properties] Properties to set
+                 */
+                function GetByIdChannelRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * GetByIdChannelRequest id.
+                 * @member {string} id
+                 * @memberof api.v1.channel.GetByIdChannelRequest
+                 * @instance
+                 */
+                GetByIdChannelRequest.prototype.id = "";
+
+                /**
+                 * Creates a new GetByIdChannelRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.channel.GetByIdChannelRequest
+                 * @static
+                 * @param {api.v1.channel.IGetByIdChannelRequest=} [properties] Properties to set
+                 * @returns {api.v1.channel.GetByIdChannelRequest} GetByIdChannelRequest instance
+                 */
+                GetByIdChannelRequest.create = function create(properties) {
+                    return new GetByIdChannelRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified GetByIdChannelRequest message. Does not implicitly {@link api.v1.channel.GetByIdChannelRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.channel.GetByIdChannelRequest
+                 * @static
+                 * @param {api.v1.channel.IGetByIdChannelRequest} message GetByIdChannelRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GetByIdChannelRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified GetByIdChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.GetByIdChannelRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.channel.GetByIdChannelRequest
+                 * @static
+                 * @param {api.v1.channel.IGetByIdChannelRequest} message GetByIdChannelRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GetByIdChannelRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a GetByIdChannelRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.channel.GetByIdChannelRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.channel.GetByIdChannelRequest} GetByIdChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GetByIdChannelRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.GetByIdChannelRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.id = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a GetByIdChannelRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.channel.GetByIdChannelRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.channel.GetByIdChannelRequest} GetByIdChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GetByIdChannelRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a GetByIdChannelRequest message.
+                 * @function verify
+                 * @memberof api.v1.channel.GetByIdChannelRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                GetByIdChannelRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        if (!$util.isString(message.id))
+                            return "id: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a GetByIdChannelRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.channel.GetByIdChannelRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.channel.GetByIdChannelRequest} GetByIdChannelRequest
+                 */
+                GetByIdChannelRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.channel.GetByIdChannelRequest)
+                        return object;
+                    let message = new $root.api.v1.channel.GetByIdChannelRequest();
+                    if (object.id != null)
+                        message.id = String(object.id);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a GetByIdChannelRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.channel.GetByIdChannelRequest
+                 * @static
+                 * @param {api.v1.channel.GetByIdChannelRequest} message GetByIdChannelRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                GetByIdChannelRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.id = "";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        object.id = message.id;
+                    return object;
+                };
+
+                /**
+                 * Converts this GetByIdChannelRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.channel.GetByIdChannelRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                GetByIdChannelRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for GetByIdChannelRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.channel.GetByIdChannelRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                GetByIdChannelRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.channel.GetByIdChannelRequest";
+                };
+
+                return GetByIdChannelRequest;
+            })();
+
+            channel.ListChannelsRequest = (function() {
+
+                /**
+                 * Properties of a ListChannelsRequest.
+                 * @memberof api.v1.channel
+                 * @interface IListChannelsRequest
+                 * @property {google.protobuf.IStringValue|null} [name] ListChannelsRequest name
+                 * @property {google.protobuf.IStringValue|null} [appserverId] ListChannelsRequest appserverId
+                 */
+
+                /**
+                 * Constructs a new ListChannelsRequest.
+                 * @memberof api.v1.channel
+                 * @classdesc Represents a ListChannelsRequest.
+                 * @implements IListChannelsRequest
+                 * @constructor
+                 * @param {api.v1.channel.IListChannelsRequest=} [properties] Properties to set
+                 */
+                function ListChannelsRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * ListChannelsRequest name.
+                 * @member {google.protobuf.IStringValue|null|undefined} name
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @instance
+                 */
+                ListChannelsRequest.prototype.name = null;
+
+                /**
+                 * ListChannelsRequest appserverId.
+                 * @member {google.protobuf.IStringValue|null|undefined} appserverId
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @instance
+                 */
+                ListChannelsRequest.prototype.appserverId = null;
+
+                /**
+                 * Creates a new ListChannelsRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @static
+                 * @param {api.v1.channel.IListChannelsRequest=} [properties] Properties to set
+                 * @returns {api.v1.channel.ListChannelsRequest} ListChannelsRequest instance
+                 */
+                ListChannelsRequest.create = function create(properties) {
+                    return new ListChannelsRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified ListChannelsRequest message. Does not implicitly {@link api.v1.channel.ListChannelsRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @static
+                 * @param {api.v1.channel.IListChannelsRequest} message ListChannelsRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ListChannelsRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                        $root.google.protobuf.StringValue.encode(message.name, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    if (message.appserverId != null && Object.hasOwnProperty.call(message, "appserverId"))
+                        $root.google.protobuf.StringValue.encode(message.appserverId, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified ListChannelsRequest message, length delimited. Does not implicitly {@link api.v1.channel.ListChannelsRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @static
+                 * @param {api.v1.channel.IListChannelsRequest} message ListChannelsRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ListChannelsRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a ListChannelsRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.channel.ListChannelsRequest} ListChannelsRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ListChannelsRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.ListChannelsRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.name = $root.google.protobuf.StringValue.decode(reader, reader.uint32());
+                                break;
+                            }
+                        case 2: {
+                                message.appserverId = $root.google.protobuf.StringValue.decode(reader, reader.uint32());
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a ListChannelsRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.channel.ListChannelsRequest} ListChannelsRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ListChannelsRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a ListChannelsRequest message.
+                 * @function verify
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                ListChannelsRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.name != null && message.hasOwnProperty("name")) {
+                        let error = $root.google.protobuf.StringValue.verify(message.name);
+                        if (error)
+                            return "name." + error;
+                    }
+                    if (message.appserverId != null && message.hasOwnProperty("appserverId")) {
+                        let error = $root.google.protobuf.StringValue.verify(message.appserverId);
+                        if (error)
+                            return "appserverId." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a ListChannelsRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.channel.ListChannelsRequest} ListChannelsRequest
+                 */
+                ListChannelsRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.channel.ListChannelsRequest)
+                        return object;
+                    let message = new $root.api.v1.channel.ListChannelsRequest();
+                    if (object.name != null) {
+                        if (typeof object.name !== "object")
+                            throw TypeError(".api.v1.channel.ListChannelsRequest.name: object expected");
+                        message.name = $root.google.protobuf.StringValue.fromObject(object.name);
+                    }
+                    if (object.appserverId != null) {
+                        if (typeof object.appserverId !== "object")
+                            throw TypeError(".api.v1.channel.ListChannelsRequest.appserverId: object expected");
+                        message.appserverId = $root.google.protobuf.StringValue.fromObject(object.appserverId);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a ListChannelsRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @static
+                 * @param {api.v1.channel.ListChannelsRequest} message ListChannelsRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                ListChannelsRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults) {
+                        object.name = null;
+                        object.appserverId = null;
+                    }
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        object.name = $root.google.protobuf.StringValue.toObject(message.name, options);
+                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
+                        object.appserverId = $root.google.protobuf.StringValue.toObject(message.appserverId, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this ListChannelsRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                ListChannelsRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for ListChannelsRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.channel.ListChannelsRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                ListChannelsRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.channel.ListChannelsRequest";
+                };
+
+                return ListChannelsRequest;
+            })();
+
+            channel.DeleteChannelRequest = (function() {
+
+                /**
+                 * Properties of a DeleteChannelRequest.
+                 * @memberof api.v1.channel
+                 * @interface IDeleteChannelRequest
+                 * @property {string|null} [id] DeleteChannelRequest id
+                 */
+
+                /**
+                 * Constructs a new DeleteChannelRequest.
+                 * @memberof api.v1.channel
+                 * @classdesc Represents a DeleteChannelRequest.
+                 * @implements IDeleteChannelRequest
+                 * @constructor
+                 * @param {api.v1.channel.IDeleteChannelRequest=} [properties] Properties to set
+                 */
+                function DeleteChannelRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * DeleteChannelRequest id.
+                 * @member {string} id
+                 * @memberof api.v1.channel.DeleteChannelRequest
+                 * @instance
+                 */
+                DeleteChannelRequest.prototype.id = "";
+
+                /**
+                 * Creates a new DeleteChannelRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.channel.DeleteChannelRequest
+                 * @static
+                 * @param {api.v1.channel.IDeleteChannelRequest=} [properties] Properties to set
+                 * @returns {api.v1.channel.DeleteChannelRequest} DeleteChannelRequest instance
+                 */
+                DeleteChannelRequest.create = function create(properties) {
+                    return new DeleteChannelRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified DeleteChannelRequest message. Does not implicitly {@link api.v1.channel.DeleteChannelRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.channel.DeleteChannelRequest
+                 * @static
+                 * @param {api.v1.channel.IDeleteChannelRequest} message DeleteChannelRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteChannelRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified DeleteChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.DeleteChannelRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.channel.DeleteChannelRequest
+                 * @static
+                 * @param {api.v1.channel.IDeleteChannelRequest} message DeleteChannelRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteChannelRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a DeleteChannelRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.channel.DeleteChannelRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.channel.DeleteChannelRequest} DeleteChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteChannelRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.DeleteChannelRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.id = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a DeleteChannelRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.channel.DeleteChannelRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.channel.DeleteChannelRequest} DeleteChannelRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteChannelRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a DeleteChannelRequest message.
+                 * @function verify
+                 * @memberof api.v1.channel.DeleteChannelRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                DeleteChannelRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        if (!$util.isString(message.id))
+                            return "id: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a DeleteChannelRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.channel.DeleteChannelRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.channel.DeleteChannelRequest} DeleteChannelRequest
+                 */
+                DeleteChannelRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.channel.DeleteChannelRequest)
+                        return object;
+                    let message = new $root.api.v1.channel.DeleteChannelRequest();
+                    if (object.id != null)
+                        message.id = String(object.id);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a DeleteChannelRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.channel.DeleteChannelRequest
+                 * @static
+                 * @param {api.v1.channel.DeleteChannelRequest} message DeleteChannelRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                DeleteChannelRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.id = "";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        object.id = message.id;
+                    return object;
+                };
+
+                /**
+                 * Converts this DeleteChannelRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.channel.DeleteChannelRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                DeleteChannelRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for DeleteChannelRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.channel.DeleteChannelRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                DeleteChannelRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.channel.DeleteChannelRequest";
+                };
+
+                return DeleteChannelRequest;
+            })();
+
+            channel.CreateChannelResponse = (function() {
+
+                /**
+                 * Properties of a CreateChannelResponse.
+                 * @memberof api.v1.channel
+                 * @interface ICreateChannelResponse
+                 * @property {api.v1.channel.IChannel|null} [channel] CreateChannelResponse channel
+                 */
+
+                /**
+                 * Constructs a new CreateChannelResponse.
+                 * @memberof api.v1.channel
+                 * @classdesc Represents a CreateChannelResponse.
+                 * @implements ICreateChannelResponse
+                 * @constructor
+                 * @param {api.v1.channel.ICreateChannelResponse=} [properties] Properties to set
+                 */
+                function CreateChannelResponse(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * CreateChannelResponse channel.
+                 * @member {api.v1.channel.IChannel|null|undefined} channel
+                 * @memberof api.v1.channel.CreateChannelResponse
+                 * @instance
+                 */
+                CreateChannelResponse.prototype.channel = null;
+
+                /**
+                 * Creates a new CreateChannelResponse instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.channel.CreateChannelResponse
+                 * @static
+                 * @param {api.v1.channel.ICreateChannelResponse=} [properties] Properties to set
+                 * @returns {api.v1.channel.CreateChannelResponse} CreateChannelResponse instance
+                 */
+                CreateChannelResponse.create = function create(properties) {
+                    return new CreateChannelResponse(properties);
+                };
+
+                /**
+                 * Encodes the specified CreateChannelResponse message. Does not implicitly {@link api.v1.channel.CreateChannelResponse.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.channel.CreateChannelResponse
+                 * @static
+                 * @param {api.v1.channel.ICreateChannelResponse} message CreateChannelResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                CreateChannelResponse.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.channel != null && Object.hasOwnProperty.call(message, "channel"))
+                        $root.api.v1.channel.Channel.encode(message.channel, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified CreateChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.CreateChannelResponse.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.channel.CreateChannelResponse
+                 * @static
+                 * @param {api.v1.channel.ICreateChannelResponse} message CreateChannelResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                CreateChannelResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a CreateChannelResponse message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.channel.CreateChannelResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.channel.CreateChannelResponse} CreateChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                CreateChannelResponse.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.CreateChannelResponse();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.channel = $root.api.v1.channel.Channel.decode(reader, reader.uint32());
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a CreateChannelResponse message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.channel.CreateChannelResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.channel.CreateChannelResponse} CreateChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                CreateChannelResponse.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a CreateChannelResponse message.
+                 * @function verify
+                 * @memberof api.v1.channel.CreateChannelResponse
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                CreateChannelResponse.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.channel != null && message.hasOwnProperty("channel")) {
+                        let error = $root.api.v1.channel.Channel.verify(message.channel);
+                        if (error)
+                            return "channel." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a CreateChannelResponse message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.channel.CreateChannelResponse
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.channel.CreateChannelResponse} CreateChannelResponse
+                 */
+                CreateChannelResponse.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.channel.CreateChannelResponse)
+                        return object;
+                    let message = new $root.api.v1.channel.CreateChannelResponse();
+                    if (object.channel != null) {
+                        if (typeof object.channel !== "object")
+                            throw TypeError(".api.v1.channel.CreateChannelResponse.channel: object expected");
+                        message.channel = $root.api.v1.channel.Channel.fromObject(object.channel);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a CreateChannelResponse message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.channel.CreateChannelResponse
+                 * @static
+                 * @param {api.v1.channel.CreateChannelResponse} message CreateChannelResponse
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                CreateChannelResponse.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.channel = null;
+                    if (message.channel != null && message.hasOwnProperty("channel"))
+                        object.channel = $root.api.v1.channel.Channel.toObject(message.channel, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this CreateChannelResponse to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.channel.CreateChannelResponse
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                CreateChannelResponse.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for CreateChannelResponse
+                 * @function getTypeUrl
+                 * @memberof api.v1.channel.CreateChannelResponse
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                CreateChannelResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.channel.CreateChannelResponse";
+                };
+
+                return CreateChannelResponse;
+            })();
+
+            channel.GetByIdChannelResponse = (function() {
+
+                /**
+                 * Properties of a GetByIdChannelResponse.
+                 * @memberof api.v1.channel
+                 * @interface IGetByIdChannelResponse
+                 * @property {api.v1.channel.IChannel|null} [channel] GetByIdChannelResponse channel
+                 */
+
+                /**
+                 * Constructs a new GetByIdChannelResponse.
+                 * @memberof api.v1.channel
+                 * @classdesc Represents a GetByIdChannelResponse.
+                 * @implements IGetByIdChannelResponse
+                 * @constructor
+                 * @param {api.v1.channel.IGetByIdChannelResponse=} [properties] Properties to set
+                 */
+                function GetByIdChannelResponse(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * GetByIdChannelResponse channel.
+                 * @member {api.v1.channel.IChannel|null|undefined} channel
+                 * @memberof api.v1.channel.GetByIdChannelResponse
+                 * @instance
+                 */
+                GetByIdChannelResponse.prototype.channel = null;
+
+                /**
+                 * Creates a new GetByIdChannelResponse instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.channel.GetByIdChannelResponse
+                 * @static
+                 * @param {api.v1.channel.IGetByIdChannelResponse=} [properties] Properties to set
+                 * @returns {api.v1.channel.GetByIdChannelResponse} GetByIdChannelResponse instance
+                 */
+                GetByIdChannelResponse.create = function create(properties) {
+                    return new GetByIdChannelResponse(properties);
+                };
+
+                /**
+                 * Encodes the specified GetByIdChannelResponse message. Does not implicitly {@link api.v1.channel.GetByIdChannelResponse.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.channel.GetByIdChannelResponse
+                 * @static
+                 * @param {api.v1.channel.IGetByIdChannelResponse} message GetByIdChannelResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GetByIdChannelResponse.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.channel != null && Object.hasOwnProperty.call(message, "channel"))
+                        $root.api.v1.channel.Channel.encode(message.channel, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified GetByIdChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.GetByIdChannelResponse.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.channel.GetByIdChannelResponse
+                 * @static
+                 * @param {api.v1.channel.IGetByIdChannelResponse} message GetByIdChannelResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GetByIdChannelResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a GetByIdChannelResponse message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.channel.GetByIdChannelResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.channel.GetByIdChannelResponse} GetByIdChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GetByIdChannelResponse.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.GetByIdChannelResponse();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.channel = $root.api.v1.channel.Channel.decode(reader, reader.uint32());
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a GetByIdChannelResponse message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.channel.GetByIdChannelResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.channel.GetByIdChannelResponse} GetByIdChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GetByIdChannelResponse.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a GetByIdChannelResponse message.
+                 * @function verify
+                 * @memberof api.v1.channel.GetByIdChannelResponse
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                GetByIdChannelResponse.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.channel != null && message.hasOwnProperty("channel")) {
+                        let error = $root.api.v1.channel.Channel.verify(message.channel);
+                        if (error)
+                            return "channel." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a GetByIdChannelResponse message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.channel.GetByIdChannelResponse
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.channel.GetByIdChannelResponse} GetByIdChannelResponse
+                 */
+                GetByIdChannelResponse.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.channel.GetByIdChannelResponse)
+                        return object;
+                    let message = new $root.api.v1.channel.GetByIdChannelResponse();
+                    if (object.channel != null) {
+                        if (typeof object.channel !== "object")
+                            throw TypeError(".api.v1.channel.GetByIdChannelResponse.channel: object expected");
+                        message.channel = $root.api.v1.channel.Channel.fromObject(object.channel);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a GetByIdChannelResponse message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.channel.GetByIdChannelResponse
+                 * @static
+                 * @param {api.v1.channel.GetByIdChannelResponse} message GetByIdChannelResponse
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                GetByIdChannelResponse.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.channel = null;
+                    if (message.channel != null && message.hasOwnProperty("channel"))
+                        object.channel = $root.api.v1.channel.Channel.toObject(message.channel, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this GetByIdChannelResponse to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.channel.GetByIdChannelResponse
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                GetByIdChannelResponse.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for GetByIdChannelResponse
+                 * @function getTypeUrl
+                 * @memberof api.v1.channel.GetByIdChannelResponse
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                GetByIdChannelResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.channel.GetByIdChannelResponse";
+                };
+
+                return GetByIdChannelResponse;
+            })();
+
+            channel.ListChannelsResponse = (function() {
+
+                /**
+                 * Properties of a ListChannelsResponse.
+                 * @memberof api.v1.channel
+                 * @interface IListChannelsResponse
+                 * @property {Array.<api.v1.channel.IChannel>|null} [channels] ListChannelsResponse channels
+                 */
+
+                /**
+                 * Constructs a new ListChannelsResponse.
+                 * @memberof api.v1.channel
+                 * @classdesc Represents a ListChannelsResponse.
+                 * @implements IListChannelsResponse
+                 * @constructor
+                 * @param {api.v1.channel.IListChannelsResponse=} [properties] Properties to set
+                 */
+                function ListChannelsResponse(properties) {
+                    this.channels = [];
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * ListChannelsResponse channels.
+                 * @member {Array.<api.v1.channel.IChannel>} channels
+                 * @memberof api.v1.channel.ListChannelsResponse
+                 * @instance
+                 */
+                ListChannelsResponse.prototype.channels = $util.emptyArray;
+
+                /**
+                 * Creates a new ListChannelsResponse instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.channel.ListChannelsResponse
+                 * @static
+                 * @param {api.v1.channel.IListChannelsResponse=} [properties] Properties to set
+                 * @returns {api.v1.channel.ListChannelsResponse} ListChannelsResponse instance
+                 */
+                ListChannelsResponse.create = function create(properties) {
+                    return new ListChannelsResponse(properties);
+                };
+
+                /**
+                 * Encodes the specified ListChannelsResponse message. Does not implicitly {@link api.v1.channel.ListChannelsResponse.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.channel.ListChannelsResponse
+                 * @static
+                 * @param {api.v1.channel.IListChannelsResponse} message ListChannelsResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ListChannelsResponse.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.channels != null && message.channels.length)
+                        for (let i = 0; i < message.channels.length; ++i)
+                            $root.api.v1.channel.Channel.encode(message.channels[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified ListChannelsResponse message, length delimited. Does not implicitly {@link api.v1.channel.ListChannelsResponse.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.channel.ListChannelsResponse
+                 * @static
+                 * @param {api.v1.channel.IListChannelsResponse} message ListChannelsResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ListChannelsResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a ListChannelsResponse message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.channel.ListChannelsResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.channel.ListChannelsResponse} ListChannelsResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ListChannelsResponse.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.ListChannelsResponse();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                if (!(message.channels && message.channels.length))
+                                    message.channels = [];
+                                message.channels.push($root.api.v1.channel.Channel.decode(reader, reader.uint32()));
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a ListChannelsResponse message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.channel.ListChannelsResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.channel.ListChannelsResponse} ListChannelsResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ListChannelsResponse.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a ListChannelsResponse message.
+                 * @function verify
+                 * @memberof api.v1.channel.ListChannelsResponse
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                ListChannelsResponse.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.channels != null && message.hasOwnProperty("channels")) {
+                        if (!Array.isArray(message.channels))
+                            return "channels: array expected";
+                        for (let i = 0; i < message.channels.length; ++i) {
+                            let error = $root.api.v1.channel.Channel.verify(message.channels[i]);
+                            if (error)
+                                return "channels." + error;
+                        }
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a ListChannelsResponse message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.channel.ListChannelsResponse
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.channel.ListChannelsResponse} ListChannelsResponse
+                 */
+                ListChannelsResponse.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.channel.ListChannelsResponse)
+                        return object;
+                    let message = new $root.api.v1.channel.ListChannelsResponse();
+                    if (object.channels) {
+                        if (!Array.isArray(object.channels))
+                            throw TypeError(".api.v1.channel.ListChannelsResponse.channels: array expected");
+                        message.channels = [];
+                        for (let i = 0; i < object.channels.length; ++i) {
+                            if (typeof object.channels[i] !== "object")
+                                throw TypeError(".api.v1.channel.ListChannelsResponse.channels: object expected");
+                            message.channels[i] = $root.api.v1.channel.Channel.fromObject(object.channels[i]);
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a ListChannelsResponse message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.channel.ListChannelsResponse
+                 * @static
+                 * @param {api.v1.channel.ListChannelsResponse} message ListChannelsResponse
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                ListChannelsResponse.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.arrays || options.defaults)
+                        object.channels = [];
+                    if (message.channels && message.channels.length) {
+                        object.channels = [];
+                        for (let j = 0; j < message.channels.length; ++j)
+                            object.channels[j] = $root.api.v1.channel.Channel.toObject(message.channels[j], options);
+                    }
+                    return object;
+                };
+
+                /**
+                 * Converts this ListChannelsResponse to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.channel.ListChannelsResponse
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                ListChannelsResponse.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for ListChannelsResponse
+                 * @function getTypeUrl
+                 * @memberof api.v1.channel.ListChannelsResponse
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                ListChannelsResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.channel.ListChannelsResponse";
+                };
+
+                return ListChannelsResponse;
+            })();
+
+            channel.DeleteChannelResponse = (function() {
+
+                /**
+                 * Properties of a DeleteChannelResponse.
+                 * @memberof api.v1.channel
+                 * @interface IDeleteChannelResponse
+                 */
+
+                /**
+                 * Constructs a new DeleteChannelResponse.
+                 * @memberof api.v1.channel
+                 * @classdesc Represents a DeleteChannelResponse.
+                 * @implements IDeleteChannelResponse
+                 * @constructor
+                 * @param {api.v1.channel.IDeleteChannelResponse=} [properties] Properties to set
+                 */
+                function DeleteChannelResponse(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * Creates a new DeleteChannelResponse instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.channel.DeleteChannelResponse
+                 * @static
+                 * @param {api.v1.channel.IDeleteChannelResponse=} [properties] Properties to set
+                 * @returns {api.v1.channel.DeleteChannelResponse} DeleteChannelResponse instance
+                 */
+                DeleteChannelResponse.create = function create(properties) {
+                    return new DeleteChannelResponse(properties);
+                };
+
+                /**
+                 * Encodes the specified DeleteChannelResponse message. Does not implicitly {@link api.v1.channel.DeleteChannelResponse.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.channel.DeleteChannelResponse
+                 * @static
+                 * @param {api.v1.channel.IDeleteChannelResponse} message DeleteChannelResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteChannelResponse.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified DeleteChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.DeleteChannelResponse.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.channel.DeleteChannelResponse
+                 * @static
+                 * @param {api.v1.channel.IDeleteChannelResponse} message DeleteChannelResponse message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteChannelResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a DeleteChannelResponse message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.channel.DeleteChannelResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.channel.DeleteChannelResponse} DeleteChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteChannelResponse.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.DeleteChannelResponse();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a DeleteChannelResponse message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.channel.DeleteChannelResponse
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.channel.DeleteChannelResponse} DeleteChannelResponse
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteChannelResponse.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a DeleteChannelResponse message.
+                 * @function verify
+                 * @memberof api.v1.channel.DeleteChannelResponse
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                DeleteChannelResponse.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a DeleteChannelResponse message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.channel.DeleteChannelResponse
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.channel.DeleteChannelResponse} DeleteChannelResponse
+                 */
+                DeleteChannelResponse.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.channel.DeleteChannelResponse)
+                        return object;
+                    return new $root.api.v1.channel.DeleteChannelResponse();
+                };
+
+                /**
+                 * Creates a plain object from a DeleteChannelResponse message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.channel.DeleteChannelResponse
+                 * @static
+                 * @param {api.v1.channel.DeleteChannelResponse} message DeleteChannelResponse
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                DeleteChannelResponse.toObject = function toObject() {
+                    return {};
+                };
+
+                /**
+                 * Converts this DeleteChannelResponse to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.channel.DeleteChannelResponse
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                DeleteChannelResponse.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for DeleteChannelResponse
+                 * @function getTypeUrl
+                 * @memberof api.v1.channel.DeleteChannelResponse
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                DeleteChannelResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.channel.DeleteChannelResponse";
+                };
+
+                return DeleteChannelResponse;
+            })();
+
+            return channel;
         })();
 
         v1.server = (function() {
@@ -8595,2176 +10800,6 @@ export const api = $root.api = (() => {
             })();
 
             return server;
-        })();
-
-        v1.channel = (function() {
-
-            /**
-             * Namespace channel.
-             * @memberof api.v1
-             * @namespace
-             */
-            const channel = {};
-
-            channel.ChannelService = (function() {
-
-                /**
-                 * Constructs a new ChannelService service.
-                 * @memberof api.v1.channel
-                 * @classdesc Represents a ChannelService
-                 * @extends $protobuf.rpc.Service
-                 * @constructor
-                 * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
-                 * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
-                 * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
-                 */
-                function ChannelService(rpcImpl, requestDelimited, responseDelimited) {
-                    $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
-                }
-
-                (ChannelService.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = ChannelService;
-
-                /**
-                 * Creates new ChannelService service using the specified rpc implementation.
-                 * @function create
-                 * @memberof api.v1.channel.ChannelService
-                 * @static
-                 * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
-                 * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
-                 * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
-                 * @returns {ChannelService} RPC service. Useful where requests and/or responses are streamed.
-                 */
-                ChannelService.create = function create(rpcImpl, requestDelimited, responseDelimited) {
-                    return new this(rpcImpl, requestDelimited, responseDelimited);
-                };
-
-                /**
-                 * Callback as used by {@link api.v1.channel.ChannelService#createChannel}.
-                 * @memberof api.v1.channel.ChannelService
-                 * @typedef CreateChannelCallback
-                 * @type {function}
-                 * @param {Error|null} error Error, if any
-                 * @param {api.v1.channel.CreateChannelResponse} [response] CreateChannelResponse
-                 */
-
-                /**
-                 * Calls CreateChannel.
-                 * @function createChannel
-                 * @memberof api.v1.channel.ChannelService
-                 * @instance
-                 * @param {api.v1.channel.ICreateChannelRequest} request CreateChannelRequest message or plain object
-                 * @param {api.v1.channel.ChannelService.CreateChannelCallback} callback Node-style callback called with the error, if any, and CreateChannelResponse
-                 * @returns {undefined}
-                 * @variation 1
-                 */
-                Object.defineProperty(ChannelService.prototype.createChannel = function createChannel(request, callback) {
-                    return this.rpcCall(createChannel, $root.api.v1.channel.CreateChannelRequest, $root.api.v1.channel.CreateChannelResponse, request, callback);
-                }, "name", { value: "CreateChannel" });
-
-                /**
-                 * Calls CreateChannel.
-                 * @function createChannel
-                 * @memberof api.v1.channel.ChannelService
-                 * @instance
-                 * @param {api.v1.channel.ICreateChannelRequest} request CreateChannelRequest message or plain object
-                 * @returns {Promise<api.v1.channel.CreateChannelResponse>} Promise
-                 * @variation 2
-                 */
-
-                /**
-                 * Callback as used by {@link api.v1.channel.ChannelService#getByIdChannel}.
-                 * @memberof api.v1.channel.ChannelService
-                 * @typedef GetByIdChannelCallback
-                 * @type {function}
-                 * @param {Error|null} error Error, if any
-                 * @param {api.v1.channel.GetByIdChannelResponse} [response] GetByIdChannelResponse
-                 */
-
-                /**
-                 * Calls GetByIdChannel.
-                 * @function getByIdChannel
-                 * @memberof api.v1.channel.ChannelService
-                 * @instance
-                 * @param {api.v1.channel.IGetByIdChannelRequest} request GetByIdChannelRequest message or plain object
-                 * @param {api.v1.channel.ChannelService.GetByIdChannelCallback} callback Node-style callback called with the error, if any, and GetByIdChannelResponse
-                 * @returns {undefined}
-                 * @variation 1
-                 */
-                Object.defineProperty(ChannelService.prototype.getByIdChannel = function getByIdChannel(request, callback) {
-                    return this.rpcCall(getByIdChannel, $root.api.v1.channel.GetByIdChannelRequest, $root.api.v1.channel.GetByIdChannelResponse, request, callback);
-                }, "name", { value: "GetByIdChannel" });
-
-                /**
-                 * Calls GetByIdChannel.
-                 * @function getByIdChannel
-                 * @memberof api.v1.channel.ChannelService
-                 * @instance
-                 * @param {api.v1.channel.IGetByIdChannelRequest} request GetByIdChannelRequest message or plain object
-                 * @returns {Promise<api.v1.channel.GetByIdChannelResponse>} Promise
-                 * @variation 2
-                 */
-
-                /**
-                 * Callback as used by {@link api.v1.channel.ChannelService#listChannels}.
-                 * @memberof api.v1.channel.ChannelService
-                 * @typedef ListChannelsCallback
-                 * @type {function}
-                 * @param {Error|null} error Error, if any
-                 * @param {api.v1.channel.ListChannelsResponse} [response] ListChannelsResponse
-                 */
-
-                /**
-                 * Calls ListChannels.
-                 * @function listChannels
-                 * @memberof api.v1.channel.ChannelService
-                 * @instance
-                 * @param {api.v1.channel.IListChannelsRequest} request ListChannelsRequest message or plain object
-                 * @param {api.v1.channel.ChannelService.ListChannelsCallback} callback Node-style callback called with the error, if any, and ListChannelsResponse
-                 * @returns {undefined}
-                 * @variation 1
-                 */
-                Object.defineProperty(ChannelService.prototype.listChannels = function listChannels(request, callback) {
-                    return this.rpcCall(listChannels, $root.api.v1.channel.ListChannelsRequest, $root.api.v1.channel.ListChannelsResponse, request, callback);
-                }, "name", { value: "ListChannels" });
-
-                /**
-                 * Calls ListChannels.
-                 * @function listChannels
-                 * @memberof api.v1.channel.ChannelService
-                 * @instance
-                 * @param {api.v1.channel.IListChannelsRequest} request ListChannelsRequest message or plain object
-                 * @returns {Promise<api.v1.channel.ListChannelsResponse>} Promise
-                 * @variation 2
-                 */
-
-                /**
-                 * Callback as used by {@link api.v1.channel.ChannelService#deleteChannel}.
-                 * @memberof api.v1.channel.ChannelService
-                 * @typedef DeleteChannelCallback
-                 * @type {function}
-                 * @param {Error|null} error Error, if any
-                 * @param {api.v1.channel.DeleteChannelResponse} [response] DeleteChannelResponse
-                 */
-
-                /**
-                 * Calls DeleteChannel.
-                 * @function deleteChannel
-                 * @memberof api.v1.channel.ChannelService
-                 * @instance
-                 * @param {api.v1.channel.IDeleteChannelRequest} request DeleteChannelRequest message or plain object
-                 * @param {api.v1.channel.ChannelService.DeleteChannelCallback} callback Node-style callback called with the error, if any, and DeleteChannelResponse
-                 * @returns {undefined}
-                 * @variation 1
-                 */
-                Object.defineProperty(ChannelService.prototype.deleteChannel = function deleteChannel(request, callback) {
-                    return this.rpcCall(deleteChannel, $root.api.v1.channel.DeleteChannelRequest, $root.api.v1.channel.DeleteChannelResponse, request, callback);
-                }, "name", { value: "DeleteChannel" });
-
-                /**
-                 * Calls DeleteChannel.
-                 * @function deleteChannel
-                 * @memberof api.v1.channel.ChannelService
-                 * @instance
-                 * @param {api.v1.channel.IDeleteChannelRequest} request DeleteChannelRequest message or plain object
-                 * @returns {Promise<api.v1.channel.DeleteChannelResponse>} Promise
-                 * @variation 2
-                 */
-
-                return ChannelService;
-            })();
-
-            channel.Channel = (function() {
-
-                /**
-                 * Properties of a Channel.
-                 * @memberof api.v1.channel
-                 * @interface IChannel
-                 * @property {string|null} [id] Channel id
-                 * @property {string|null} [name] Channel name
-                 * @property {string|null} [appserverId] Channel appserverId
-                 * @property {google.protobuf.ITimestamp|null} [createdAt] Channel createdAt
-                 * @property {google.protobuf.ITimestamp|null} [updatedAt] Channel updatedAt
-                 */
-
-                /**
-                 * Constructs a new Channel.
-                 * @memberof api.v1.channel
-                 * @classdesc Represents a Channel.
-                 * @implements IChannel
-                 * @constructor
-                 * @param {api.v1.channel.IChannel=} [properties] Properties to set
-                 */
-                function Channel(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * Channel id.
-                 * @member {string} id
-                 * @memberof api.v1.channel.Channel
-                 * @instance
-                 */
-                Channel.prototype.id = "";
-
-                /**
-                 * Channel name.
-                 * @member {string} name
-                 * @memberof api.v1.channel.Channel
-                 * @instance
-                 */
-                Channel.prototype.name = "";
-
-                /**
-                 * Channel appserverId.
-                 * @member {string} appserverId
-                 * @memberof api.v1.channel.Channel
-                 * @instance
-                 */
-                Channel.prototype.appserverId = "";
-
-                /**
-                 * Channel createdAt.
-                 * @member {google.protobuf.ITimestamp|null|undefined} createdAt
-                 * @memberof api.v1.channel.Channel
-                 * @instance
-                 */
-                Channel.prototype.createdAt = null;
-
-                /**
-                 * Channel updatedAt.
-                 * @member {google.protobuf.ITimestamp|null|undefined} updatedAt
-                 * @memberof api.v1.channel.Channel
-                 * @instance
-                 */
-                Channel.prototype.updatedAt = null;
-
-                /**
-                 * Creates a new Channel instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.channel.Channel
-                 * @static
-                 * @param {api.v1.channel.IChannel=} [properties] Properties to set
-                 * @returns {api.v1.channel.Channel} Channel instance
-                 */
-                Channel.create = function create(properties) {
-                    return new Channel(properties);
-                };
-
-                /**
-                 * Encodes the specified Channel message. Does not implicitly {@link api.v1.channel.Channel.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.channel.Channel
-                 * @static
-                 * @param {api.v1.channel.IChannel} message Channel message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Channel.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
-                    if (message.appserverId != null && Object.hasOwnProperty.call(message, "appserverId"))
-                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.appserverId);
-                    if (message.createdAt != null && Object.hasOwnProperty.call(message, "createdAt"))
-                        $root.google.protobuf.Timestamp.encode(message.createdAt, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                    if (message.updatedAt != null && Object.hasOwnProperty.call(message, "updatedAt"))
-                        $root.google.protobuf.Timestamp.encode(message.updatedAt, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified Channel message, length delimited. Does not implicitly {@link api.v1.channel.Channel.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.channel.Channel
-                 * @static
-                 * @param {api.v1.channel.IChannel} message Channel message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Channel.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a Channel message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.channel.Channel
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.channel.Channel} Channel
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Channel.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.Channel();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.id = reader.string();
-                                break;
-                            }
-                        case 2: {
-                                message.name = reader.string();
-                                break;
-                            }
-                        case 3: {
-                                message.appserverId = reader.string();
-                                break;
-                            }
-                        case 4: {
-                                message.createdAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                                break;
-                            }
-                        case 5: {
-                                message.updatedAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a Channel message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.channel.Channel
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.channel.Channel} Channel
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Channel.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a Channel message.
-                 * @function verify
-                 * @memberof api.v1.channel.Channel
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                Channel.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isString(message.id))
-                            return "id: string expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        if (!$util.isString(message.name))
-                            return "name: string expected";
-                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
-                        if (!$util.isString(message.appserverId))
-                            return "appserverId: string expected";
-                    if (message.createdAt != null && message.hasOwnProperty("createdAt")) {
-                        let error = $root.google.protobuf.Timestamp.verify(message.createdAt);
-                        if (error)
-                            return "createdAt." + error;
-                    }
-                    if (message.updatedAt != null && message.hasOwnProperty("updatedAt")) {
-                        let error = $root.google.protobuf.Timestamp.verify(message.updatedAt);
-                        if (error)
-                            return "updatedAt." + error;
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates a Channel message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.channel.Channel
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.channel.Channel} Channel
-                 */
-                Channel.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.channel.Channel)
-                        return object;
-                    let message = new $root.api.v1.channel.Channel();
-                    if (object.id != null)
-                        message.id = String(object.id);
-                    if (object.name != null)
-                        message.name = String(object.name);
-                    if (object.appserverId != null)
-                        message.appserverId = String(object.appserverId);
-                    if (object.createdAt != null) {
-                        if (typeof object.createdAt !== "object")
-                            throw TypeError(".api.v1.channel.Channel.createdAt: object expected");
-                        message.createdAt = $root.google.protobuf.Timestamp.fromObject(object.createdAt);
-                    }
-                    if (object.updatedAt != null) {
-                        if (typeof object.updatedAt !== "object")
-                            throw TypeError(".api.v1.channel.Channel.updatedAt: object expected");
-                        message.updatedAt = $root.google.protobuf.Timestamp.fromObject(object.updatedAt);
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a Channel message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.channel.Channel
-                 * @static
-                 * @param {api.v1.channel.Channel} message Channel
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                Channel.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults) {
-                        object.id = "";
-                        object.name = "";
-                        object.appserverId = "";
-                        object.createdAt = null;
-                        object.updatedAt = null;
-                    }
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        object.name = message.name;
-                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
-                        object.appserverId = message.appserverId;
-                    if (message.createdAt != null && message.hasOwnProperty("createdAt"))
-                        object.createdAt = $root.google.protobuf.Timestamp.toObject(message.createdAt, options);
-                    if (message.updatedAt != null && message.hasOwnProperty("updatedAt"))
-                        object.updatedAt = $root.google.protobuf.Timestamp.toObject(message.updatedAt, options);
-                    return object;
-                };
-
-                /**
-                 * Converts this Channel to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.channel.Channel
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                Channel.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for Channel
-                 * @function getTypeUrl
-                 * @memberof api.v1.channel.Channel
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                Channel.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.channel.Channel";
-                };
-
-                return Channel;
-            })();
-
-            channel.CreateChannelRequest = (function() {
-
-                /**
-                 * Properties of a CreateChannelRequest.
-                 * @memberof api.v1.channel
-                 * @interface ICreateChannelRequest
-                 * @property {string|null} [name] CreateChannelRequest name
-                 * @property {string|null} [appserverId] CreateChannelRequest appserverId
-                 */
-
-                /**
-                 * Constructs a new CreateChannelRequest.
-                 * @memberof api.v1.channel
-                 * @classdesc Represents a CreateChannelRequest.
-                 * @implements ICreateChannelRequest
-                 * @constructor
-                 * @param {api.v1.channel.ICreateChannelRequest=} [properties] Properties to set
-                 */
-                function CreateChannelRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * CreateChannelRequest name.
-                 * @member {string} name
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @instance
-                 */
-                CreateChannelRequest.prototype.name = "";
-
-                /**
-                 * CreateChannelRequest appserverId.
-                 * @member {string} appserverId
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @instance
-                 */
-                CreateChannelRequest.prototype.appserverId = "";
-
-                /**
-                 * Creates a new CreateChannelRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @static
-                 * @param {api.v1.channel.ICreateChannelRequest=} [properties] Properties to set
-                 * @returns {api.v1.channel.CreateChannelRequest} CreateChannelRequest instance
-                 */
-                CreateChannelRequest.create = function create(properties) {
-                    return new CreateChannelRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified CreateChannelRequest message. Does not implicitly {@link api.v1.channel.CreateChannelRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @static
-                 * @param {api.v1.channel.ICreateChannelRequest} message CreateChannelRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                CreateChannelRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                    if (message.appserverId != null && Object.hasOwnProperty.call(message, "appserverId"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.appserverId);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified CreateChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.CreateChannelRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @static
-                 * @param {api.v1.channel.ICreateChannelRequest} message CreateChannelRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                CreateChannelRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a CreateChannelRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.channel.CreateChannelRequest} CreateChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                CreateChannelRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.CreateChannelRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.name = reader.string();
-                                break;
-                            }
-                        case 2: {
-                                message.appserverId = reader.string();
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a CreateChannelRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.channel.CreateChannelRequest} CreateChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                CreateChannelRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a CreateChannelRequest message.
-                 * @function verify
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                CreateChannelRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        if (!$util.isString(message.name))
-                            return "name: string expected";
-                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
-                        if (!$util.isString(message.appserverId))
-                            return "appserverId: string expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a CreateChannelRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.channel.CreateChannelRequest} CreateChannelRequest
-                 */
-                CreateChannelRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.channel.CreateChannelRequest)
-                        return object;
-                    let message = new $root.api.v1.channel.CreateChannelRequest();
-                    if (object.name != null)
-                        message.name = String(object.name);
-                    if (object.appserverId != null)
-                        message.appserverId = String(object.appserverId);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a CreateChannelRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @static
-                 * @param {api.v1.channel.CreateChannelRequest} message CreateChannelRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                CreateChannelRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults) {
-                        object.name = "";
-                        object.appserverId = "";
-                    }
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        object.name = message.name;
-                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
-                        object.appserverId = message.appserverId;
-                    return object;
-                };
-
-                /**
-                 * Converts this CreateChannelRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                CreateChannelRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for CreateChannelRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.channel.CreateChannelRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                CreateChannelRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.channel.CreateChannelRequest";
-                };
-
-                return CreateChannelRequest;
-            })();
-
-            channel.GetByIdChannelRequest = (function() {
-
-                /**
-                 * Properties of a GetByIdChannelRequest.
-                 * @memberof api.v1.channel
-                 * @interface IGetByIdChannelRequest
-                 * @property {string|null} [id] GetByIdChannelRequest id
-                 */
-
-                /**
-                 * Constructs a new GetByIdChannelRequest.
-                 * @memberof api.v1.channel
-                 * @classdesc Represents a GetByIdChannelRequest.
-                 * @implements IGetByIdChannelRequest
-                 * @constructor
-                 * @param {api.v1.channel.IGetByIdChannelRequest=} [properties] Properties to set
-                 */
-                function GetByIdChannelRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * GetByIdChannelRequest id.
-                 * @member {string} id
-                 * @memberof api.v1.channel.GetByIdChannelRequest
-                 * @instance
-                 */
-                GetByIdChannelRequest.prototype.id = "";
-
-                /**
-                 * Creates a new GetByIdChannelRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.channel.GetByIdChannelRequest
-                 * @static
-                 * @param {api.v1.channel.IGetByIdChannelRequest=} [properties] Properties to set
-                 * @returns {api.v1.channel.GetByIdChannelRequest} GetByIdChannelRequest instance
-                 */
-                GetByIdChannelRequest.create = function create(properties) {
-                    return new GetByIdChannelRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified GetByIdChannelRequest message. Does not implicitly {@link api.v1.channel.GetByIdChannelRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.channel.GetByIdChannelRequest
-                 * @static
-                 * @param {api.v1.channel.IGetByIdChannelRequest} message GetByIdChannelRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                GetByIdChannelRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified GetByIdChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.GetByIdChannelRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.channel.GetByIdChannelRequest
-                 * @static
-                 * @param {api.v1.channel.IGetByIdChannelRequest} message GetByIdChannelRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                GetByIdChannelRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a GetByIdChannelRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.channel.GetByIdChannelRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.channel.GetByIdChannelRequest} GetByIdChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                GetByIdChannelRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.GetByIdChannelRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.id = reader.string();
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a GetByIdChannelRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.channel.GetByIdChannelRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.channel.GetByIdChannelRequest} GetByIdChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                GetByIdChannelRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a GetByIdChannelRequest message.
-                 * @function verify
-                 * @memberof api.v1.channel.GetByIdChannelRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                GetByIdChannelRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isString(message.id))
-                            return "id: string expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a GetByIdChannelRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.channel.GetByIdChannelRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.channel.GetByIdChannelRequest} GetByIdChannelRequest
-                 */
-                GetByIdChannelRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.channel.GetByIdChannelRequest)
-                        return object;
-                    let message = new $root.api.v1.channel.GetByIdChannelRequest();
-                    if (object.id != null)
-                        message.id = String(object.id);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a GetByIdChannelRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.channel.GetByIdChannelRequest
-                 * @static
-                 * @param {api.v1.channel.GetByIdChannelRequest} message GetByIdChannelRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                GetByIdChannelRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults)
-                        object.id = "";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
-                    return object;
-                };
-
-                /**
-                 * Converts this GetByIdChannelRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.channel.GetByIdChannelRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                GetByIdChannelRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for GetByIdChannelRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.channel.GetByIdChannelRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                GetByIdChannelRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.channel.GetByIdChannelRequest";
-                };
-
-                return GetByIdChannelRequest;
-            })();
-
-            channel.ListChannelsRequest = (function() {
-
-                /**
-                 * Properties of a ListChannelsRequest.
-                 * @memberof api.v1.channel
-                 * @interface IListChannelsRequest
-                 * @property {google.protobuf.IStringValue|null} [name] ListChannelsRequest name
-                 * @property {google.protobuf.IStringValue|null} [appserverId] ListChannelsRequest appserverId
-                 */
-
-                /**
-                 * Constructs a new ListChannelsRequest.
-                 * @memberof api.v1.channel
-                 * @classdesc Represents a ListChannelsRequest.
-                 * @implements IListChannelsRequest
-                 * @constructor
-                 * @param {api.v1.channel.IListChannelsRequest=} [properties] Properties to set
-                 */
-                function ListChannelsRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * ListChannelsRequest name.
-                 * @member {google.protobuf.IStringValue|null|undefined} name
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @instance
-                 */
-                ListChannelsRequest.prototype.name = null;
-
-                /**
-                 * ListChannelsRequest appserverId.
-                 * @member {google.protobuf.IStringValue|null|undefined} appserverId
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @instance
-                 */
-                ListChannelsRequest.prototype.appserverId = null;
-
-                /**
-                 * Creates a new ListChannelsRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @static
-                 * @param {api.v1.channel.IListChannelsRequest=} [properties] Properties to set
-                 * @returns {api.v1.channel.ListChannelsRequest} ListChannelsRequest instance
-                 */
-                ListChannelsRequest.create = function create(properties) {
-                    return new ListChannelsRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified ListChannelsRequest message. Does not implicitly {@link api.v1.channel.ListChannelsRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @static
-                 * @param {api.v1.channel.IListChannelsRequest} message ListChannelsRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ListChannelsRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
-                        $root.google.protobuf.StringValue.encode(message.name, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                    if (message.appserverId != null && Object.hasOwnProperty.call(message, "appserverId"))
-                        $root.google.protobuf.StringValue.encode(message.appserverId, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified ListChannelsRequest message, length delimited. Does not implicitly {@link api.v1.channel.ListChannelsRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @static
-                 * @param {api.v1.channel.IListChannelsRequest} message ListChannelsRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ListChannelsRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a ListChannelsRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.channel.ListChannelsRequest} ListChannelsRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ListChannelsRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.ListChannelsRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.name = $root.google.protobuf.StringValue.decode(reader, reader.uint32());
-                                break;
-                            }
-                        case 2: {
-                                message.appserverId = $root.google.protobuf.StringValue.decode(reader, reader.uint32());
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a ListChannelsRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.channel.ListChannelsRequest} ListChannelsRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ListChannelsRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a ListChannelsRequest message.
-                 * @function verify
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                ListChannelsRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name")) {
-                        let error = $root.google.protobuf.StringValue.verify(message.name);
-                        if (error)
-                            return "name." + error;
-                    }
-                    if (message.appserverId != null && message.hasOwnProperty("appserverId")) {
-                        let error = $root.google.protobuf.StringValue.verify(message.appserverId);
-                        if (error)
-                            return "appserverId." + error;
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates a ListChannelsRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.channel.ListChannelsRequest} ListChannelsRequest
-                 */
-                ListChannelsRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.channel.ListChannelsRequest)
-                        return object;
-                    let message = new $root.api.v1.channel.ListChannelsRequest();
-                    if (object.name != null) {
-                        if (typeof object.name !== "object")
-                            throw TypeError(".api.v1.channel.ListChannelsRequest.name: object expected");
-                        message.name = $root.google.protobuf.StringValue.fromObject(object.name);
-                    }
-                    if (object.appserverId != null) {
-                        if (typeof object.appserverId !== "object")
-                            throw TypeError(".api.v1.channel.ListChannelsRequest.appserverId: object expected");
-                        message.appserverId = $root.google.protobuf.StringValue.fromObject(object.appserverId);
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a ListChannelsRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @static
-                 * @param {api.v1.channel.ListChannelsRequest} message ListChannelsRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                ListChannelsRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults) {
-                        object.name = null;
-                        object.appserverId = null;
-                    }
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        object.name = $root.google.protobuf.StringValue.toObject(message.name, options);
-                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
-                        object.appserverId = $root.google.protobuf.StringValue.toObject(message.appserverId, options);
-                    return object;
-                };
-
-                /**
-                 * Converts this ListChannelsRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                ListChannelsRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for ListChannelsRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.channel.ListChannelsRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                ListChannelsRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.channel.ListChannelsRequest";
-                };
-
-                return ListChannelsRequest;
-            })();
-
-            channel.DeleteChannelRequest = (function() {
-
-                /**
-                 * Properties of a DeleteChannelRequest.
-                 * @memberof api.v1.channel
-                 * @interface IDeleteChannelRequest
-                 * @property {string|null} [id] DeleteChannelRequest id
-                 */
-
-                /**
-                 * Constructs a new DeleteChannelRequest.
-                 * @memberof api.v1.channel
-                 * @classdesc Represents a DeleteChannelRequest.
-                 * @implements IDeleteChannelRequest
-                 * @constructor
-                 * @param {api.v1.channel.IDeleteChannelRequest=} [properties] Properties to set
-                 */
-                function DeleteChannelRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * DeleteChannelRequest id.
-                 * @member {string} id
-                 * @memberof api.v1.channel.DeleteChannelRequest
-                 * @instance
-                 */
-                DeleteChannelRequest.prototype.id = "";
-
-                /**
-                 * Creates a new DeleteChannelRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.channel.DeleteChannelRequest
-                 * @static
-                 * @param {api.v1.channel.IDeleteChannelRequest=} [properties] Properties to set
-                 * @returns {api.v1.channel.DeleteChannelRequest} DeleteChannelRequest instance
-                 */
-                DeleteChannelRequest.create = function create(properties) {
-                    return new DeleteChannelRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified DeleteChannelRequest message. Does not implicitly {@link api.v1.channel.DeleteChannelRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.channel.DeleteChannelRequest
-                 * @static
-                 * @param {api.v1.channel.IDeleteChannelRequest} message DeleteChannelRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteChannelRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified DeleteChannelRequest message, length delimited. Does not implicitly {@link api.v1.channel.DeleteChannelRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.channel.DeleteChannelRequest
-                 * @static
-                 * @param {api.v1.channel.IDeleteChannelRequest} message DeleteChannelRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteChannelRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a DeleteChannelRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.channel.DeleteChannelRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.channel.DeleteChannelRequest} DeleteChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteChannelRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.DeleteChannelRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.id = reader.string();
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a DeleteChannelRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.channel.DeleteChannelRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.channel.DeleteChannelRequest} DeleteChannelRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteChannelRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a DeleteChannelRequest message.
-                 * @function verify
-                 * @memberof api.v1.channel.DeleteChannelRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                DeleteChannelRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isString(message.id))
-                            return "id: string expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a DeleteChannelRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.channel.DeleteChannelRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.channel.DeleteChannelRequest} DeleteChannelRequest
-                 */
-                DeleteChannelRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.channel.DeleteChannelRequest)
-                        return object;
-                    let message = new $root.api.v1.channel.DeleteChannelRequest();
-                    if (object.id != null)
-                        message.id = String(object.id);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a DeleteChannelRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.channel.DeleteChannelRequest
-                 * @static
-                 * @param {api.v1.channel.DeleteChannelRequest} message DeleteChannelRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                DeleteChannelRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults)
-                        object.id = "";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
-                    return object;
-                };
-
-                /**
-                 * Converts this DeleteChannelRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.channel.DeleteChannelRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                DeleteChannelRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for DeleteChannelRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.channel.DeleteChannelRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                DeleteChannelRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.channel.DeleteChannelRequest";
-                };
-
-                return DeleteChannelRequest;
-            })();
-
-            channel.CreateChannelResponse = (function() {
-
-                /**
-                 * Properties of a CreateChannelResponse.
-                 * @memberof api.v1.channel
-                 * @interface ICreateChannelResponse
-                 * @property {api.v1.channel.IChannel|null} [channel] CreateChannelResponse channel
-                 */
-
-                /**
-                 * Constructs a new CreateChannelResponse.
-                 * @memberof api.v1.channel
-                 * @classdesc Represents a CreateChannelResponse.
-                 * @implements ICreateChannelResponse
-                 * @constructor
-                 * @param {api.v1.channel.ICreateChannelResponse=} [properties] Properties to set
-                 */
-                function CreateChannelResponse(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * CreateChannelResponse channel.
-                 * @member {api.v1.channel.IChannel|null|undefined} channel
-                 * @memberof api.v1.channel.CreateChannelResponse
-                 * @instance
-                 */
-                CreateChannelResponse.prototype.channel = null;
-
-                /**
-                 * Creates a new CreateChannelResponse instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.channel.CreateChannelResponse
-                 * @static
-                 * @param {api.v1.channel.ICreateChannelResponse=} [properties] Properties to set
-                 * @returns {api.v1.channel.CreateChannelResponse} CreateChannelResponse instance
-                 */
-                CreateChannelResponse.create = function create(properties) {
-                    return new CreateChannelResponse(properties);
-                };
-
-                /**
-                 * Encodes the specified CreateChannelResponse message. Does not implicitly {@link api.v1.channel.CreateChannelResponse.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.channel.CreateChannelResponse
-                 * @static
-                 * @param {api.v1.channel.ICreateChannelResponse} message CreateChannelResponse message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                CreateChannelResponse.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.channel != null && Object.hasOwnProperty.call(message, "channel"))
-                        $root.api.v1.channel.Channel.encode(message.channel, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified CreateChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.CreateChannelResponse.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.channel.CreateChannelResponse
-                 * @static
-                 * @param {api.v1.channel.ICreateChannelResponse} message CreateChannelResponse message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                CreateChannelResponse.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a CreateChannelResponse message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.channel.CreateChannelResponse
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.channel.CreateChannelResponse} CreateChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                CreateChannelResponse.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.CreateChannelResponse();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.channel = $root.api.v1.channel.Channel.decode(reader, reader.uint32());
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a CreateChannelResponse message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.channel.CreateChannelResponse
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.channel.CreateChannelResponse} CreateChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                CreateChannelResponse.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a CreateChannelResponse message.
-                 * @function verify
-                 * @memberof api.v1.channel.CreateChannelResponse
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                CreateChannelResponse.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.channel != null && message.hasOwnProperty("channel")) {
-                        let error = $root.api.v1.channel.Channel.verify(message.channel);
-                        if (error)
-                            return "channel." + error;
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates a CreateChannelResponse message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.channel.CreateChannelResponse
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.channel.CreateChannelResponse} CreateChannelResponse
-                 */
-                CreateChannelResponse.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.channel.CreateChannelResponse)
-                        return object;
-                    let message = new $root.api.v1.channel.CreateChannelResponse();
-                    if (object.channel != null) {
-                        if (typeof object.channel !== "object")
-                            throw TypeError(".api.v1.channel.CreateChannelResponse.channel: object expected");
-                        message.channel = $root.api.v1.channel.Channel.fromObject(object.channel);
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a CreateChannelResponse message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.channel.CreateChannelResponse
-                 * @static
-                 * @param {api.v1.channel.CreateChannelResponse} message CreateChannelResponse
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                CreateChannelResponse.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults)
-                        object.channel = null;
-                    if (message.channel != null && message.hasOwnProperty("channel"))
-                        object.channel = $root.api.v1.channel.Channel.toObject(message.channel, options);
-                    return object;
-                };
-
-                /**
-                 * Converts this CreateChannelResponse to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.channel.CreateChannelResponse
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                CreateChannelResponse.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for CreateChannelResponse
-                 * @function getTypeUrl
-                 * @memberof api.v1.channel.CreateChannelResponse
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                CreateChannelResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.channel.CreateChannelResponse";
-                };
-
-                return CreateChannelResponse;
-            })();
-
-            channel.GetByIdChannelResponse = (function() {
-
-                /**
-                 * Properties of a GetByIdChannelResponse.
-                 * @memberof api.v1.channel
-                 * @interface IGetByIdChannelResponse
-                 * @property {api.v1.channel.IChannel|null} [channel] GetByIdChannelResponse channel
-                 */
-
-                /**
-                 * Constructs a new GetByIdChannelResponse.
-                 * @memberof api.v1.channel
-                 * @classdesc Represents a GetByIdChannelResponse.
-                 * @implements IGetByIdChannelResponse
-                 * @constructor
-                 * @param {api.v1.channel.IGetByIdChannelResponse=} [properties] Properties to set
-                 */
-                function GetByIdChannelResponse(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * GetByIdChannelResponse channel.
-                 * @member {api.v1.channel.IChannel|null|undefined} channel
-                 * @memberof api.v1.channel.GetByIdChannelResponse
-                 * @instance
-                 */
-                GetByIdChannelResponse.prototype.channel = null;
-
-                /**
-                 * Creates a new GetByIdChannelResponse instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.channel.GetByIdChannelResponse
-                 * @static
-                 * @param {api.v1.channel.IGetByIdChannelResponse=} [properties] Properties to set
-                 * @returns {api.v1.channel.GetByIdChannelResponse} GetByIdChannelResponse instance
-                 */
-                GetByIdChannelResponse.create = function create(properties) {
-                    return new GetByIdChannelResponse(properties);
-                };
-
-                /**
-                 * Encodes the specified GetByIdChannelResponse message. Does not implicitly {@link api.v1.channel.GetByIdChannelResponse.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.channel.GetByIdChannelResponse
-                 * @static
-                 * @param {api.v1.channel.IGetByIdChannelResponse} message GetByIdChannelResponse message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                GetByIdChannelResponse.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.channel != null && Object.hasOwnProperty.call(message, "channel"))
-                        $root.api.v1.channel.Channel.encode(message.channel, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified GetByIdChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.GetByIdChannelResponse.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.channel.GetByIdChannelResponse
-                 * @static
-                 * @param {api.v1.channel.IGetByIdChannelResponse} message GetByIdChannelResponse message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                GetByIdChannelResponse.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a GetByIdChannelResponse message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.channel.GetByIdChannelResponse
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.channel.GetByIdChannelResponse} GetByIdChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                GetByIdChannelResponse.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.GetByIdChannelResponse();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.channel = $root.api.v1.channel.Channel.decode(reader, reader.uint32());
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a GetByIdChannelResponse message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.channel.GetByIdChannelResponse
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.channel.GetByIdChannelResponse} GetByIdChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                GetByIdChannelResponse.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a GetByIdChannelResponse message.
-                 * @function verify
-                 * @memberof api.v1.channel.GetByIdChannelResponse
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                GetByIdChannelResponse.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.channel != null && message.hasOwnProperty("channel")) {
-                        let error = $root.api.v1.channel.Channel.verify(message.channel);
-                        if (error)
-                            return "channel." + error;
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates a GetByIdChannelResponse message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.channel.GetByIdChannelResponse
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.channel.GetByIdChannelResponse} GetByIdChannelResponse
-                 */
-                GetByIdChannelResponse.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.channel.GetByIdChannelResponse)
-                        return object;
-                    let message = new $root.api.v1.channel.GetByIdChannelResponse();
-                    if (object.channel != null) {
-                        if (typeof object.channel !== "object")
-                            throw TypeError(".api.v1.channel.GetByIdChannelResponse.channel: object expected");
-                        message.channel = $root.api.v1.channel.Channel.fromObject(object.channel);
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a GetByIdChannelResponse message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.channel.GetByIdChannelResponse
-                 * @static
-                 * @param {api.v1.channel.GetByIdChannelResponse} message GetByIdChannelResponse
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                GetByIdChannelResponse.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults)
-                        object.channel = null;
-                    if (message.channel != null && message.hasOwnProperty("channel"))
-                        object.channel = $root.api.v1.channel.Channel.toObject(message.channel, options);
-                    return object;
-                };
-
-                /**
-                 * Converts this GetByIdChannelResponse to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.channel.GetByIdChannelResponse
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                GetByIdChannelResponse.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for GetByIdChannelResponse
-                 * @function getTypeUrl
-                 * @memberof api.v1.channel.GetByIdChannelResponse
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                GetByIdChannelResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.channel.GetByIdChannelResponse";
-                };
-
-                return GetByIdChannelResponse;
-            })();
-
-            channel.ListChannelsResponse = (function() {
-
-                /**
-                 * Properties of a ListChannelsResponse.
-                 * @memberof api.v1.channel
-                 * @interface IListChannelsResponse
-                 * @property {Array.<api.v1.channel.IChannel>|null} [channels] ListChannelsResponse channels
-                 */
-
-                /**
-                 * Constructs a new ListChannelsResponse.
-                 * @memberof api.v1.channel
-                 * @classdesc Represents a ListChannelsResponse.
-                 * @implements IListChannelsResponse
-                 * @constructor
-                 * @param {api.v1.channel.IListChannelsResponse=} [properties] Properties to set
-                 */
-                function ListChannelsResponse(properties) {
-                    this.channels = [];
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * ListChannelsResponse channels.
-                 * @member {Array.<api.v1.channel.IChannel>} channels
-                 * @memberof api.v1.channel.ListChannelsResponse
-                 * @instance
-                 */
-                ListChannelsResponse.prototype.channels = $util.emptyArray;
-
-                /**
-                 * Creates a new ListChannelsResponse instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.channel.ListChannelsResponse
-                 * @static
-                 * @param {api.v1.channel.IListChannelsResponse=} [properties] Properties to set
-                 * @returns {api.v1.channel.ListChannelsResponse} ListChannelsResponse instance
-                 */
-                ListChannelsResponse.create = function create(properties) {
-                    return new ListChannelsResponse(properties);
-                };
-
-                /**
-                 * Encodes the specified ListChannelsResponse message. Does not implicitly {@link api.v1.channel.ListChannelsResponse.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.channel.ListChannelsResponse
-                 * @static
-                 * @param {api.v1.channel.IListChannelsResponse} message ListChannelsResponse message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ListChannelsResponse.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.channels != null && message.channels.length)
-                        for (let i = 0; i < message.channels.length; ++i)
-                            $root.api.v1.channel.Channel.encode(message.channels[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified ListChannelsResponse message, length delimited. Does not implicitly {@link api.v1.channel.ListChannelsResponse.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.channel.ListChannelsResponse
-                 * @static
-                 * @param {api.v1.channel.IListChannelsResponse} message ListChannelsResponse message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ListChannelsResponse.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a ListChannelsResponse message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.channel.ListChannelsResponse
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.channel.ListChannelsResponse} ListChannelsResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ListChannelsResponse.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.ListChannelsResponse();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                if (!(message.channels && message.channels.length))
-                                    message.channels = [];
-                                message.channels.push($root.api.v1.channel.Channel.decode(reader, reader.uint32()));
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a ListChannelsResponse message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.channel.ListChannelsResponse
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.channel.ListChannelsResponse} ListChannelsResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ListChannelsResponse.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a ListChannelsResponse message.
-                 * @function verify
-                 * @memberof api.v1.channel.ListChannelsResponse
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                ListChannelsResponse.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.channels != null && message.hasOwnProperty("channels")) {
-                        if (!Array.isArray(message.channels))
-                            return "channels: array expected";
-                        for (let i = 0; i < message.channels.length; ++i) {
-                            let error = $root.api.v1.channel.Channel.verify(message.channels[i]);
-                            if (error)
-                                return "channels." + error;
-                        }
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates a ListChannelsResponse message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.channel.ListChannelsResponse
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.channel.ListChannelsResponse} ListChannelsResponse
-                 */
-                ListChannelsResponse.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.channel.ListChannelsResponse)
-                        return object;
-                    let message = new $root.api.v1.channel.ListChannelsResponse();
-                    if (object.channels) {
-                        if (!Array.isArray(object.channels))
-                            throw TypeError(".api.v1.channel.ListChannelsResponse.channels: array expected");
-                        message.channels = [];
-                        for (let i = 0; i < object.channels.length; ++i) {
-                            if (typeof object.channels[i] !== "object")
-                                throw TypeError(".api.v1.channel.ListChannelsResponse.channels: object expected");
-                            message.channels[i] = $root.api.v1.channel.Channel.fromObject(object.channels[i]);
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a ListChannelsResponse message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.channel.ListChannelsResponse
-                 * @static
-                 * @param {api.v1.channel.ListChannelsResponse} message ListChannelsResponse
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                ListChannelsResponse.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.arrays || options.defaults)
-                        object.channels = [];
-                    if (message.channels && message.channels.length) {
-                        object.channels = [];
-                        for (let j = 0; j < message.channels.length; ++j)
-                            object.channels[j] = $root.api.v1.channel.Channel.toObject(message.channels[j], options);
-                    }
-                    return object;
-                };
-
-                /**
-                 * Converts this ListChannelsResponse to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.channel.ListChannelsResponse
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                ListChannelsResponse.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for ListChannelsResponse
-                 * @function getTypeUrl
-                 * @memberof api.v1.channel.ListChannelsResponse
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                ListChannelsResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.channel.ListChannelsResponse";
-                };
-
-                return ListChannelsResponse;
-            })();
-
-            channel.DeleteChannelResponse = (function() {
-
-                /**
-                 * Properties of a DeleteChannelResponse.
-                 * @memberof api.v1.channel
-                 * @interface IDeleteChannelResponse
-                 */
-
-                /**
-                 * Constructs a new DeleteChannelResponse.
-                 * @memberof api.v1.channel
-                 * @classdesc Represents a DeleteChannelResponse.
-                 * @implements IDeleteChannelResponse
-                 * @constructor
-                 * @param {api.v1.channel.IDeleteChannelResponse=} [properties] Properties to set
-                 */
-                function DeleteChannelResponse(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * Creates a new DeleteChannelResponse instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.channel.DeleteChannelResponse
-                 * @static
-                 * @param {api.v1.channel.IDeleteChannelResponse=} [properties] Properties to set
-                 * @returns {api.v1.channel.DeleteChannelResponse} DeleteChannelResponse instance
-                 */
-                DeleteChannelResponse.create = function create(properties) {
-                    return new DeleteChannelResponse(properties);
-                };
-
-                /**
-                 * Encodes the specified DeleteChannelResponse message. Does not implicitly {@link api.v1.channel.DeleteChannelResponse.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.channel.DeleteChannelResponse
-                 * @static
-                 * @param {api.v1.channel.IDeleteChannelResponse} message DeleteChannelResponse message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteChannelResponse.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified DeleteChannelResponse message, length delimited. Does not implicitly {@link api.v1.channel.DeleteChannelResponse.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.channel.DeleteChannelResponse
-                 * @static
-                 * @param {api.v1.channel.IDeleteChannelResponse} message DeleteChannelResponse message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteChannelResponse.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a DeleteChannelResponse message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.channel.DeleteChannelResponse
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.channel.DeleteChannelResponse} DeleteChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteChannelResponse.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.channel.DeleteChannelResponse();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a DeleteChannelResponse message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.channel.DeleteChannelResponse
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.channel.DeleteChannelResponse} DeleteChannelResponse
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteChannelResponse.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a DeleteChannelResponse message.
-                 * @function verify
-                 * @memberof api.v1.channel.DeleteChannelResponse
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                DeleteChannelResponse.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a DeleteChannelResponse message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.channel.DeleteChannelResponse
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.channel.DeleteChannelResponse} DeleteChannelResponse
-                 */
-                DeleteChannelResponse.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.channel.DeleteChannelResponse)
-                        return object;
-                    return new $root.api.v1.channel.DeleteChannelResponse();
-                };
-
-                /**
-                 * Creates a plain object from a DeleteChannelResponse message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.channel.DeleteChannelResponse
-                 * @static
-                 * @param {api.v1.channel.DeleteChannelResponse} message DeleteChannelResponse
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                DeleteChannelResponse.toObject = function toObject() {
-                    return {};
-                };
-
-                /**
-                 * Converts this DeleteChannelResponse to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.channel.DeleteChannelResponse
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                DeleteChannelResponse.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for DeleteChannelResponse
-                 * @function getTypeUrl
-                 * @memberof api.v1.channel.DeleteChannelResponse
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                DeleteChannelResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.channel.DeleteChannelResponse";
-                };
-
-                return DeleteChannelResponse;
-            })();
-
-            return channel;
         })();
 
         return v1;
