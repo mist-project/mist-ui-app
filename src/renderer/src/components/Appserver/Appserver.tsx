@@ -1,15 +1,16 @@
 import { JSX, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import * as pb from '@protos/v1/pb';
+import AppserverRequest from '@renderer/requests/appserver';
+import { ReactSetState } from '@renderer/types';
+
 import { Divider } from '../common/Divider';
 import ButtonWithMenu from '../common/Button/ButtonWithMenu/ButtonWithMenu';
 import { MenuItem, Menu } from '../common/Button/ButtonWithMenu';
-import { ReactSetState } from '@renderer/types';
-import { Channel } from './Channel/Channel';
 import { useEvent, useIOSocket, useModal } from '../Contexts';
+import { Channel } from './Channel/Channel';
 import { AppserverContext, useAppserverContext } from './AppserverContext';
-
-import * as pb from '@protos/v1/pb';
 import { CreateChannelModal } from './Channel/CreateChannelModal';
 
 const dummyChannel = ['channel one', 'channel two'];
@@ -20,12 +21,13 @@ const AppserverHeader = (): JSX.Element => {
 
   return (
     <ButtonWithMenu
-      className="my-2 mx-2 pb-1"
+      className="py-2 w-full"
       menuItems={
         <Menu>
           <MenuItem
             onClick={() => {
-              setModalContent(<CreateChannelModal appserverId={appserver.id} />);
+              if (!appserver) return;
+              setModalContent(<CreateChannelModal appserverId={appserver.id as string} />);
               showModal(true);
             }}
           >
@@ -40,7 +42,7 @@ const AppserverHeader = (): JSX.Element => {
       }
       buttonColor="none"
     >
-      SERVER NAME
+      {appserver?.name}
     </ButtonWithMenu>
   );
 };
@@ -85,15 +87,18 @@ const Appserver = (): JSX.Element => {
   const { sendMessage } = useIOSocket();
   const { emitter } = useEvent();
   const [channelContentId, setChannelContentId] = useState<string>('');
+  const [appserverDetails, setAppserverDetails] = useState<pb.api.v1.server.IAppserver>();
 
   useEffect(() => {
-    // emitter.on()
-  }, []);
+    if (!appserverId) return;
+    new AppserverRequest(sendMessage).getAppserverDetails(appserverId);
+    emitter.on('appserverDetails', (appserverDetails) => {
+      setAppserverDetails(appserverDetails);
+    });
+  }, [appserverId]);
 
   return (
-    <AppserverContext.Provider
-      value={{ appserver: new pb.api.v1.server.Appserver({ name: 'server name' }) }}
-    >
+    <AppserverContext.Provider value={{ appserver: appserverDetails }}>
       <div className="flex w-full">
         <div className="w-[240px]">
           <AppserverPanel setChannelId={setChannelContentId} />

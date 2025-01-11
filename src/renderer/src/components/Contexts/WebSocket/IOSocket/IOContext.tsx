@@ -93,6 +93,9 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
       // TODO: probably should create a handler class
       if (output.appserverListing) {
         emitter.emit('appserverListing', output.appserverListing);
+      } else if (output.appserverDetails) {
+        if (output.appserverDetails.appserver == null) return;
+        emitter.emit('appserverDetails', output.appserverDetails.appserver);
       } else {
         console.log('over here ');
       }

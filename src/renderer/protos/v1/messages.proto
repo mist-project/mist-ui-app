@@ -34,10 +34,11 @@ message Input {
     UpdateJwtToken update_jwt_token = 1;
 
     AppserverListingRequest appserver_listing = 2;
-    server.CreateAppserverRequest create_appserver = 3;
-    server.DeleteAppserverRequest delete_appserver = 4;
+    server.GetByIdAppserverRequest appserver_details = 3;
+    server.CreateAppserverRequest create_appserver = 4;
+    server.DeleteAppserverRequest delete_appserver = 5;
 
-    channel.CreateChannelRequest create_channel = 5;
+    channel.CreateChannelRequest create_channel = 6;
   }
 }
 
@@ -45,13 +46,16 @@ message UpdateJwtToken { string access = 1; }
 
 // ----- OUTPUT -----
 message Output {
-  oneof data { server.GetUserAppserverSubsResponse appserver_listing = 1; }
+  oneof data {
+    server.GetUserAppserverSubsResponse appserver_listing = 1;
+    server.GetByIdAppserverResponse appserver_details = 2;
+  }
 }
 
 // ----- APPSERVER -----
 
 // DETAILS
-message AppserverDetailsResponse { Appserver appserver = 1; }
+message AppserverDetailsRequest { string id = 1; }
 
 // LISTING
 message AppserverListingRequest {}

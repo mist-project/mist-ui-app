@@ -7,6 +7,12 @@ class AppserverRequest extends BaseRequest {
     });
   }
 
+  public getAppserverDetails(appserverId: string): void {
+    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_LIST, {
+      appserverDetails: new pb_v1.messages.AppserverDetailsRequest({ id: appserverId })
+    });
+  }
+
   public createAppserver(name: string): void {
     this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_LIST, {
       createAppserver: new pb_v1.server.CreateAppserverRequest({ name: name })

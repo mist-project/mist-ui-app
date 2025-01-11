@@ -10,6 +10,7 @@ export type Events = {
   // UPDATES
   // ----- SERVER -----
   appserverListing: pb.api.v1.server.IGetUserAppserverSubsResponse;
+  appserverDetails: pb.api.v1.server.IAppserver;
 };
 
 type EmitterContextType = {

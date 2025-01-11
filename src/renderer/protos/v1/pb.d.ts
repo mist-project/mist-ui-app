@@ -332,6 +332,9 @@ export namespace api {
                 /** Input appserverListing */
                 appserverListing?: (api.v1.messages.IAppserverListingRequest|null);
 
+                /** Input appserverDetails */
+                appserverDetails?: (api.v1.server.IGetByIdAppserverRequest|null);
+
                 /** Input createAppserver */
                 createAppserver?: (api.v1.server.ICreateAppserverRequest|null);
 
@@ -357,6 +360,9 @@ export namespace api {
                 /** Input appserverListing. */
                 public appserverListing?: (api.v1.messages.IAppserverListingRequest|null);
 
+                /** Input appserverDetails. */
+                public appserverDetails?: (api.v1.server.IGetByIdAppserverRequest|null);
+
                 /** Input createAppserver. */
                 public createAppserver?: (api.v1.server.ICreateAppserverRequest|null);
 
@@ -367,7 +373,7 @@ export namespace api {
                 public createChannel?: (api.v1.channel.ICreateChannelRequest|null);
 
                 /** Input data. */
-                public data?: ("updateJwtToken"|"appserverListing"|"createAppserver"|"deleteAppserver"|"createChannel");
+                public data?: ("updateJwtToken"|"appserverListing"|"appserverDetails"|"createAppserver"|"deleteAppserver"|"createChannel");
 
                 /**
                  * Creates a new Input instance using the specified properties.
@@ -549,6 +555,9 @@ export namespace api {
 
                 /** Output appserverListing */
                 appserverListing?: (api.v1.server.IGetUserAppserverSubsResponse|null);
+
+                /** Output appserverDetails */
+                appserverDetails?: (api.v1.server.IGetByIdAppserverResponse|null);
             }
 
             /** Represents an Output. */
@@ -563,8 +572,11 @@ export namespace api {
                 /** Output appserverListing. */
                 public appserverListing?: (api.v1.server.IGetUserAppserverSubsResponse|null);
 
+                /** Output appserverDetails. */
+                public appserverDetails?: (api.v1.server.IGetByIdAppserverResponse|null);
+
                 /** Output data. */
-                public data?: "appserverListing";
+                public data?: ("appserverListing"|"appserverDetails");
 
                 /**
                  * Creates a new Output instance using the specified properties.
@@ -644,97 +656,97 @@ export namespace api {
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
-            /** Properties of an AppserverDetailsResponse. */
-            interface IAppserverDetailsResponse {
+            /** Properties of an AppserverDetailsRequest. */
+            interface IAppserverDetailsRequest {
 
-                /** AppserverDetailsResponse appserver */
-                appserver?: (api.v1.server.IAppserver|null);
+                /** AppserverDetailsRequest id */
+                id?: (string|null);
             }
 
-            /** Represents an AppserverDetailsResponse. */
-            class AppserverDetailsResponse implements IAppserverDetailsResponse {
+            /** Represents an AppserverDetailsRequest. */
+            class AppserverDetailsRequest implements IAppserverDetailsRequest {
 
                 /**
-                 * Constructs a new AppserverDetailsResponse.
+                 * Constructs a new AppserverDetailsRequest.
                  * @param [properties] Properties to set
                  */
-                constructor(properties?: api.v1.messages.IAppserverDetailsResponse);
+                constructor(properties?: api.v1.messages.IAppserverDetailsRequest);
 
-                /** AppserverDetailsResponse appserver. */
-                public appserver?: (api.v1.server.IAppserver|null);
+                /** AppserverDetailsRequest id. */
+                public id: string;
 
                 /**
-                 * Creates a new AppserverDetailsResponse instance using the specified properties.
+                 * Creates a new AppserverDetailsRequest instance using the specified properties.
                  * @param [properties] Properties to set
-                 * @returns AppserverDetailsResponse instance
+                 * @returns AppserverDetailsRequest instance
                  */
-                public static create(properties?: api.v1.messages.IAppserverDetailsResponse): api.v1.messages.AppserverDetailsResponse;
+                public static create(properties?: api.v1.messages.IAppserverDetailsRequest): api.v1.messages.AppserverDetailsRequest;
 
                 /**
-                 * Encodes the specified AppserverDetailsResponse message. Does not implicitly {@link api.v1.messages.AppserverDetailsResponse.verify|verify} messages.
-                 * @param message AppserverDetailsResponse message or plain object to encode
+                 * Encodes the specified AppserverDetailsRequest message. Does not implicitly {@link api.v1.messages.AppserverDetailsRequest.verify|verify} messages.
+                 * @param message AppserverDetailsRequest message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encode(message: api.v1.messages.IAppserverDetailsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encode(message: api.v1.messages.IAppserverDetailsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Encodes the specified AppserverDetailsResponse message, length delimited. Does not implicitly {@link api.v1.messages.AppserverDetailsResponse.verify|verify} messages.
-                 * @param message AppserverDetailsResponse message or plain object to encode
+                 * Encodes the specified AppserverDetailsRequest message, length delimited. Does not implicitly {@link api.v1.messages.AppserverDetailsRequest.verify|verify} messages.
+                 * @param message AppserverDetailsRequest message or plain object to encode
                  * @param [writer] Writer to encode to
                  * @returns Writer
                  */
-                public static encodeDelimited(message: api.v1.messages.IAppserverDetailsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+                public static encodeDelimited(message: api.v1.messages.IAppserverDetailsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
 
                 /**
-                 * Decodes an AppserverDetailsResponse message from the specified reader or buffer.
+                 * Decodes an AppserverDetailsRequest message from the specified reader or buffer.
                  * @param reader Reader or buffer to decode from
                  * @param [length] Message length if known beforehand
-                 * @returns AppserverDetailsResponse
+                 * @returns AppserverDetailsRequest
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.AppserverDetailsResponse;
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.messages.AppserverDetailsRequest;
 
                 /**
-                 * Decodes an AppserverDetailsResponse message from the specified reader or buffer, length delimited.
+                 * Decodes an AppserverDetailsRequest message from the specified reader or buffer, length delimited.
                  * @param reader Reader or buffer to decode from
-                 * @returns AppserverDetailsResponse
+                 * @returns AppserverDetailsRequest
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.AppserverDetailsResponse;
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.messages.AppserverDetailsRequest;
 
                 /**
-                 * Verifies an AppserverDetailsResponse message.
+                 * Verifies an AppserverDetailsRequest message.
                  * @param message Plain object to verify
                  * @returns `null` if valid, otherwise the reason why it is not
                  */
                 public static verify(message: { [k: string]: any }): (string|null);
 
                 /**
-                 * Creates an AppserverDetailsResponse message from a plain object. Also converts values to their respective internal types.
+                 * Creates an AppserverDetailsRequest message from a plain object. Also converts values to their respective internal types.
                  * @param object Plain object
-                 * @returns AppserverDetailsResponse
+                 * @returns AppserverDetailsRequest
                  */
-                public static fromObject(object: { [k: string]: any }): api.v1.messages.AppserverDetailsResponse;
+                public static fromObject(object: { [k: string]: any }): api.v1.messages.AppserverDetailsRequest;
 
                 /**
-                 * Creates a plain object from an AppserverDetailsResponse message. Also converts values to other types if specified.
-                 * @param message AppserverDetailsResponse
+                 * Creates a plain object from an AppserverDetailsRequest message. Also converts values to other types if specified.
+                 * @param message AppserverDetailsRequest
                  * @param [options] Conversion options
                  * @returns Plain object
                  */
-                public static toObject(message: api.v1.messages.AppserverDetailsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+                public static toObject(message: api.v1.messages.AppserverDetailsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
                 /**
-                 * Converts this AppserverDetailsResponse to JSON.
+                 * Converts this AppserverDetailsRequest to JSON.
                  * @returns JSON object
                  */
                 public toJSON(): { [k: string]: any };
 
                 /**
-                 * Gets the default type url for AppserverDetailsResponse
+                 * Gets the default type url for AppserverDetailsRequest
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */

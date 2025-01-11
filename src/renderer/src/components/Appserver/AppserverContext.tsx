@@ -3,7 +3,7 @@ import { createContext, use } from 'react';
 import * as pb from '@protos/v1/pb';
 
 type AppserverContextType = {
-  appserver: pb.api.v1.server.Appserver;
+  appserver: pb.api.v1.server.IAppserver | undefined;
 };
 
 export const AppserverContext = createContext<AppserverContextType>({
