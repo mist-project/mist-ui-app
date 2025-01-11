@@ -1,6 +1,7 @@
 import * as pb from '@protos/v1/pb';
 
 export const pb_v1 = pb.api.v1;
+export const pb_google = pb.google.protobuf;
 
 class BaseRequest {
   private sendMessage: (_message: Uint8Array) => void;

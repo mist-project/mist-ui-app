@@ -8,19 +8,19 @@ class AppserverRequest extends BaseRequest {
   }
 
   public getAppserverDetails(appserverId: string): void {
-    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_LIST, {
+    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_GET, {
       appserverDetails: new pb_v1.messages.AppserverDetailsRequest({ id: appserverId })
     });
   }
 
   public createAppserver(name: string): void {
-    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_LIST, {
+    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_CREATE, {
       createAppserver: new pb_v1.server.CreateAppserverRequest({ name: name })
     });
   }
 
   public deleteAppserver(id: string): void {
-    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_LIST, {
+    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_DELETE, {
       deleteAppserver: new pb_v1.server.DeleteAppserverRequest({ id: id })
     });
   }

@@ -1,8 +1,9 @@
+import { JSX, useState } from 'react';
+
+import { useIOSocket } from '@renderer/components/Contexts';
 import { InputText } from '@renderer/components/common/Input';
 import { CommonFooter } from '@renderer/components/common/Modal';
-import { useIOSocket } from '@renderer/components/Contexts';
-import ChannelRequest from '@renderer/requests/channel';
-import { JSX, useState } from 'react';
+import { ChannelRequest } from '@renderer/requests';
 
 type CreateChannelModalProps = {
   appserverId: string;

@@ -11,6 +11,9 @@ export type Events = {
   // ----- SERVER -----
   appserverListing: pb.api.v1.server.IGetUserAppserverSubsResponse;
   appserverDetails: pb.api.v1.server.IAppserver;
+
+  // ----- CHANNELS -----
+  channelListing: pb.api.v1.channel.IChannel[];
 };
 
 type EmitterContextType = {

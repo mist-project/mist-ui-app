@@ -1,12 +1,12 @@
 import { JSX } from 'react';
 
 import { CommonFooter } from '@renderer/components/common/Modal';
-import AppserverRequest from '@renderer/requests/appserver';
+import { AppserverRequest } from '@renderer/requests';
 import * as pb from '@protos/v1/pb';
 
 type DeleteAppserverModalProps = {
   sendMessage: (_message: Uint8Array<ArrayBufferLike>) => void;
-  appserver: pb.api.v1.messages.IAppserver;
+  appserver: pb.api.v1.server.IAppserver;
 };
 const DeleteAppserverModal = ({
   sendMessage,

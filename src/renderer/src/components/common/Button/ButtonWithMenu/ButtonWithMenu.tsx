@@ -1,4 +1,5 @@
 import React, { JSX, useState, useEffect, useRef } from 'react';
+
 import Button, { ButtonProps } from '../Button';
 import { MenuContext } from './MenuContext';
 import { Position } from './constants';

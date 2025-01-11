@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as pb from '@protos/v1/pb';
 import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
 import MenuItem from '@renderer/components/common/Button/ButtonWithMenu/MenuItem';
+import { Menu } from '@renderer/components/common/Button/ButtonWithMenu';
 import { useAuth, useEvent, useIOSocket, useModal } from '@renderer/components/Contexts';
 import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
 import AppserverRequest from '@renderer/requests/appserver';
@@ -45,7 +46,7 @@ const Nav = (): JSX.Element => {
                 onClick={() => {
                   navigate(`/appserver/${s.appserver?.id}`);
                 }}
-                contextMenuItems={[AppServerMenuItems(s.appserver as pb.api.v1.server.IAppserver)]}
+                contextMenuItems={AppServerMenuItems(s.appserver as pb.api.v1.server.IAppserver)}
               >
                 {s.appserver?.name}
               </ButtonWithMenu>
@@ -58,15 +59,19 @@ const Nav = (): JSX.Element => {
 
   const AppServerMenuItems = useCallback((appserver: pb.api.v1.server.IAppserver): JSX.Element => {
     return (
-      <MenuItem
-        key={`delete-${appserver?.id}`}
-        onClick={() => {
-          setModalContent(<DeleteAppserverModal sendMessage={sendMessage} appserver={appserver} />);
-          showModal(true);
-        }}
-      >
-        Delete
-      </MenuItem>
+      <Menu>
+        <MenuItem
+          key={`delete-${appserver?.id}`}
+          onClick={() => {
+            setModalContent(
+              <DeleteAppserverModal sendMessage={sendMessage} appserver={appserver} />
+            );
+            showModal(true);
+          }}
+        >
+          Delete
+        </MenuItem>
+      </Menu>
     );
   }, []);
 

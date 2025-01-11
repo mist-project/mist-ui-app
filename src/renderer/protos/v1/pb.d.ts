@@ -343,6 +343,9 @@ export namespace api {
 
                 /** Input createChannel */
                 createChannel?: (api.v1.channel.ICreateChannelRequest|null);
+
+                /** Input channelListing */
+                channelListing?: (api.v1.channel.IListChannelsRequest|null);
             }
 
             /** Represents an Input. */
@@ -372,8 +375,11 @@ export namespace api {
                 /** Input createChannel. */
                 public createChannel?: (api.v1.channel.ICreateChannelRequest|null);
 
+                /** Input channelListing. */
+                public channelListing?: (api.v1.channel.IListChannelsRequest|null);
+
                 /** Input data. */
-                public data?: ("updateJwtToken"|"appserverListing"|"appserverDetails"|"createAppserver"|"deleteAppserver"|"createChannel");
+                public data?: ("updateJwtToken"|"appserverListing"|"appserverDetails"|"createAppserver"|"deleteAppserver"|"createChannel"|"channelListing");
 
                 /**
                  * Creates a new Input instance using the specified properties.
@@ -558,6 +564,9 @@ export namespace api {
 
                 /** Output appserverDetails */
                 appserverDetails?: (api.v1.server.IGetByIdAppserverResponse|null);
+
+                /** Output channelListing */
+                channelListing?: (api.v1.channel.IListChannelsResponse|null);
             }
 
             /** Represents an Output. */
@@ -575,8 +584,11 @@ export namespace api {
                 /** Output appserverDetails. */
                 public appserverDetails?: (api.v1.server.IGetByIdAppserverResponse|null);
 
+                /** Output channelListing. */
+                public channelListing?: (api.v1.channel.IListChannelsResponse|null);
+
                 /** Output data. */
-                public data?: ("appserverListing"|"appserverDetails");
+                public data?: ("appserverListing"|"appserverDetails"|"channelListing");
 
                 /**
                  * Creates a new Output instance using the specified properties.

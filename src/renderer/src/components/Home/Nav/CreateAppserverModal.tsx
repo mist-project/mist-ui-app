@@ -1,7 +1,8 @@
+import { JSX, useState } from 'react';
+
 import { InputText } from '@renderer/components/common/Input';
 import { CommonFooter } from '@renderer/components/common/Modal';
-import AppserverRequest from '@renderer/requests/appserver';
-import { JSX, useState } from 'react';
+import { AppserverRequest } from '@renderer/requests';
 
 type CreateAppserverModalProps = {
   sendMessage: (_message: Uint8Array<ArrayBufferLike>) => void;
