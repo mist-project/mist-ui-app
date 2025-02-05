@@ -9,8 +9,8 @@ import { useAuth, useEvent, useIOSocket, useModal } from '@renderer/components/C
 import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
 import AppserverRequest from '@renderer/requests/appserver';
 
-import CreateAppserverModal from './CreateAppserverModal';
-import DeleteAppserverModal from './DeleteAppserverModal';
+import AddAppserverModal from './AddAppserverModal';
+import RemoveAppserver from './RemoveAppserverModal';
 
 type AppserverButtonsProps = {
   servers: pb.api.v1.server.IAppserverAndSub[];
@@ -63,9 +63,7 @@ const Nav = (): JSX.Element => {
         <MenuItem
           key={`delete-${appserver?.id}`}
           onClick={() => {
-            setModalContent(
-              <DeleteAppserverModal sendMessage={sendMessage} appserver={appserver} />
-            );
+            setModalContent(<RemoveAppserver appserver={appserver} />);
             showModal(true);
           }}
         >
@@ -82,11 +80,11 @@ const Nav = (): JSX.Element => {
       <div className="flex flex-col gap-2">
         <Button
           onClick={() => {
-            setModalContent(<CreateAppserverModal sendMessage={sendMessage} />);
+            setModalContent(<AddAppserverModal />);
             showModal(true);
           }}
         >
-          Create
+          (+)
         </Button>
 
         <Button

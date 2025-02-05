@@ -792,6 +792,7 @@ export const api = $root.api = (() => {
                  * @property {api.v1.server.IDeleteAppserverRequest|null} [deleteAppserver] Input deleteAppserver
                  * @property {api.v1.channel.ICreateChannelRequest|null} [createChannel] Input createChannel
                  * @property {api.v1.channel.IListChannelsRequest|null} [channelListing] Input channelListing
+                 * @property {api.v1.server.ICreateAppserverSubRequest|null} [joinAppserver] Input joinAppserver
                  */
 
                 /**
@@ -865,17 +866,25 @@ export const api = $root.api = (() => {
                  */
                 Input.prototype.channelListing = null;
 
+                /**
+                 * Input joinAppserver.
+                 * @member {api.v1.server.ICreateAppserverSubRequest|null|undefined} joinAppserver
+                 * @memberof api.v1.messages.Input
+                 * @instance
+                 */
+                Input.prototype.joinAppserver = null;
+
                 // OneOf field names bound to virtual getters and setters
                 let $oneOfFields;
 
                 /**
                  * Input data.
-                 * @member {"updateJwtToken"|"appserverListing"|"appserverDetails"|"createAppserver"|"deleteAppserver"|"createChannel"|"channelListing"|undefined} data
+                 * @member {"updateJwtToken"|"appserverListing"|"appserverDetails"|"createAppserver"|"deleteAppserver"|"createChannel"|"channelListing"|"joinAppserver"|undefined} data
                  * @memberof api.v1.messages.Input
                  * @instance
                  */
                 Object.defineProperty(Input.prototype, "data", {
-                    get: $util.oneOfGetter($oneOfFields = ["updateJwtToken", "appserverListing", "appserverDetails", "createAppserver", "deleteAppserver", "createChannel", "channelListing"]),
+                    get: $util.oneOfGetter($oneOfFields = ["updateJwtToken", "appserverListing", "appserverDetails", "createAppserver", "deleteAppserver", "createChannel", "channelListing", "joinAppserver"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -917,6 +926,8 @@ export const api = $root.api = (() => {
                         $root.api.v1.channel.CreateChannelRequest.encode(message.createChannel, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
                     if (message.channelListing != null && Object.hasOwnProperty.call(message, "channelListing"))
                         $root.api.v1.channel.ListChannelsRequest.encode(message.channelListing, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                    if (message.joinAppserver != null && Object.hasOwnProperty.call(message, "joinAppserver"))
+                        $root.api.v1.server.CreateAppserverSubRequest.encode(message.joinAppserver, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
                     return writer;
                 };
 
@@ -977,6 +988,10 @@ export const api = $root.api = (() => {
                             }
                         case 7: {
                                 message.channelListing = $root.api.v1.channel.ListChannelsRequest.decode(reader, reader.uint32());
+                                break;
+                            }
+                        case 8: {
+                                message.joinAppserver = $root.api.v1.server.CreateAppserverSubRequest.decode(reader, reader.uint32());
                                 break;
                             }
                         default:
@@ -1083,6 +1098,16 @@ export const api = $root.api = (() => {
                                 return "channelListing." + error;
                         }
                     }
+                    if (message.joinAppserver != null && message.hasOwnProperty("joinAppserver")) {
+                        if (properties.data === 1)
+                            return "data: multiple values";
+                        properties.data = 1;
+                        {
+                            let error = $root.api.v1.server.CreateAppserverSubRequest.verify(message.joinAppserver);
+                            if (error)
+                                return "joinAppserver." + error;
+                        }
+                    }
                     return null;
                 };
 
@@ -1132,6 +1157,11 @@ export const api = $root.api = (() => {
                         if (typeof object.channelListing !== "object")
                             throw TypeError(".api.v1.messages.Input.channelListing: object expected");
                         message.channelListing = $root.api.v1.channel.ListChannelsRequest.fromObject(object.channelListing);
+                    }
+                    if (object.joinAppserver != null) {
+                        if (typeof object.joinAppserver !== "object")
+                            throw TypeError(".api.v1.messages.Input.joinAppserver: object expected");
+                        message.joinAppserver = $root.api.v1.server.CreateAppserverSubRequest.fromObject(object.joinAppserver);
                     }
                     return message;
                 };
@@ -1183,6 +1213,11 @@ export const api = $root.api = (() => {
                         object.channelListing = $root.api.v1.channel.ListChannelsRequest.toObject(message.channelListing, options);
                         if (options.oneofs)
                             object.data = "channelListing";
+                    }
+                    if (message.joinAppserver != null && message.hasOwnProperty("joinAppserver")) {
+                        object.joinAppserver = $root.api.v1.server.CreateAppserverSubRequest.toObject(message.joinAppserver, options);
+                        if (options.oneofs)
+                            object.data = "joinAppserver";
                     }
                     return object;
                 };

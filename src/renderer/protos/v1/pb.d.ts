@@ -346,6 +346,9 @@ export namespace api {
 
                 /** Input channelListing */
                 channelListing?: (api.v1.channel.IListChannelsRequest|null);
+
+                /** Input joinAppserver */
+                joinAppserver?: (api.v1.server.ICreateAppserverSubRequest|null);
             }
 
             /** Represents an Input. */
@@ -378,8 +381,11 @@ export namespace api {
                 /** Input channelListing. */
                 public channelListing?: (api.v1.channel.IListChannelsRequest|null);
 
+                /** Input joinAppserver. */
+                public joinAppserver?: (api.v1.server.ICreateAppserverSubRequest|null);
+
                 /** Input data. */
-                public data?: ("updateJwtToken"|"appserverListing"|"appserverDetails"|"createAppserver"|"deleteAppserver"|"createChannel"|"channelListing");
+                public data?: ("updateJwtToken"|"appserverListing"|"appserverDetails"|"createAppserver"|"deleteAppserver"|"createChannel"|"channelListing"|"joinAppserver");
 
                 /**
                  * Creates a new Input instance using the specified properties.

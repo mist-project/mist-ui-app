@@ -40,6 +40,8 @@ message Input {
 
     channel.CreateChannelRequest create_channel = 6;
     channel.ListChannelsRequest channel_listing = 7;
+
+    server.CreateAppserverSubRequest join_appserver = 8;
   }
 }
 
@@ -52,6 +54,11 @@ message Output {
     server.GetByIdAppserverResponse appserver_details = 2;
 
     channel.ListChannelsResponse channel_listing = 3;
+    server.Appserver update_new_appserver = 4;
+    server.Appserver update_delete_appserver = 5;
+
+    channel.Channel update_new_channel = 5;
+    channel.Channel update_delete_channel = 6;
   }
 }
 

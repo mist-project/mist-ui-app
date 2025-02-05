@@ -19,9 +19,9 @@ const InputText = ({ label, className, type, value, setValue }: InputTextProps):
         className={`bg-gray-600 border-solid border-1 rounded p-[5px] border-gray-500 ${focusVisible} ${focus} ${className}`}
         type={type}
         value={value}
-        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-          setValue && setValue(event.target.value)
-        }
+        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+          setValue && setValue(event.target.value);
+        }}
       />
     </div>
   );

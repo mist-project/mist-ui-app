@@ -101,7 +101,7 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
         if (output.channelListing.channels == null) return;
         emitter.emit('channelListing', output.channelListing.channels);
       } else {
-        console.log('over here ');
+        console.log('not defined ');
       }
     };
   };
