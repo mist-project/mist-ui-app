@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useEffect, JSX, useRef, useState } from 'react';
 
-import { useAuth } from '../../Auth/AuthContext';
-import { useEvent } from '../../Event';
+import { pb_v1 } from '@renderer/requests';
 import AuthRequest from '@renderer/requests/auth';
 
-import { pb_v1 } from '@renderer/requests/base';
+import { useAuth } from '@renderer/components/Contexts/Auth';
+import { useEvent } from '@renderer/components/Contexts/Event';
 
 export enum WSConnectionStatus {
   Closed,
@@ -49,6 +49,7 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
       if (socketRef.current) {
         socketRef.current.close();
       }
+      emitter.off('socketToken');
     };
   }, [logged]);
 
@@ -89,12 +90,18 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
     };
 
     socketRef.current.onmessage = (event): void => {
-      const output = pb_v1.Output.decode(new Uint8Array(event.data));
+      const output = pb_v1.messages.Output.decode(new Uint8Array(event.data));
       // TODO: probably should create a handler class
       if (output.appserverListing) {
         emitter.emit('appserverListing', output.appserverListing);
+      } else if (output.appserverDetails) {
+        if (output.appserverDetails.appserver == null) return;
+        emitter.emit('appserverDetails', output.appserverDetails.appserver);
+      } else if (output.channelListing) {
+        if (output.channelListing.channels == null) return;
+        emitter.emit('channelListing', output.channelListing.channels);
       } else {
-        console.log('over here ');
+        console.log('not defined ');
       }
     };
   };

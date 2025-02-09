@@ -40,7 +40,6 @@ const Login = (): JSX.Element => {
       <Button
         className="ml-[200px]"
         onClick={() => {
-          console.log(rememberMe, 'hmm');
           if (rememberMe) {
             window.electron.ipcRenderer.send('store-remember-username', username);
           } else {

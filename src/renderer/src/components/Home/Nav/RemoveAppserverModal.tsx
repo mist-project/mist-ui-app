@@ -1,17 +1,16 @@
 import { JSX } from 'react';
 
 import { CommonFooter } from '@renderer/components/common/Modal';
-import AppserverRequest from '@renderer/requests/appserver';
+import { AppserverRequest } from '@renderer/requests';
 import * as pb from '@protos/v1/pb';
+import { useIOSocket } from '@renderer/components/Contexts';
 
-type DeleteAppserverModalProps = {
-  sendMessage: (_message: Uint8Array<ArrayBufferLike>) => void;
-  appserver: pb.api.v1.messages.IAppserver;
+type RemoveAppserverProps = {
+  appserver: pb.api.v1.appserver.IAppserver;
 };
-const DeleteAppserverModal = ({
-  sendMessage,
-  appserver
-}: DeleteAppserverModalProps): JSX.Element => {
+const RemoveAppserver = ({ appserver }: RemoveAppserverProps): JSX.Element => {
+  const { sendMessage } = useIOSocket();
+
   return (
     <div className="text-center">
       <div className="text-lg">Confirmation you want to delete server: </div>
@@ -25,4 +24,4 @@ const DeleteAppserverModal = ({
   );
 };
 
-export default DeleteAppserverModal;
+export default RemoveAppserver;

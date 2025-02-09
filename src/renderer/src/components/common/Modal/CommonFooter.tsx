@@ -1,6 +1,8 @@
 import { JSX } from 'react';
-import { Button } from '../Button';
+
 import { useModal } from '@renderer/components/Contexts';
+
+import { Button } from '../Button';
 
 type CommonFooterProps = {
   accept: () => void;

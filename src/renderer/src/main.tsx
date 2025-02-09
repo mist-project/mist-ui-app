@@ -12,13 +12,13 @@ import './index.scss';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <EventEmitterProvider>
-      <ModalProvider>
-        <AuthProvider>
-          <IOSocketProvider>
+      <AuthProvider>
+        <IOSocketProvider>
+          <ModalProvider>
             <App />
-          </IOSocketProvider>
-        </AuthProvider>
-      </ModalProvider>
+          </ModalProvider>
+        </IOSocketProvider>
+      </AuthProvider>
     </EventEmitterProvider>
   </React.StrictMode>
 );

@@ -1,41 +1,84 @@
-import { JSX } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Divider } from '../common/Divider';
-import ButtonWithMenu from '../common/Button/ButtonWithMenu';
-import { MenuItem } from '../common/Menu';
+import * as pb from '@protos/v1/pb';
 
-const dummyChannel = ['channel one', 'channel two'];
+import { Divider } from '@renderer/components/common/Divider';
+import ButtonWithMenu from '@renderer/components/common/Button/ButtonWithMenu/ButtonWithMenu';
+import { MenuItem, Menu } from '@renderer/components/common/Button/ButtonWithMenu';
+import { useEvent, useIOSocket, useModal } from '@renderer/components/Contexts';
+import { AppserverRequest, ChannelRequest } from '@renderer/requests';
+import { ReactSetState } from '@renderer/types';
+
+import { Channel } from './Channel/Channel';
+import { AppserverContext, useAppserverContext } from './AppserverContext';
+import { CreateChannelModal } from './Channel/CreateChannelModal';
 
 const AppserverHeader = (): JSX.Element => {
+  const { appserver } = useAppserverContext();
+  const { setModalContent, showModal } = useModal();
   return (
-    <div className="my-2 mx-2 pb-1">
-      <ButtonWithMenu menuItems={[]} buttonColor="none">
-        SERVER NAME
-      </ButtonWithMenu>
-    </div>
+    <ButtonWithMenu
+      className="py-2 w-full"
+      menuItems={
+        <Menu>
+          <MenuItem
+            onClick={() => {
+              if (!appserver) return;
+              setModalContent(<CreateChannelModal appserverId={appserver.id as string} />);
+              showModal(true);
+            }}
+          >
+            Create Channel
+          </MenuItem>
+        </Menu>
+      }
+      contextMenuItems={
+        <Menu>
+          <MenuItem>right</MenuItem>
+        </Menu>
+      }
+      buttonColor="none"
+    >
+      {appserver?.name}
+    </ButtonWithMenu>
   );
 };
 
-const ChannelButton = ({ children }: { children: React.ReactNode }): JSX.Element => {
+const ChannelButton = ({
+  children,
+  setChannelId
+}: {
+  children: React.ReactNode;
+  setChannelId: () => void;
+}): JSX.Element => {
   return (
     <ButtonWithMenu
-      menuItems={[<MenuItem key="hello">left</MenuItem>]}
-      contextMenuItems={[<MenuItem key="boom">right</MenuItem>]}
+      buttonColor="none"
+      className="hover:hover:bg-gray-800 p-2 mx-3 mb-1"
+      contextMenuItems={
+        <Menu>
+          <MenuItem key="boom">right</MenuItem>
+        </Menu>
+      }
+      onClick={setChannelId}
     >
       {children}
     </ButtonWithMenu>
   );
 };
 
-const AppserverPanel = (): JSX.Element => {
+const AppserverPanel = ({ setChannelId }: { setChannelId: ReactSetState<string> }): JSX.Element => {
+  const { channels } = useAppserverContext();
   return (
     <div>
       <AppserverHeader />
       <Divider />
       <div className="flex flex-col gap-2 mt-2">
-        {dummyChannel.map((channel) => (
-          <ChannelButton key={channel}>channel</ChannelButton>
+        {channels.map((channel) => (
+          <ChannelButton key={channel.id} setChannelId={() => setChannelId(channel.name as string)}>
+            {channel.name}
+          </ChannelButton>
         ))}
       </div>
     </div>
@@ -44,14 +87,39 @@ const AppserverPanel = (): JSX.Element => {
 
 const Appserver = (): JSX.Element => {
   const { appserverId } = useParams();
+  const { sendMessage } = useIOSocket();
+  const { emitter } = useEvent();
+  const [channelContentId, setChannelContentId] = useState<string>('');
+  const [channelListing, setChannelListing] = useState<pb.api.v1.channel.IChannel[]>([]);
+  const [appserverDetails, setAppserverDetails] = useState<pb.api.v1.appserver.IAppserver>();
+
+  useEffect(() => {
+    if (!appserverId) return;
+    new AppserverRequest(sendMessage).getAppserverDetails(appserverId);
+    emitter.on('appserverDetails', (appserverDetails) => {
+      setAppserverDetails(appserverDetails);
+    });
+
+    new ChannelRequest(sendMessage).channelListing(appserverId);
+    emitter.on('channelListing', (channelListing) => {
+      setChannelListing(channelListing);
+    });
+
+    return (): void => {
+      emitter.off('appserverDetails');
+      emitter.off('channelListing');
+    };
+  }, [appserverId]);
 
   return (
-    <div className="flex w-full">
-      <div className="w-[250px] border-r-2">
-        <AppserverPanel />
+    <AppserverContext.Provider value={{ appserver: appserverDetails, channels: channelListing }}>
+      <div className="flex w-full">
+        <div className="w-[240px]">
+          <AppserverPanel setChannelId={setChannelContentId} />
+        </div>
+        <Channel channelId={channelContentId} />
       </div>
-      <div className="flex-grow border p-2">Content: {appserverId}</div>
-    </div>
+    </AppserverContext.Provider>
   );
 };
 
