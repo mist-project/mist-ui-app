@@ -36,7 +36,6 @@ export const useAuth = (): AuthContextType => {
 export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [logged, setLogged] = useState<boolean>(false);
   const { emitter } = useEvent();
-  // const { connect, getWebSocket, sendMessage, closeWebSocket } = useIOSocket();
 
   useEffect(() => {
     window.electron.ipcRenderer.send('authentication-status');

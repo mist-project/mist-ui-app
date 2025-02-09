@@ -13,7 +13,7 @@ import AddAppserverModal from './AddAppserverModal';
 import RemoveAppserver from './RemoveAppserverModal';
 
 type AppserverButtonsProps = {
-  servers: pb.api.v1.server.IAppserverAndSub[];
+  servers: pb.api.v1.appserver.IAppserverAndSub[];
 };
 
 const Nav = (): JSX.Element => {
@@ -23,7 +23,7 @@ const Nav = (): JSX.Element => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const [servers, setServers] = useState<pb.api.v1.server.IAppserverAndSub[]>([]);
+  const [servers, setServers] = useState<pb.api.v1.appserver.IAppserverAndSub[]>([]);
 
   useEffect(() => {
     if (connectionState === WSConnectionStatus.Connected) {
@@ -46,7 +46,7 @@ const Nav = (): JSX.Element => {
                 onClick={() => {
                   navigate(`/appserver/${s.appserver?.id}`);
                 }}
-                contextMenuItems={AppServerMenuItems(s.appserver as pb.api.v1.server.IAppserver)}
+                contextMenuItems={AppServerMenuItems(s.appserver as pb.api.v1.appserver.IAppserver)}
               >
                 {s.appserver?.name}
               </ButtonWithMenu>
@@ -57,21 +57,24 @@ const Nav = (): JSX.Element => {
     );
   }, []);
 
-  const AppServerMenuItems = useCallback((appserver: pb.api.v1.server.IAppserver): JSX.Element => {
-    return (
-      <Menu>
-        <MenuItem
-          key={`delete-${appserver?.id}`}
-          onClick={() => {
-            setModalContent(<RemoveAppserver appserver={appserver} />);
-            showModal(true);
-          }}
-        >
-          Delete
-        </MenuItem>
-      </Menu>
-    );
-  }, []);
+  const AppServerMenuItems = useCallback(
+    (appserver: pb.api.v1.appserver.IAppserver): JSX.Element => {
+      return (
+        <Menu>
+          <MenuItem
+            key={`delete-${appserver?.id}`}
+            onClick={() => {
+              setModalContent(<RemoveAppserver appserver={appserver} />);
+              showModal(true);
+            }}
+          >
+            Delete
+          </MenuItem>
+        </Menu>
+      );
+    },
+    []
+  );
 
   //TODO Remove opacity in the future for a color
   return (

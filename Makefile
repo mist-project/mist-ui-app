@@ -12,7 +12,7 @@ compile-protos cp:
 		-p src/renderer/protos/v1/ \
 		src/renderer/protos/v1/messages.proto \
 		src/renderer/protos/v1/channel.proto \
-		src/renderer/protos/v1/server.proto
+		src/renderer/protos/v1/appserver.proto
 	@npx pbts \
   	-o src/renderer/protos/v1/pb.d.ts \
   	src/renderer/protos/v1/pb.js

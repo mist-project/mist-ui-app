@@ -17,7 +17,6 @@ import { CreateChannelModal } from './Channel/CreateChannelModal';
 const AppserverHeader = (): JSX.Element => {
   const { appserver } = useAppserverContext();
   const { setModalContent, showModal } = useModal();
-
   return (
     <ButtonWithMenu
       className="py-2 w-full"
@@ -92,7 +91,7 @@ const Appserver = (): JSX.Element => {
   const { emitter } = useEvent();
   const [channelContentId, setChannelContentId] = useState<string>('');
   const [channelListing, setChannelListing] = useState<pb.api.v1.channel.IChannel[]>([]);
-  const [appserverDetails, setAppserverDetails] = useState<pb.api.v1.server.IAppserver>();
+  const [appserverDetails, setAppserverDetails] = useState<pb.api.v1.appserver.IAppserver>();
 
   useEffect(() => {
     if (!appserverId) return;

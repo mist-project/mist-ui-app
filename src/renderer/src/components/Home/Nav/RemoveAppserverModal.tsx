@@ -6,7 +6,7 @@ import * as pb from '@protos/v1/pb';
 import { useIOSocket } from '@renderer/components/Contexts';
 
 type RemoveAppserverProps = {
-  appserver: pb.api.v1.server.IAppserver;
+  appserver: pb.api.v1.appserver.IAppserver;
 };
 const RemoveAppserver = ({ appserver }: RemoveAppserverProps): JSX.Element => {
   const { sendMessage } = useIOSocket();
