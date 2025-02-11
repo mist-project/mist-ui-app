@@ -793,6 +793,8 @@ export const api = $root.api = (() => {
                  * @property {api.v1.channel.ICreateChannelRequest|null} [createChannel] Input createChannel
                  * @property {api.v1.channel.IListChannelsRequest|null} [channelListing] Input channelListing
                  * @property {api.v1.appserver.ICreateAppserverSubRequest|null} [joinAppserver] Input joinAppserver
+                 * @property {api.v1.appserver.ICreateAppserverRoleRequest|null} [createAppserverRole] Input createAppserverRole
+                 * @property {api.v1.appserver.IGetAllAppserverRolesRequest|null} [appserverRoleListing] Input appserverRoleListing
                  */
 
                 /**
@@ -874,17 +876,33 @@ export const api = $root.api = (() => {
                  */
                 Input.prototype.joinAppserver = null;
 
+                /**
+                 * Input createAppserverRole.
+                 * @member {api.v1.appserver.ICreateAppserverRoleRequest|null|undefined} createAppserverRole
+                 * @memberof api.v1.messages.Input
+                 * @instance
+                 */
+                Input.prototype.createAppserverRole = null;
+
+                /**
+                 * Input appserverRoleListing.
+                 * @member {api.v1.appserver.IGetAllAppserverRolesRequest|null|undefined} appserverRoleListing
+                 * @memberof api.v1.messages.Input
+                 * @instance
+                 */
+                Input.prototype.appserverRoleListing = null;
+
                 // OneOf field names bound to virtual getters and setters
                 let $oneOfFields;
 
                 /**
                  * Input data.
-                 * @member {"updateJwtToken"|"appserverListing"|"appserverDetails"|"createAppserver"|"deleteAppserver"|"createChannel"|"channelListing"|"joinAppserver"|undefined} data
+                 * @member {"updateJwtToken"|"appserverListing"|"appserverDetails"|"createAppserver"|"deleteAppserver"|"createChannel"|"channelListing"|"joinAppserver"|"createAppserverRole"|"appserverRoleListing"|undefined} data
                  * @memberof api.v1.messages.Input
                  * @instance
                  */
                 Object.defineProperty(Input.prototype, "data", {
-                    get: $util.oneOfGetter($oneOfFields = ["updateJwtToken", "appserverListing", "appserverDetails", "createAppserver", "deleteAppserver", "createChannel", "channelListing", "joinAppserver"]),
+                    get: $util.oneOfGetter($oneOfFields = ["updateJwtToken", "appserverListing", "appserverDetails", "createAppserver", "deleteAppserver", "createChannel", "channelListing", "joinAppserver", "createAppserverRole", "appserverRoleListing"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -928,6 +946,10 @@ export const api = $root.api = (() => {
                         $root.api.v1.channel.ListChannelsRequest.encode(message.channelListing, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
                     if (message.joinAppserver != null && Object.hasOwnProperty.call(message, "joinAppserver"))
                         $root.api.v1.appserver.CreateAppserverSubRequest.encode(message.joinAppserver, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+                    if (message.createAppserverRole != null && Object.hasOwnProperty.call(message, "createAppserverRole"))
+                        $root.api.v1.appserver.CreateAppserverRoleRequest.encode(message.createAppserverRole, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+                    if (message.appserverRoleListing != null && Object.hasOwnProperty.call(message, "appserverRoleListing"))
+                        $root.api.v1.appserver.GetAllAppserverRolesRequest.encode(message.appserverRoleListing, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
                     return writer;
                 };
 
@@ -992,6 +1014,14 @@ export const api = $root.api = (() => {
                             }
                         case 8: {
                                 message.joinAppserver = $root.api.v1.appserver.CreateAppserverSubRequest.decode(reader, reader.uint32());
+                                break;
+                            }
+                        case 9: {
+                                message.createAppserverRole = $root.api.v1.appserver.CreateAppserverRoleRequest.decode(reader, reader.uint32());
+                                break;
+                            }
+                        case 10: {
+                                message.appserverRoleListing = $root.api.v1.appserver.GetAllAppserverRolesRequest.decode(reader, reader.uint32());
                                 break;
                             }
                         default:
@@ -1108,6 +1138,26 @@ export const api = $root.api = (() => {
                                 return "joinAppserver." + error;
                         }
                     }
+                    if (message.createAppserverRole != null && message.hasOwnProperty("createAppserverRole")) {
+                        if (properties.data === 1)
+                            return "data: multiple values";
+                        properties.data = 1;
+                        {
+                            let error = $root.api.v1.appserver.CreateAppserverRoleRequest.verify(message.createAppserverRole);
+                            if (error)
+                                return "createAppserverRole." + error;
+                        }
+                    }
+                    if (message.appserverRoleListing != null && message.hasOwnProperty("appserverRoleListing")) {
+                        if (properties.data === 1)
+                            return "data: multiple values";
+                        properties.data = 1;
+                        {
+                            let error = $root.api.v1.appserver.GetAllAppserverRolesRequest.verify(message.appserverRoleListing);
+                            if (error)
+                                return "appserverRoleListing." + error;
+                        }
+                    }
                     return null;
                 };
 
@@ -1162,6 +1212,16 @@ export const api = $root.api = (() => {
                         if (typeof object.joinAppserver !== "object")
                             throw TypeError(".api.v1.messages.Input.joinAppserver: object expected");
                         message.joinAppserver = $root.api.v1.appserver.CreateAppserverSubRequest.fromObject(object.joinAppserver);
+                    }
+                    if (object.createAppserverRole != null) {
+                        if (typeof object.createAppserverRole !== "object")
+                            throw TypeError(".api.v1.messages.Input.createAppserverRole: object expected");
+                        message.createAppserverRole = $root.api.v1.appserver.CreateAppserverRoleRequest.fromObject(object.createAppserverRole);
+                    }
+                    if (object.appserverRoleListing != null) {
+                        if (typeof object.appserverRoleListing !== "object")
+                            throw TypeError(".api.v1.messages.Input.appserverRoleListing: object expected");
+                        message.appserverRoleListing = $root.api.v1.appserver.GetAllAppserverRolesRequest.fromObject(object.appserverRoleListing);
                     }
                     return message;
                 };
@@ -1218,6 +1278,16 @@ export const api = $root.api = (() => {
                         object.joinAppserver = $root.api.v1.appserver.CreateAppserverSubRequest.toObject(message.joinAppserver, options);
                         if (options.oneofs)
                             object.data = "joinAppserver";
+                    }
+                    if (message.createAppserverRole != null && message.hasOwnProperty("createAppserverRole")) {
+                        object.createAppserverRole = $root.api.v1.appserver.CreateAppserverRoleRequest.toObject(message.createAppserverRole, options);
+                        if (options.oneofs)
+                            object.data = "createAppserverRole";
+                    }
+                    if (message.appserverRoleListing != null && message.hasOwnProperty("appserverRoleListing")) {
+                        object.appserverRoleListing = $root.api.v1.appserver.GetAllAppserverRolesRequest.toObject(message.appserverRoleListing, options);
+                        if (options.oneofs)
+                            object.data = "appserverRoleListing";
                     }
                     return object;
                 };
@@ -1463,10 +1533,9 @@ export const api = $root.api = (() => {
                  * @property {api.v1.appserver.IGetUserAppserverSubsResponse|null} [appserverListing] Output appserverListing
                  * @property {api.v1.appserver.IGetByIdAppserverResponse|null} [appserverDetails] Output appserverDetails
                  * @property {api.v1.channel.IListChannelsResponse|null} [channelListing] Output channelListing
-                 * @property {api.v1.appserver.IAppserver|null} [updateNewAppserver] Output updateNewAppserver
-                 * @property {api.v1.appserver.IAppserver|null} [updateDeleteAppserver] Output updateDeleteAppserver
-                 * @property {api.v1.channel.IChannel|null} [updateNewChannel] Output updateNewChannel
-                 * @property {api.v1.channel.IChannel|null} [updateDeleteChannel] Output updateDeleteChannel
+                 * @property {api.v1.appserver.IAppserver|null} [updateAddAppserver] Output updateAddAppserver
+                 * @property {api.v1.appserver.IGetAllAppserverRolesResponse|null} [appserverRolesListing] Output appserverRolesListing
+                 * @property {string|null} [updateRemoveAppserver] Output updateRemoveAppserver
                  */
 
                 /**
@@ -1509,48 +1578,40 @@ export const api = $root.api = (() => {
                 Output.prototype.channelListing = null;
 
                 /**
-                 * Output updateNewAppserver.
-                 * @member {api.v1.appserver.IAppserver|null|undefined} updateNewAppserver
+                 * Output updateAddAppserver.
+                 * @member {api.v1.appserver.IAppserver|null|undefined} updateAddAppserver
                  * @memberof api.v1.messages.Output
                  * @instance
                  */
-                Output.prototype.updateNewAppserver = null;
+                Output.prototype.updateAddAppserver = null;
 
                 /**
-                 * Output updateDeleteAppserver.
-                 * @member {api.v1.appserver.IAppserver|null|undefined} updateDeleteAppserver
+                 * Output appserverRolesListing.
+                 * @member {api.v1.appserver.IGetAllAppserverRolesResponse|null|undefined} appserverRolesListing
                  * @memberof api.v1.messages.Output
                  * @instance
                  */
-                Output.prototype.updateDeleteAppserver = null;
+                Output.prototype.appserverRolesListing = null;
 
                 /**
-                 * Output updateNewChannel.
-                 * @member {api.v1.channel.IChannel|null|undefined} updateNewChannel
+                 * Output updateRemoveAppserver.
+                 * @member {string|null|undefined} updateRemoveAppserver
                  * @memberof api.v1.messages.Output
                  * @instance
                  */
-                Output.prototype.updateNewChannel = null;
-
-                /**
-                 * Output updateDeleteChannel.
-                 * @member {api.v1.channel.IChannel|null|undefined} updateDeleteChannel
-                 * @memberof api.v1.messages.Output
-                 * @instance
-                 */
-                Output.prototype.updateDeleteChannel = null;
+                Output.prototype.updateRemoveAppserver = null;
 
                 // OneOf field names bound to virtual getters and setters
                 let $oneOfFields;
 
                 /**
                  * Output data.
-                 * @member {"appserverListing"|"appserverDetails"|"channelListing"|"updateNewAppserver"|"updateDeleteAppserver"|"updateNewChannel"|"updateDeleteChannel"|undefined} data
+                 * @member {"appserverListing"|"appserverDetails"|"channelListing"|"updateAddAppserver"|"appserverRolesListing"|"updateRemoveAppserver"|undefined} data
                  * @memberof api.v1.messages.Output
                  * @instance
                  */
                 Object.defineProperty(Output.prototype, "data", {
-                    get: $util.oneOfGetter($oneOfFields = ["appserverListing", "appserverDetails", "channelListing", "updateNewAppserver", "updateDeleteAppserver", "updateNewChannel", "updateDeleteChannel"]),
+                    get: $util.oneOfGetter($oneOfFields = ["appserverListing", "appserverDetails", "channelListing", "updateAddAppserver", "appserverRolesListing", "updateRemoveAppserver"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -1584,14 +1645,12 @@ export const api = $root.api = (() => {
                         $root.api.v1.appserver.GetByIdAppserverResponse.encode(message.appserverDetails, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                     if (message.channelListing != null && Object.hasOwnProperty.call(message, "channelListing"))
                         $root.api.v1.channel.ListChannelsResponse.encode(message.channelListing, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                    if (message.updateNewAppserver != null && Object.hasOwnProperty.call(message, "updateNewAppserver"))
-                        $root.api.v1.appserver.Appserver.encode(message.updateNewAppserver, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                    if (message.updateDeleteAppserver != null && Object.hasOwnProperty.call(message, "updateDeleteAppserver"))
-                        $root.api.v1.appserver.Appserver.encode(message.updateDeleteAppserver, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-                    if (message.updateNewChannel != null && Object.hasOwnProperty.call(message, "updateNewChannel"))
-                        $root.api.v1.channel.Channel.encode(message.updateNewChannel, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-                    if (message.updateDeleteChannel != null && Object.hasOwnProperty.call(message, "updateDeleteChannel"))
-                        $root.api.v1.channel.Channel.encode(message.updateDeleteChannel, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                    if (message.updateAddAppserver != null && Object.hasOwnProperty.call(message, "updateAddAppserver"))
+                        $root.api.v1.appserver.Appserver.encode(message.updateAddAppserver, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    if (message.appserverRolesListing != null && Object.hasOwnProperty.call(message, "appserverRolesListing"))
+                        $root.api.v1.appserver.GetAllAppserverRolesResponse.encode(message.appserverRolesListing, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                    if (message.updateRemoveAppserver != null && Object.hasOwnProperty.call(message, "updateRemoveAppserver"))
+                        writer.uint32(/* id 6, wireType 2 =*/50).string(message.updateRemoveAppserver);
                     return writer;
                 };
 
@@ -1639,19 +1698,15 @@ export const api = $root.api = (() => {
                                 break;
                             }
                         case 4: {
-                                message.updateNewAppserver = $root.api.v1.appserver.Appserver.decode(reader, reader.uint32());
+                                message.updateAddAppserver = $root.api.v1.appserver.Appserver.decode(reader, reader.uint32());
                                 break;
                             }
                         case 5: {
-                                message.updateDeleteAppserver = $root.api.v1.appserver.Appserver.decode(reader, reader.uint32());
+                                message.appserverRolesListing = $root.api.v1.appserver.GetAllAppserverRolesResponse.decode(reader, reader.uint32());
                                 break;
                             }
                         case 6: {
-                                message.updateNewChannel = $root.api.v1.channel.Channel.decode(reader, reader.uint32());
-                                break;
-                            }
-                        case 7: {
-                                message.updateDeleteChannel = $root.api.v1.channel.Channel.decode(reader, reader.uint32());
+                                message.updateRemoveAppserver = reader.string();
                                 break;
                             }
                         default:
@@ -1718,45 +1773,32 @@ export const api = $root.api = (() => {
                                 return "channelListing." + error;
                         }
                     }
-                    if (message.updateNewAppserver != null && message.hasOwnProperty("updateNewAppserver")) {
+                    if (message.updateAddAppserver != null && message.hasOwnProperty("updateAddAppserver")) {
                         if (properties.data === 1)
                             return "data: multiple values";
                         properties.data = 1;
                         {
-                            let error = $root.api.v1.appserver.Appserver.verify(message.updateNewAppserver);
+                            let error = $root.api.v1.appserver.Appserver.verify(message.updateAddAppserver);
                             if (error)
-                                return "updateNewAppserver." + error;
+                                return "updateAddAppserver." + error;
                         }
                     }
-                    if (message.updateDeleteAppserver != null && message.hasOwnProperty("updateDeleteAppserver")) {
+                    if (message.appserverRolesListing != null && message.hasOwnProperty("appserverRolesListing")) {
                         if (properties.data === 1)
                             return "data: multiple values";
                         properties.data = 1;
                         {
-                            let error = $root.api.v1.appserver.Appserver.verify(message.updateDeleteAppserver);
+                            let error = $root.api.v1.appserver.GetAllAppserverRolesResponse.verify(message.appserverRolesListing);
                             if (error)
-                                return "updateDeleteAppserver." + error;
+                                return "appserverRolesListing." + error;
                         }
                     }
-                    if (message.updateNewChannel != null && message.hasOwnProperty("updateNewChannel")) {
+                    if (message.updateRemoveAppserver != null && message.hasOwnProperty("updateRemoveAppserver")) {
                         if (properties.data === 1)
                             return "data: multiple values";
                         properties.data = 1;
-                        {
-                            let error = $root.api.v1.channel.Channel.verify(message.updateNewChannel);
-                            if (error)
-                                return "updateNewChannel." + error;
-                        }
-                    }
-                    if (message.updateDeleteChannel != null && message.hasOwnProperty("updateDeleteChannel")) {
-                        if (properties.data === 1)
-                            return "data: multiple values";
-                        properties.data = 1;
-                        {
-                            let error = $root.api.v1.channel.Channel.verify(message.updateDeleteChannel);
-                            if (error)
-                                return "updateDeleteChannel." + error;
-                        }
+                        if (!$util.isString(message.updateRemoveAppserver))
+                            return "updateRemoveAppserver: string expected";
                     }
                     return null;
                 };
@@ -1788,26 +1830,18 @@ export const api = $root.api = (() => {
                             throw TypeError(".api.v1.messages.Output.channelListing: object expected");
                         message.channelListing = $root.api.v1.channel.ListChannelsResponse.fromObject(object.channelListing);
                     }
-                    if (object.updateNewAppserver != null) {
-                        if (typeof object.updateNewAppserver !== "object")
-                            throw TypeError(".api.v1.messages.Output.updateNewAppserver: object expected");
-                        message.updateNewAppserver = $root.api.v1.appserver.Appserver.fromObject(object.updateNewAppserver);
+                    if (object.updateAddAppserver != null) {
+                        if (typeof object.updateAddAppserver !== "object")
+                            throw TypeError(".api.v1.messages.Output.updateAddAppserver: object expected");
+                        message.updateAddAppserver = $root.api.v1.appserver.Appserver.fromObject(object.updateAddAppserver);
                     }
-                    if (object.updateDeleteAppserver != null) {
-                        if (typeof object.updateDeleteAppserver !== "object")
-                            throw TypeError(".api.v1.messages.Output.updateDeleteAppserver: object expected");
-                        message.updateDeleteAppserver = $root.api.v1.appserver.Appserver.fromObject(object.updateDeleteAppserver);
+                    if (object.appserverRolesListing != null) {
+                        if (typeof object.appserverRolesListing !== "object")
+                            throw TypeError(".api.v1.messages.Output.appserverRolesListing: object expected");
+                        message.appserverRolesListing = $root.api.v1.appserver.GetAllAppserverRolesResponse.fromObject(object.appserverRolesListing);
                     }
-                    if (object.updateNewChannel != null) {
-                        if (typeof object.updateNewChannel !== "object")
-                            throw TypeError(".api.v1.messages.Output.updateNewChannel: object expected");
-                        message.updateNewChannel = $root.api.v1.channel.Channel.fromObject(object.updateNewChannel);
-                    }
-                    if (object.updateDeleteChannel != null) {
-                        if (typeof object.updateDeleteChannel !== "object")
-                            throw TypeError(".api.v1.messages.Output.updateDeleteChannel: object expected");
-                        message.updateDeleteChannel = $root.api.v1.channel.Channel.fromObject(object.updateDeleteChannel);
-                    }
+                    if (object.updateRemoveAppserver != null)
+                        message.updateRemoveAppserver = String(object.updateRemoveAppserver);
                     return message;
                 };
 
@@ -1839,25 +1873,20 @@ export const api = $root.api = (() => {
                         if (options.oneofs)
                             object.data = "channelListing";
                     }
-                    if (message.updateNewAppserver != null && message.hasOwnProperty("updateNewAppserver")) {
-                        object.updateNewAppserver = $root.api.v1.appserver.Appserver.toObject(message.updateNewAppserver, options);
+                    if (message.updateAddAppserver != null && message.hasOwnProperty("updateAddAppserver")) {
+                        object.updateAddAppserver = $root.api.v1.appserver.Appserver.toObject(message.updateAddAppserver, options);
                         if (options.oneofs)
-                            object.data = "updateNewAppserver";
+                            object.data = "updateAddAppserver";
                     }
-                    if (message.updateDeleteAppserver != null && message.hasOwnProperty("updateDeleteAppserver")) {
-                        object.updateDeleteAppserver = $root.api.v1.appserver.Appserver.toObject(message.updateDeleteAppserver, options);
+                    if (message.appserverRolesListing != null && message.hasOwnProperty("appserverRolesListing")) {
+                        object.appserverRolesListing = $root.api.v1.appserver.GetAllAppserverRolesResponse.toObject(message.appserverRolesListing, options);
                         if (options.oneofs)
-                            object.data = "updateDeleteAppserver";
+                            object.data = "appserverRolesListing";
                     }
-                    if (message.updateNewChannel != null && message.hasOwnProperty("updateNewChannel")) {
-                        object.updateNewChannel = $root.api.v1.channel.Channel.toObject(message.updateNewChannel, options);
+                    if (message.updateRemoveAppserver != null && message.hasOwnProperty("updateRemoveAppserver")) {
+                        object.updateRemoveAppserver = message.updateRemoveAppserver;
                         if (options.oneofs)
-                            object.data = "updateNewChannel";
-                    }
-                    if (message.updateDeleteChannel != null && message.hasOwnProperty("updateDeleteChannel")) {
-                        object.updateDeleteChannel = $root.api.v1.channel.Channel.toObject(message.updateDeleteChannel, options);
-                        if (options.oneofs)
-                            object.data = "updateDeleteChannel";
+                            object.data = "updateRemoveAppserver";
                     }
                     return object;
                 };
@@ -6462,620 +6491,6 @@ export const api = $root.api = (() => {
                 return CreateAppserverRequest;
             })();
 
-            appserver.GetByIdAppserverRequest = (function() {
-
-                /**
-                 * Properties of a GetByIdAppserverRequest.
-                 * @memberof api.v1.appserver
-                 * @interface IGetByIdAppserverRequest
-                 * @property {string|null} [id] GetByIdAppserverRequest id
-                 */
-
-                /**
-                 * Constructs a new GetByIdAppserverRequest.
-                 * @memberof api.v1.appserver
-                 * @classdesc Represents a GetByIdAppserverRequest.
-                 * @implements IGetByIdAppserverRequest
-                 * @constructor
-                 * @param {api.v1.appserver.IGetByIdAppserverRequest=} [properties] Properties to set
-                 */
-                function GetByIdAppserverRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * GetByIdAppserverRequest id.
-                 * @member {string} id
-                 * @memberof api.v1.appserver.GetByIdAppserverRequest
-                 * @instance
-                 */
-                GetByIdAppserverRequest.prototype.id = "";
-
-                /**
-                 * Creates a new GetByIdAppserverRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.appserver.GetByIdAppserverRequest
-                 * @static
-                 * @param {api.v1.appserver.IGetByIdAppserverRequest=} [properties] Properties to set
-                 * @returns {api.v1.appserver.GetByIdAppserverRequest} GetByIdAppserverRequest instance
-                 */
-                GetByIdAppserverRequest.create = function create(properties) {
-                    return new GetByIdAppserverRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified GetByIdAppserverRequest message. Does not implicitly {@link api.v1.appserver.GetByIdAppserverRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.appserver.GetByIdAppserverRequest
-                 * @static
-                 * @param {api.v1.appserver.IGetByIdAppserverRequest} message GetByIdAppserverRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                GetByIdAppserverRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified GetByIdAppserverRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetByIdAppserverRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.appserver.GetByIdAppserverRequest
-                 * @static
-                 * @param {api.v1.appserver.IGetByIdAppserverRequest} message GetByIdAppserverRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                GetByIdAppserverRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a GetByIdAppserverRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.appserver.GetByIdAppserverRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.appserver.GetByIdAppserverRequest} GetByIdAppserverRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                GetByIdAppserverRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.GetByIdAppserverRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.id = reader.string();
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a GetByIdAppserverRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.appserver.GetByIdAppserverRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.appserver.GetByIdAppserverRequest} GetByIdAppserverRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                GetByIdAppserverRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a GetByIdAppserverRequest message.
-                 * @function verify
-                 * @memberof api.v1.appserver.GetByIdAppserverRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                GetByIdAppserverRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isString(message.id))
-                            return "id: string expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a GetByIdAppserverRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.appserver.GetByIdAppserverRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.appserver.GetByIdAppserverRequest} GetByIdAppserverRequest
-                 */
-                GetByIdAppserverRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.appserver.GetByIdAppserverRequest)
-                        return object;
-                    let message = new $root.api.v1.appserver.GetByIdAppserverRequest();
-                    if (object.id != null)
-                        message.id = String(object.id);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a GetByIdAppserverRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.appserver.GetByIdAppserverRequest
-                 * @static
-                 * @param {api.v1.appserver.GetByIdAppserverRequest} message GetByIdAppserverRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                GetByIdAppserverRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults)
-                        object.id = "";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
-                    return object;
-                };
-
-                /**
-                 * Converts this GetByIdAppserverRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.appserver.GetByIdAppserverRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                GetByIdAppserverRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for GetByIdAppserverRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.appserver.GetByIdAppserverRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                GetByIdAppserverRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.appserver.GetByIdAppserverRequest";
-                };
-
-                return GetByIdAppserverRequest;
-            })();
-
-            appserver.ListAppserversRequest = (function() {
-
-                /**
-                 * Properties of a ListAppserversRequest.
-                 * @memberof api.v1.appserver
-                 * @interface IListAppserversRequest
-                 * @property {google.protobuf.IStringValue|null} [name] ListAppserversRequest name
-                 */
-
-                /**
-                 * Constructs a new ListAppserversRequest.
-                 * @memberof api.v1.appserver
-                 * @classdesc Represents a ListAppserversRequest.
-                 * @implements IListAppserversRequest
-                 * @constructor
-                 * @param {api.v1.appserver.IListAppserversRequest=} [properties] Properties to set
-                 */
-                function ListAppserversRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * ListAppserversRequest name.
-                 * @member {google.protobuf.IStringValue|null|undefined} name
-                 * @memberof api.v1.appserver.ListAppserversRequest
-                 * @instance
-                 */
-                ListAppserversRequest.prototype.name = null;
-
-                /**
-                 * Creates a new ListAppserversRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.appserver.ListAppserversRequest
-                 * @static
-                 * @param {api.v1.appserver.IListAppserversRequest=} [properties] Properties to set
-                 * @returns {api.v1.appserver.ListAppserversRequest} ListAppserversRequest instance
-                 */
-                ListAppserversRequest.create = function create(properties) {
-                    return new ListAppserversRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified ListAppserversRequest message. Does not implicitly {@link api.v1.appserver.ListAppserversRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.appserver.ListAppserversRequest
-                 * @static
-                 * @param {api.v1.appserver.IListAppserversRequest} message ListAppserversRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ListAppserversRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
-                        $root.google.protobuf.StringValue.encode(message.name, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified ListAppserversRequest message, length delimited. Does not implicitly {@link api.v1.appserver.ListAppserversRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.appserver.ListAppserversRequest
-                 * @static
-                 * @param {api.v1.appserver.IListAppserversRequest} message ListAppserversRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ListAppserversRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a ListAppserversRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.appserver.ListAppserversRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.appserver.ListAppserversRequest} ListAppserversRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ListAppserversRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.ListAppserversRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.name = $root.google.protobuf.StringValue.decode(reader, reader.uint32());
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a ListAppserversRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.appserver.ListAppserversRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.appserver.ListAppserversRequest} ListAppserversRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ListAppserversRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a ListAppserversRequest message.
-                 * @function verify
-                 * @memberof api.v1.appserver.ListAppserversRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                ListAppserversRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name")) {
-                        let error = $root.google.protobuf.StringValue.verify(message.name);
-                        if (error)
-                            return "name." + error;
-                    }
-                    return null;
-                };
-
-                /**
-                 * Creates a ListAppserversRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.appserver.ListAppserversRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.appserver.ListAppserversRequest} ListAppserversRequest
-                 */
-                ListAppserversRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.appserver.ListAppserversRequest)
-                        return object;
-                    let message = new $root.api.v1.appserver.ListAppserversRequest();
-                    if (object.name != null) {
-                        if (typeof object.name !== "object")
-                            throw TypeError(".api.v1.appserver.ListAppserversRequest.name: object expected");
-                        message.name = $root.google.protobuf.StringValue.fromObject(object.name);
-                    }
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a ListAppserversRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.appserver.ListAppserversRequest
-                 * @static
-                 * @param {api.v1.appserver.ListAppserversRequest} message ListAppserversRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                ListAppserversRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults)
-                        object.name = null;
-                    if (message.name != null && message.hasOwnProperty("name"))
-                        object.name = $root.google.protobuf.StringValue.toObject(message.name, options);
-                    return object;
-                };
-
-                /**
-                 * Converts this ListAppserversRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.appserver.ListAppserversRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                ListAppserversRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for ListAppserversRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.appserver.ListAppserversRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                ListAppserversRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.appserver.ListAppserversRequest";
-                };
-
-                return ListAppserversRequest;
-            })();
-
-            appserver.DeleteAppserverRequest = (function() {
-
-                /**
-                 * Properties of a DeleteAppserverRequest.
-                 * @memberof api.v1.appserver
-                 * @interface IDeleteAppserverRequest
-                 * @property {string|null} [id] DeleteAppserverRequest id
-                 */
-
-                /**
-                 * Constructs a new DeleteAppserverRequest.
-                 * @memberof api.v1.appserver
-                 * @classdesc Represents a DeleteAppserverRequest.
-                 * @implements IDeleteAppserverRequest
-                 * @constructor
-                 * @param {api.v1.appserver.IDeleteAppserverRequest=} [properties] Properties to set
-                 */
-                function DeleteAppserverRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * DeleteAppserverRequest id.
-                 * @member {string} id
-                 * @memberof api.v1.appserver.DeleteAppserverRequest
-                 * @instance
-                 */
-                DeleteAppserverRequest.prototype.id = "";
-
-                /**
-                 * Creates a new DeleteAppserverRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.appserver.DeleteAppserverRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverRequest=} [properties] Properties to set
-                 * @returns {api.v1.appserver.DeleteAppserverRequest} DeleteAppserverRequest instance
-                 */
-                DeleteAppserverRequest.create = function create(properties) {
-                    return new DeleteAppserverRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified DeleteAppserverRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.appserver.DeleteAppserverRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverRequest} message DeleteAppserverRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteAppserverRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified DeleteAppserverRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.appserver.DeleteAppserverRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverRequest} message DeleteAppserverRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteAppserverRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.appserver.DeleteAppserverRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.appserver.DeleteAppserverRequest} DeleteAppserverRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteAppserverRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.DeleteAppserverRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.id = reader.string();
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.appserver.DeleteAppserverRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.appserver.DeleteAppserverRequest} DeleteAppserverRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteAppserverRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a DeleteAppserverRequest message.
-                 * @function verify
-                 * @memberof api.v1.appserver.DeleteAppserverRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                DeleteAppserverRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isString(message.id))
-                            return "id: string expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a DeleteAppserverRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.appserver.DeleteAppserverRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.appserver.DeleteAppserverRequest} DeleteAppserverRequest
-                 */
-                DeleteAppserverRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.appserver.DeleteAppserverRequest)
-                        return object;
-                    let message = new $root.api.v1.appserver.DeleteAppserverRequest();
-                    if (object.id != null)
-                        message.id = String(object.id);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a DeleteAppserverRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.appserver.DeleteAppserverRequest
-                 * @static
-                 * @param {api.v1.appserver.DeleteAppserverRequest} message DeleteAppserverRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                DeleteAppserverRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults)
-                        object.id = "";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
-                    return object;
-                };
-
-                /**
-                 * Converts this DeleteAppserverRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.appserver.DeleteAppserverRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                DeleteAppserverRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for DeleteAppserverRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.appserver.DeleteAppserverRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                DeleteAppserverRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.appserver.DeleteAppserverRequest";
-                };
-
-                return DeleteAppserverRequest;
-            })();
-
             appserver.CreateAppserverResponse = (function() {
 
                 /**
@@ -7284,6 +6699,209 @@ export const api = $root.api = (() => {
                 return CreateAppserverResponse;
             })();
 
+            appserver.GetByIdAppserverRequest = (function() {
+
+                /**
+                 * Properties of a GetByIdAppserverRequest.
+                 * @memberof api.v1.appserver
+                 * @interface IGetByIdAppserverRequest
+                 * @property {string|null} [id] GetByIdAppserverRequest id
+                 */
+
+                /**
+                 * Constructs a new GetByIdAppserverRequest.
+                 * @memberof api.v1.appserver
+                 * @classdesc Represents a GetByIdAppserverRequest.
+                 * @implements IGetByIdAppserverRequest
+                 * @constructor
+                 * @param {api.v1.appserver.IGetByIdAppserverRequest=} [properties] Properties to set
+                 */
+                function GetByIdAppserverRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * GetByIdAppserverRequest id.
+                 * @member {string} id
+                 * @memberof api.v1.appserver.GetByIdAppserverRequest
+                 * @instance
+                 */
+                GetByIdAppserverRequest.prototype.id = "";
+
+                /**
+                 * Creates a new GetByIdAppserverRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.appserver.GetByIdAppserverRequest
+                 * @static
+                 * @param {api.v1.appserver.IGetByIdAppserverRequest=} [properties] Properties to set
+                 * @returns {api.v1.appserver.GetByIdAppserverRequest} GetByIdAppserverRequest instance
+                 */
+                GetByIdAppserverRequest.create = function create(properties) {
+                    return new GetByIdAppserverRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified GetByIdAppserverRequest message. Does not implicitly {@link api.v1.appserver.GetByIdAppserverRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.appserver.GetByIdAppserverRequest
+                 * @static
+                 * @param {api.v1.appserver.IGetByIdAppserverRequest} message GetByIdAppserverRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GetByIdAppserverRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified GetByIdAppserverRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetByIdAppserverRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.appserver.GetByIdAppserverRequest
+                 * @static
+                 * @param {api.v1.appserver.IGetByIdAppserverRequest} message GetByIdAppserverRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GetByIdAppserverRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a GetByIdAppserverRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.appserver.GetByIdAppserverRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.appserver.GetByIdAppserverRequest} GetByIdAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GetByIdAppserverRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.GetByIdAppserverRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.id = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a GetByIdAppserverRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.appserver.GetByIdAppserverRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.appserver.GetByIdAppserverRequest} GetByIdAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GetByIdAppserverRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a GetByIdAppserverRequest message.
+                 * @function verify
+                 * @memberof api.v1.appserver.GetByIdAppserverRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                GetByIdAppserverRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        if (!$util.isString(message.id))
+                            return "id: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a GetByIdAppserverRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.appserver.GetByIdAppserverRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.appserver.GetByIdAppserverRequest} GetByIdAppserverRequest
+                 */
+                GetByIdAppserverRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.appserver.GetByIdAppserverRequest)
+                        return object;
+                    let message = new $root.api.v1.appserver.GetByIdAppserverRequest();
+                    if (object.id != null)
+                        message.id = String(object.id);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a GetByIdAppserverRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.appserver.GetByIdAppserverRequest
+                 * @static
+                 * @param {api.v1.appserver.GetByIdAppserverRequest} message GetByIdAppserverRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                GetByIdAppserverRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.id = "";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        object.id = message.id;
+                    return object;
+                };
+
+                /**
+                 * Converts this GetByIdAppserverRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.appserver.GetByIdAppserverRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                GetByIdAppserverRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for GetByIdAppserverRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.appserver.GetByIdAppserverRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                GetByIdAppserverRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.appserver.GetByIdAppserverRequest";
+                };
+
+                return GetByIdAppserverRequest;
+            })();
+
             appserver.GetByIdAppserverResponse = (function() {
 
                 /**
@@ -7490,6 +7108,214 @@ export const api = $root.api = (() => {
                 };
 
                 return GetByIdAppserverResponse;
+            })();
+
+            appserver.ListAppserversRequest = (function() {
+
+                /**
+                 * Properties of a ListAppserversRequest.
+                 * @memberof api.v1.appserver
+                 * @interface IListAppserversRequest
+                 * @property {google.protobuf.IStringValue|null} [name] ListAppserversRequest name
+                 */
+
+                /**
+                 * Constructs a new ListAppserversRequest.
+                 * @memberof api.v1.appserver
+                 * @classdesc Represents a ListAppserversRequest.
+                 * @implements IListAppserversRequest
+                 * @constructor
+                 * @param {api.v1.appserver.IListAppserversRequest=} [properties] Properties to set
+                 */
+                function ListAppserversRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * ListAppserversRequest name.
+                 * @member {google.protobuf.IStringValue|null|undefined} name
+                 * @memberof api.v1.appserver.ListAppserversRequest
+                 * @instance
+                 */
+                ListAppserversRequest.prototype.name = null;
+
+                /**
+                 * Creates a new ListAppserversRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.appserver.ListAppserversRequest
+                 * @static
+                 * @param {api.v1.appserver.IListAppserversRequest=} [properties] Properties to set
+                 * @returns {api.v1.appserver.ListAppserversRequest} ListAppserversRequest instance
+                 */
+                ListAppserversRequest.create = function create(properties) {
+                    return new ListAppserversRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified ListAppserversRequest message. Does not implicitly {@link api.v1.appserver.ListAppserversRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.appserver.ListAppserversRequest
+                 * @static
+                 * @param {api.v1.appserver.IListAppserversRequest} message ListAppserversRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ListAppserversRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                        $root.google.protobuf.StringValue.encode(message.name, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified ListAppserversRequest message, length delimited. Does not implicitly {@link api.v1.appserver.ListAppserversRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.appserver.ListAppserversRequest
+                 * @static
+                 * @param {api.v1.appserver.IListAppserversRequest} message ListAppserversRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ListAppserversRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a ListAppserversRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.appserver.ListAppserversRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.appserver.ListAppserversRequest} ListAppserversRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ListAppserversRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.ListAppserversRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.name = $root.google.protobuf.StringValue.decode(reader, reader.uint32());
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a ListAppserversRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.appserver.ListAppserversRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.appserver.ListAppserversRequest} ListAppserversRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ListAppserversRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a ListAppserversRequest message.
+                 * @function verify
+                 * @memberof api.v1.appserver.ListAppserversRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                ListAppserversRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.name != null && message.hasOwnProperty("name")) {
+                        let error = $root.google.protobuf.StringValue.verify(message.name);
+                        if (error)
+                            return "name." + error;
+                    }
+                    return null;
+                };
+
+                /**
+                 * Creates a ListAppserversRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.appserver.ListAppserversRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.appserver.ListAppserversRequest} ListAppserversRequest
+                 */
+                ListAppserversRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.appserver.ListAppserversRequest)
+                        return object;
+                    let message = new $root.api.v1.appserver.ListAppserversRequest();
+                    if (object.name != null) {
+                        if (typeof object.name !== "object")
+                            throw TypeError(".api.v1.appserver.ListAppserversRequest.name: object expected");
+                        message.name = $root.google.protobuf.StringValue.fromObject(object.name);
+                    }
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a ListAppserversRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.appserver.ListAppserversRequest
+                 * @static
+                 * @param {api.v1.appserver.ListAppserversRequest} message ListAppserversRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                ListAppserversRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.name = null;
+                    if (message.name != null && message.hasOwnProperty("name"))
+                        object.name = $root.google.protobuf.StringValue.toObject(message.name, options);
+                    return object;
+                };
+
+                /**
+                 * Converts this ListAppserversRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.appserver.ListAppserversRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                ListAppserversRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for ListAppserversRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.appserver.ListAppserversRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                ListAppserversRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.appserver.ListAppserversRequest";
+                };
+
+                return ListAppserversRequest;
             })();
 
             appserver.ListAppserversResponse = (function() {
@@ -7714,6 +7540,209 @@ export const api = $root.api = (() => {
                 };
 
                 return ListAppserversResponse;
+            })();
+
+            appserver.DeleteAppserverRequest = (function() {
+
+                /**
+                 * Properties of a DeleteAppserverRequest.
+                 * @memberof api.v1.appserver
+                 * @interface IDeleteAppserverRequest
+                 * @property {string|null} [id] DeleteAppserverRequest id
+                 */
+
+                /**
+                 * Constructs a new DeleteAppserverRequest.
+                 * @memberof api.v1.appserver
+                 * @classdesc Represents a DeleteAppserverRequest.
+                 * @implements IDeleteAppserverRequest
+                 * @constructor
+                 * @param {api.v1.appserver.IDeleteAppserverRequest=} [properties] Properties to set
+                 */
+                function DeleteAppserverRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * DeleteAppserverRequest id.
+                 * @member {string} id
+                 * @memberof api.v1.appserver.DeleteAppserverRequest
+                 * @instance
+                 */
+                DeleteAppserverRequest.prototype.id = "";
+
+                /**
+                 * Creates a new DeleteAppserverRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.appserver.DeleteAppserverRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverRequest=} [properties] Properties to set
+                 * @returns {api.v1.appserver.DeleteAppserverRequest} DeleteAppserverRequest instance
+                 */
+                DeleteAppserverRequest.create = function create(properties) {
+                    return new DeleteAppserverRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified DeleteAppserverRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.appserver.DeleteAppserverRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverRequest} message DeleteAppserverRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteAppserverRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified DeleteAppserverRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.appserver.DeleteAppserverRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverRequest} message DeleteAppserverRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteAppserverRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.appserver.DeleteAppserverRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.appserver.DeleteAppserverRequest} DeleteAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteAppserverRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.DeleteAppserverRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.id = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.appserver.DeleteAppserverRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.appserver.DeleteAppserverRequest} DeleteAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteAppserverRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a DeleteAppserverRequest message.
+                 * @function verify
+                 * @memberof api.v1.appserver.DeleteAppserverRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                DeleteAppserverRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        if (!$util.isString(message.id))
+                            return "id: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a DeleteAppserverRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.appserver.DeleteAppserverRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.appserver.DeleteAppserverRequest} DeleteAppserverRequest
+                 */
+                DeleteAppserverRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.appserver.DeleteAppserverRequest)
+                        return object;
+                    let message = new $root.api.v1.appserver.DeleteAppserverRequest();
+                    if (object.id != null)
+                        message.id = String(object.id);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a DeleteAppserverRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.appserver.DeleteAppserverRequest
+                 * @static
+                 * @param {api.v1.appserver.DeleteAppserverRequest} message DeleteAppserverRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                DeleteAppserverRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.id = "";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        object.id = message.id;
+                    return object;
+                };
+
+                /**
+                 * Converts this DeleteAppserverRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.appserver.DeleteAppserverRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                DeleteAppserverRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for DeleteAppserverRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.appserver.DeleteAppserverRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                DeleteAppserverRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.appserver.DeleteAppserverRequest";
+                };
+
+                return DeleteAppserverRequest;
             })();
 
             appserver.DeleteAppserverResponse = (function() {
@@ -8094,384 +8123,6 @@ export const api = $root.api = (() => {
                 return CreateAppserverSubRequest;
             })();
 
-            appserver.GetUserAppserverSubsRequest = (function() {
-
-                /**
-                 * Properties of a GetUserAppserverSubsRequest.
-                 * @memberof api.v1.appserver
-                 * @interface IGetUserAppserverSubsRequest
-                 */
-
-                /**
-                 * Constructs a new GetUserAppserverSubsRequest.
-                 * @memberof api.v1.appserver
-                 * @classdesc Represents a GetUserAppserverSubsRequest.
-                 * @implements IGetUserAppserverSubsRequest
-                 * @constructor
-                 * @param {api.v1.appserver.IGetUserAppserverSubsRequest=} [properties] Properties to set
-                 */
-                function GetUserAppserverSubsRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * Creates a new GetUserAppserverSubsRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
-                 * @static
-                 * @param {api.v1.appserver.IGetUserAppserverSubsRequest=} [properties] Properties to set
-                 * @returns {api.v1.appserver.GetUserAppserverSubsRequest} GetUserAppserverSubsRequest instance
-                 */
-                GetUserAppserverSubsRequest.create = function create(properties) {
-                    return new GetUserAppserverSubsRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified GetUserAppserverSubsRequest message. Does not implicitly {@link api.v1.appserver.GetUserAppserverSubsRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
-                 * @static
-                 * @param {api.v1.appserver.IGetUserAppserverSubsRequest} message GetUserAppserverSubsRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                GetUserAppserverSubsRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified GetUserAppserverSubsRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetUserAppserverSubsRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
-                 * @static
-                 * @param {api.v1.appserver.IGetUserAppserverSubsRequest} message GetUserAppserverSubsRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                GetUserAppserverSubsRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a GetUserAppserverSubsRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.appserver.GetUserAppserverSubsRequest} GetUserAppserverSubsRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                GetUserAppserverSubsRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.GetUserAppserverSubsRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a GetUserAppserverSubsRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.appserver.GetUserAppserverSubsRequest} GetUserAppserverSubsRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                GetUserAppserverSubsRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a GetUserAppserverSubsRequest message.
-                 * @function verify
-                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                GetUserAppserverSubsRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a GetUserAppserverSubsRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.appserver.GetUserAppserverSubsRequest} GetUserAppserverSubsRequest
-                 */
-                GetUserAppserverSubsRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.appserver.GetUserAppserverSubsRequest)
-                        return object;
-                    return new $root.api.v1.appserver.GetUserAppserverSubsRequest();
-                };
-
-                /**
-                 * Creates a plain object from a GetUserAppserverSubsRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
-                 * @static
-                 * @param {api.v1.appserver.GetUserAppserverSubsRequest} message GetUserAppserverSubsRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                GetUserAppserverSubsRequest.toObject = function toObject() {
-                    return {};
-                };
-
-                /**
-                 * Converts this GetUserAppserverSubsRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                GetUserAppserverSubsRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for GetUserAppserverSubsRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                GetUserAppserverSubsRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.appserver.GetUserAppserverSubsRequest";
-                };
-
-                return GetUserAppserverSubsRequest;
-            })();
-
-            appserver.DeleteAppserverSubRequest = (function() {
-
-                /**
-                 * Properties of a DeleteAppserverSubRequest.
-                 * @memberof api.v1.appserver
-                 * @interface IDeleteAppserverSubRequest
-                 * @property {string|null} [id] DeleteAppserverSubRequest id
-                 */
-
-                /**
-                 * Constructs a new DeleteAppserverSubRequest.
-                 * @memberof api.v1.appserver
-                 * @classdesc Represents a DeleteAppserverSubRequest.
-                 * @implements IDeleteAppserverSubRequest
-                 * @constructor
-                 * @param {api.v1.appserver.IDeleteAppserverSubRequest=} [properties] Properties to set
-                 */
-                function DeleteAppserverSubRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * DeleteAppserverSubRequest id.
-                 * @member {string} id
-                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
-                 * @instance
-                 */
-                DeleteAppserverSubRequest.prototype.id = "";
-
-                /**
-                 * Creates a new DeleteAppserverSubRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverSubRequest=} [properties] Properties to set
-                 * @returns {api.v1.appserver.DeleteAppserverSubRequest} DeleteAppserverSubRequest instance
-                 */
-                DeleteAppserverSubRequest.create = function create(properties) {
-                    return new DeleteAppserverSubRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified DeleteAppserverSubRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverSubRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverSubRequest} message DeleteAppserverSubRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteAppserverSubRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified DeleteAppserverSubRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverSubRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverSubRequest} message DeleteAppserverSubRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteAppserverSubRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a DeleteAppserverSubRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.appserver.DeleteAppserverSubRequest} DeleteAppserverSubRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteAppserverSubRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.DeleteAppserverSubRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.id = reader.string();
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a DeleteAppserverSubRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.appserver.DeleteAppserverSubRequest} DeleteAppserverSubRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteAppserverSubRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a DeleteAppserverSubRequest message.
-                 * @function verify
-                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                DeleteAppserverSubRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isString(message.id))
-                            return "id: string expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a DeleteAppserverSubRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.appserver.DeleteAppserverSubRequest} DeleteAppserverSubRequest
-                 */
-                DeleteAppserverSubRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.appserver.DeleteAppserverSubRequest)
-                        return object;
-                    let message = new $root.api.v1.appserver.DeleteAppserverSubRequest();
-                    if (object.id != null)
-                        message.id = String(object.id);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a DeleteAppserverSubRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
-                 * @static
-                 * @param {api.v1.appserver.DeleteAppserverSubRequest} message DeleteAppserverSubRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                DeleteAppserverSubRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults)
-                        object.id = "";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
-                    return object;
-                };
-
-                /**
-                 * Converts this DeleteAppserverSubRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                DeleteAppserverSubRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for DeleteAppserverSubRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                DeleteAppserverSubRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.appserver.DeleteAppserverSubRequest";
-                };
-
-                return DeleteAppserverSubRequest;
-            })();
-
             appserver.CreateAppserverSubResponse = (function() {
 
                 /**
@@ -8678,6 +8329,181 @@ export const api = $root.api = (() => {
                 };
 
                 return CreateAppserverSubResponse;
+            })();
+
+            appserver.GetUserAppserverSubsRequest = (function() {
+
+                /**
+                 * Properties of a GetUserAppserverSubsRequest.
+                 * @memberof api.v1.appserver
+                 * @interface IGetUserAppserverSubsRequest
+                 */
+
+                /**
+                 * Constructs a new GetUserAppserverSubsRequest.
+                 * @memberof api.v1.appserver
+                 * @classdesc Represents a GetUserAppserverSubsRequest.
+                 * @implements IGetUserAppserverSubsRequest
+                 * @constructor
+                 * @param {api.v1.appserver.IGetUserAppserverSubsRequest=} [properties] Properties to set
+                 */
+                function GetUserAppserverSubsRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * Creates a new GetUserAppserverSubsRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
+                 * @static
+                 * @param {api.v1.appserver.IGetUserAppserverSubsRequest=} [properties] Properties to set
+                 * @returns {api.v1.appserver.GetUserAppserverSubsRequest} GetUserAppserverSubsRequest instance
+                 */
+                GetUserAppserverSubsRequest.create = function create(properties) {
+                    return new GetUserAppserverSubsRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified GetUserAppserverSubsRequest message. Does not implicitly {@link api.v1.appserver.GetUserAppserverSubsRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
+                 * @static
+                 * @param {api.v1.appserver.IGetUserAppserverSubsRequest} message GetUserAppserverSubsRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GetUserAppserverSubsRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified GetUserAppserverSubsRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetUserAppserverSubsRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
+                 * @static
+                 * @param {api.v1.appserver.IGetUserAppserverSubsRequest} message GetUserAppserverSubsRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GetUserAppserverSubsRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a GetUserAppserverSubsRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.appserver.GetUserAppserverSubsRequest} GetUserAppserverSubsRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GetUserAppserverSubsRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.GetUserAppserverSubsRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a GetUserAppserverSubsRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.appserver.GetUserAppserverSubsRequest} GetUserAppserverSubsRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GetUserAppserverSubsRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a GetUserAppserverSubsRequest message.
+                 * @function verify
+                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                GetUserAppserverSubsRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a GetUserAppserverSubsRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.appserver.GetUserAppserverSubsRequest} GetUserAppserverSubsRequest
+                 */
+                GetUserAppserverSubsRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.appserver.GetUserAppserverSubsRequest)
+                        return object;
+                    return new $root.api.v1.appserver.GetUserAppserverSubsRequest();
+                };
+
+                /**
+                 * Creates a plain object from a GetUserAppserverSubsRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
+                 * @static
+                 * @param {api.v1.appserver.GetUserAppserverSubsRequest} message GetUserAppserverSubsRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                GetUserAppserverSubsRequest.toObject = function toObject() {
+                    return {};
+                };
+
+                /**
+                 * Converts this GetUserAppserverSubsRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                GetUserAppserverSubsRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for GetUserAppserverSubsRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.appserver.GetUserAppserverSubsRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                GetUserAppserverSubsRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.appserver.GetUserAppserverSubsRequest";
+                };
+
+                return GetUserAppserverSubsRequest;
             })();
 
             appserver.GetUserAppserverSubsResponse = (function() {
@@ -8902,6 +8728,209 @@ export const api = $root.api = (() => {
                 };
 
                 return GetUserAppserverSubsResponse;
+            })();
+
+            appserver.DeleteAppserverSubRequest = (function() {
+
+                /**
+                 * Properties of a DeleteAppserverSubRequest.
+                 * @memberof api.v1.appserver
+                 * @interface IDeleteAppserverSubRequest
+                 * @property {string|null} [id] DeleteAppserverSubRequest id
+                 */
+
+                /**
+                 * Constructs a new DeleteAppserverSubRequest.
+                 * @memberof api.v1.appserver
+                 * @classdesc Represents a DeleteAppserverSubRequest.
+                 * @implements IDeleteAppserverSubRequest
+                 * @constructor
+                 * @param {api.v1.appserver.IDeleteAppserverSubRequest=} [properties] Properties to set
+                 */
+                function DeleteAppserverSubRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * DeleteAppserverSubRequest id.
+                 * @member {string} id
+                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
+                 * @instance
+                 */
+                DeleteAppserverSubRequest.prototype.id = "";
+
+                /**
+                 * Creates a new DeleteAppserverSubRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverSubRequest=} [properties] Properties to set
+                 * @returns {api.v1.appserver.DeleteAppserverSubRequest} DeleteAppserverSubRequest instance
+                 */
+                DeleteAppserverSubRequest.create = function create(properties) {
+                    return new DeleteAppserverSubRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified DeleteAppserverSubRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverSubRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverSubRequest} message DeleteAppserverSubRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteAppserverSubRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified DeleteAppserverSubRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverSubRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverSubRequest} message DeleteAppserverSubRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteAppserverSubRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a DeleteAppserverSubRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.appserver.DeleteAppserverSubRequest} DeleteAppserverSubRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteAppserverSubRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.DeleteAppserverSubRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.id = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a DeleteAppserverSubRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.appserver.DeleteAppserverSubRequest} DeleteAppserverSubRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteAppserverSubRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a DeleteAppserverSubRequest message.
+                 * @function verify
+                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                DeleteAppserverSubRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        if (!$util.isString(message.id))
+                            return "id: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a DeleteAppserverSubRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.appserver.DeleteAppserverSubRequest} DeleteAppserverSubRequest
+                 */
+                DeleteAppserverSubRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.appserver.DeleteAppserverSubRequest)
+                        return object;
+                    let message = new $root.api.v1.appserver.DeleteAppserverSubRequest();
+                    if (object.id != null)
+                        message.id = String(object.id);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a DeleteAppserverSubRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
+                 * @static
+                 * @param {api.v1.appserver.DeleteAppserverSubRequest} message DeleteAppserverSubRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                DeleteAppserverSubRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.id = "";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        object.id = message.id;
+                    return object;
+                };
+
+                /**
+                 * Converts this DeleteAppserverSubRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                DeleteAppserverSubRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for DeleteAppserverSubRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.appserver.DeleteAppserverSubRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                DeleteAppserverSubRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.appserver.DeleteAppserverSubRequest";
+                };
+
+                return DeleteAppserverSubRequest;
             })();
 
             appserver.DeleteAppserverSubResponse = (function() {
@@ -9306,412 +9335,6 @@ export const api = $root.api = (() => {
                 return CreateAppserverRoleRequest;
             })();
 
-            appserver.GetAllAppserverRolesRequest = (function() {
-
-                /**
-                 * Properties of a GetAllAppserverRolesRequest.
-                 * @memberof api.v1.appserver
-                 * @interface IGetAllAppserverRolesRequest
-                 * @property {string|null} [appserverId] GetAllAppserverRolesRequest appserverId
-                 */
-
-                /**
-                 * Constructs a new GetAllAppserverRolesRequest.
-                 * @memberof api.v1.appserver
-                 * @classdesc Represents a GetAllAppserverRolesRequest.
-                 * @implements IGetAllAppserverRolesRequest
-                 * @constructor
-                 * @param {api.v1.appserver.IGetAllAppserverRolesRequest=} [properties] Properties to set
-                 */
-                function GetAllAppserverRolesRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * GetAllAppserverRolesRequest appserverId.
-                 * @member {string} appserverId
-                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
-                 * @instance
-                 */
-                GetAllAppserverRolesRequest.prototype.appserverId = "";
-
-                /**
-                 * Creates a new GetAllAppserverRolesRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
-                 * @static
-                 * @param {api.v1.appserver.IGetAllAppserverRolesRequest=} [properties] Properties to set
-                 * @returns {api.v1.appserver.GetAllAppserverRolesRequest} GetAllAppserverRolesRequest instance
-                 */
-                GetAllAppserverRolesRequest.create = function create(properties) {
-                    return new GetAllAppserverRolesRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified GetAllAppserverRolesRequest message. Does not implicitly {@link api.v1.appserver.GetAllAppserverRolesRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
-                 * @static
-                 * @param {api.v1.appserver.IGetAllAppserverRolesRequest} message GetAllAppserverRolesRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                GetAllAppserverRolesRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.appserverId != null && Object.hasOwnProperty.call(message, "appserverId"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.appserverId);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified GetAllAppserverRolesRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetAllAppserverRolesRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
-                 * @static
-                 * @param {api.v1.appserver.IGetAllAppserverRolesRequest} message GetAllAppserverRolesRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                GetAllAppserverRolesRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a GetAllAppserverRolesRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.appserver.GetAllAppserverRolesRequest} GetAllAppserverRolesRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                GetAllAppserverRolesRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.GetAllAppserverRolesRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.appserverId = reader.string();
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a GetAllAppserverRolesRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.appserver.GetAllAppserverRolesRequest} GetAllAppserverRolesRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                GetAllAppserverRolesRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a GetAllAppserverRolesRequest message.
-                 * @function verify
-                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                GetAllAppserverRolesRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
-                        if (!$util.isString(message.appserverId))
-                            return "appserverId: string expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a GetAllAppserverRolesRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.appserver.GetAllAppserverRolesRequest} GetAllAppserverRolesRequest
-                 */
-                GetAllAppserverRolesRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.appserver.GetAllAppserverRolesRequest)
-                        return object;
-                    let message = new $root.api.v1.appserver.GetAllAppserverRolesRequest();
-                    if (object.appserverId != null)
-                        message.appserverId = String(object.appserverId);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a GetAllAppserverRolesRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
-                 * @static
-                 * @param {api.v1.appserver.GetAllAppserverRolesRequest} message GetAllAppserverRolesRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                GetAllAppserverRolesRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults)
-                        object.appserverId = "";
-                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
-                        object.appserverId = message.appserverId;
-                    return object;
-                };
-
-                /**
-                 * Converts this GetAllAppserverRolesRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                GetAllAppserverRolesRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for GetAllAppserverRolesRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                GetAllAppserverRolesRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.appserver.GetAllAppserverRolesRequest";
-                };
-
-                return GetAllAppserverRolesRequest;
-            })();
-
-            appserver.DeleteAppserverRoleRequest = (function() {
-
-                /**
-                 * Properties of a DeleteAppserverRoleRequest.
-                 * @memberof api.v1.appserver
-                 * @interface IDeleteAppserverRoleRequest
-                 * @property {string|null} [id] DeleteAppserverRoleRequest id
-                 */
-
-                /**
-                 * Constructs a new DeleteAppserverRoleRequest.
-                 * @memberof api.v1.appserver
-                 * @classdesc Represents a DeleteAppserverRoleRequest.
-                 * @implements IDeleteAppserverRoleRequest
-                 * @constructor
-                 * @param {api.v1.appserver.IDeleteAppserverRoleRequest=} [properties] Properties to set
-                 */
-                function DeleteAppserverRoleRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * DeleteAppserverRoleRequest id.
-                 * @member {string} id
-                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
-                 * @instance
-                 */
-                DeleteAppserverRoleRequest.prototype.id = "";
-
-                /**
-                 * Creates a new DeleteAppserverRoleRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverRoleRequest=} [properties] Properties to set
-                 * @returns {api.v1.appserver.DeleteAppserverRoleRequest} DeleteAppserverRoleRequest instance
-                 */
-                DeleteAppserverRoleRequest.create = function create(properties) {
-                    return new DeleteAppserverRoleRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified DeleteAppserverRoleRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverRoleRequest} message DeleteAppserverRoleRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteAppserverRoleRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified DeleteAppserverRoleRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverRoleRequest} message DeleteAppserverRoleRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteAppserverRoleRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a DeleteAppserverRoleRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.appserver.DeleteAppserverRoleRequest} DeleteAppserverRoleRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteAppserverRoleRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.DeleteAppserverRoleRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.id = reader.string();
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a DeleteAppserverRoleRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.appserver.DeleteAppserverRoleRequest} DeleteAppserverRoleRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteAppserverRoleRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a DeleteAppserverRoleRequest message.
-                 * @function verify
-                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                DeleteAppserverRoleRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isString(message.id))
-                            return "id: string expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a DeleteAppserverRoleRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.appserver.DeleteAppserverRoleRequest} DeleteAppserverRoleRequest
-                 */
-                DeleteAppserverRoleRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.appserver.DeleteAppserverRoleRequest)
-                        return object;
-                    let message = new $root.api.v1.appserver.DeleteAppserverRoleRequest();
-                    if (object.id != null)
-                        message.id = String(object.id);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a DeleteAppserverRoleRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
-                 * @static
-                 * @param {api.v1.appserver.DeleteAppserverRoleRequest} message DeleteAppserverRoleRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                DeleteAppserverRoleRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults)
-                        object.id = "";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
-                    return object;
-                };
-
-                /**
-                 * Converts this DeleteAppserverRoleRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                DeleteAppserverRoleRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for DeleteAppserverRoleRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                DeleteAppserverRoleRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.appserver.DeleteAppserverRoleRequest";
-                };
-
-                return DeleteAppserverRoleRequest;
-            })();
-
             appserver.CreateAppserverRoleResponse = (function() {
 
                 /**
@@ -9918,6 +9541,209 @@ export const api = $root.api = (() => {
                 };
 
                 return CreateAppserverRoleResponse;
+            })();
+
+            appserver.GetAllAppserverRolesRequest = (function() {
+
+                /**
+                 * Properties of a GetAllAppserverRolesRequest.
+                 * @memberof api.v1.appserver
+                 * @interface IGetAllAppserverRolesRequest
+                 * @property {string|null} [appserverId] GetAllAppserverRolesRequest appserverId
+                 */
+
+                /**
+                 * Constructs a new GetAllAppserverRolesRequest.
+                 * @memberof api.v1.appserver
+                 * @classdesc Represents a GetAllAppserverRolesRequest.
+                 * @implements IGetAllAppserverRolesRequest
+                 * @constructor
+                 * @param {api.v1.appserver.IGetAllAppserverRolesRequest=} [properties] Properties to set
+                 */
+                function GetAllAppserverRolesRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * GetAllAppserverRolesRequest appserverId.
+                 * @member {string} appserverId
+                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
+                 * @instance
+                 */
+                GetAllAppserverRolesRequest.prototype.appserverId = "";
+
+                /**
+                 * Creates a new GetAllAppserverRolesRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
+                 * @static
+                 * @param {api.v1.appserver.IGetAllAppserverRolesRequest=} [properties] Properties to set
+                 * @returns {api.v1.appserver.GetAllAppserverRolesRequest} GetAllAppserverRolesRequest instance
+                 */
+                GetAllAppserverRolesRequest.create = function create(properties) {
+                    return new GetAllAppserverRolesRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified GetAllAppserverRolesRequest message. Does not implicitly {@link api.v1.appserver.GetAllAppserverRolesRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
+                 * @static
+                 * @param {api.v1.appserver.IGetAllAppserverRolesRequest} message GetAllAppserverRolesRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GetAllAppserverRolesRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.appserverId != null && Object.hasOwnProperty.call(message, "appserverId"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.appserverId);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified GetAllAppserverRolesRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetAllAppserverRolesRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
+                 * @static
+                 * @param {api.v1.appserver.IGetAllAppserverRolesRequest} message GetAllAppserverRolesRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GetAllAppserverRolesRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a GetAllAppserverRolesRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.appserver.GetAllAppserverRolesRequest} GetAllAppserverRolesRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GetAllAppserverRolesRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.GetAllAppserverRolesRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.appserverId = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a GetAllAppserverRolesRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.appserver.GetAllAppserverRolesRequest} GetAllAppserverRolesRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GetAllAppserverRolesRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a GetAllAppserverRolesRequest message.
+                 * @function verify
+                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                GetAllAppserverRolesRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
+                        if (!$util.isString(message.appserverId))
+                            return "appserverId: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a GetAllAppserverRolesRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.appserver.GetAllAppserverRolesRequest} GetAllAppserverRolesRequest
+                 */
+                GetAllAppserverRolesRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.appserver.GetAllAppserverRolesRequest)
+                        return object;
+                    let message = new $root.api.v1.appserver.GetAllAppserverRolesRequest();
+                    if (object.appserverId != null)
+                        message.appserverId = String(object.appserverId);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a GetAllAppserverRolesRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
+                 * @static
+                 * @param {api.v1.appserver.GetAllAppserverRolesRequest} message GetAllAppserverRolesRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                GetAllAppserverRolesRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.appserverId = "";
+                    if (message.appserverId != null && message.hasOwnProperty("appserverId"))
+                        object.appserverId = message.appserverId;
+                    return object;
+                };
+
+                /**
+                 * Converts this GetAllAppserverRolesRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                GetAllAppserverRolesRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for GetAllAppserverRolesRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.appserver.GetAllAppserverRolesRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                GetAllAppserverRolesRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.appserver.GetAllAppserverRolesRequest";
+                };
+
+                return GetAllAppserverRolesRequest;
             })();
 
             appserver.GetAllAppserverRolesResponse = (function() {
@@ -10142,6 +9968,209 @@ export const api = $root.api = (() => {
                 };
 
                 return GetAllAppserverRolesResponse;
+            })();
+
+            appserver.DeleteAppserverRoleRequest = (function() {
+
+                /**
+                 * Properties of a DeleteAppserverRoleRequest.
+                 * @memberof api.v1.appserver
+                 * @interface IDeleteAppserverRoleRequest
+                 * @property {string|null} [id] DeleteAppserverRoleRequest id
+                 */
+
+                /**
+                 * Constructs a new DeleteAppserverRoleRequest.
+                 * @memberof api.v1.appserver
+                 * @classdesc Represents a DeleteAppserverRoleRequest.
+                 * @implements IDeleteAppserverRoleRequest
+                 * @constructor
+                 * @param {api.v1.appserver.IDeleteAppserverRoleRequest=} [properties] Properties to set
+                 */
+                function DeleteAppserverRoleRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * DeleteAppserverRoleRequest id.
+                 * @member {string} id
+                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
+                 * @instance
+                 */
+                DeleteAppserverRoleRequest.prototype.id = "";
+
+                /**
+                 * Creates a new DeleteAppserverRoleRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverRoleRequest=} [properties] Properties to set
+                 * @returns {api.v1.appserver.DeleteAppserverRoleRequest} DeleteAppserverRoleRequest instance
+                 */
+                DeleteAppserverRoleRequest.create = function create(properties) {
+                    return new DeleteAppserverRoleRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified DeleteAppserverRoleRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverRoleRequest} message DeleteAppserverRoleRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteAppserverRoleRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified DeleteAppserverRoleRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverRoleRequest} message DeleteAppserverRoleRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteAppserverRoleRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a DeleteAppserverRoleRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.appserver.DeleteAppserverRoleRequest} DeleteAppserverRoleRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteAppserverRoleRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.DeleteAppserverRoleRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.id = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a DeleteAppserverRoleRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.appserver.DeleteAppserverRoleRequest} DeleteAppserverRoleRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteAppserverRoleRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a DeleteAppserverRoleRequest message.
+                 * @function verify
+                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                DeleteAppserverRoleRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        if (!$util.isString(message.id))
+                            return "id: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a DeleteAppserverRoleRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.appserver.DeleteAppserverRoleRequest} DeleteAppserverRoleRequest
+                 */
+                DeleteAppserverRoleRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.appserver.DeleteAppserverRoleRequest)
+                        return object;
+                    let message = new $root.api.v1.appserver.DeleteAppserverRoleRequest();
+                    if (object.id != null)
+                        message.id = String(object.id);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a DeleteAppserverRoleRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
+                 * @static
+                 * @param {api.v1.appserver.DeleteAppserverRoleRequest} message DeleteAppserverRoleRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                DeleteAppserverRoleRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.id = "";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        object.id = message.id;
+                    return object;
+                };
+
+                /**
+                 * Converts this DeleteAppserverRoleRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                DeleteAppserverRoleRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for DeleteAppserverRoleRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.appserver.DeleteAppserverRoleRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                DeleteAppserverRoleRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.appserver.DeleteAppserverRoleRequest";
+                };
+
+                return DeleteAppserverRoleRequest;
             })();
 
             appserver.DeleteAppserverRoleResponse = (function() {
@@ -10546,209 +10575,6 @@ export const api = $root.api = (() => {
                 return CreateAppserverRoleSubRequest;
             })();
 
-            appserver.DeleteAppserverRoleSubRequest = (function() {
-
-                /**
-                 * Properties of a DeleteAppserverRoleSubRequest.
-                 * @memberof api.v1.appserver
-                 * @interface IDeleteAppserverRoleSubRequest
-                 * @property {string|null} [id] DeleteAppserverRoleSubRequest id
-                 */
-
-                /**
-                 * Constructs a new DeleteAppserverRoleSubRequest.
-                 * @memberof api.v1.appserver
-                 * @classdesc Represents a DeleteAppserverRoleSubRequest.
-                 * @implements IDeleteAppserverRoleSubRequest
-                 * @constructor
-                 * @param {api.v1.appserver.IDeleteAppserverRoleSubRequest=} [properties] Properties to set
-                 */
-                function DeleteAppserverRoleSubRequest(properties) {
-                    if (properties)
-                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-
-                /**
-                 * DeleteAppserverRoleSubRequest id.
-                 * @member {string} id
-                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
-                 * @instance
-                 */
-                DeleteAppserverRoleSubRequest.prototype.id = "";
-
-                /**
-                 * Creates a new DeleteAppserverRoleSubRequest instance using the specified properties.
-                 * @function create
-                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverRoleSubRequest=} [properties] Properties to set
-                 * @returns {api.v1.appserver.DeleteAppserverRoleSubRequest} DeleteAppserverRoleSubRequest instance
-                 */
-                DeleteAppserverRoleSubRequest.create = function create(properties) {
-                    return new DeleteAppserverRoleSubRequest(properties);
-                };
-
-                /**
-                 * Encodes the specified DeleteAppserverRoleSubRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleSubRequest.verify|verify} messages.
-                 * @function encode
-                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverRoleSubRequest} message DeleteAppserverRoleSubRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteAppserverRoleSubRequest.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                    return writer;
-                };
-
-                /**
-                 * Encodes the specified DeleteAppserverRoleSubRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleSubRequest.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
-                 * @static
-                 * @param {api.v1.appserver.IDeleteAppserverRoleSubRequest} message DeleteAppserverRoleSubRequest message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                DeleteAppserverRoleSubRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-
-                /**
-                 * Decodes a DeleteAppserverRoleSubRequest message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {api.v1.appserver.DeleteAppserverRoleSubRequest} DeleteAppserverRoleSubRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteAppserverRoleSubRequest.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.DeleteAppserverRoleSubRequest();
-                    while (reader.pos < end) {
-                        let tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.id = reader.string();
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-
-                /**
-                 * Decodes a DeleteAppserverRoleSubRequest message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {api.v1.appserver.DeleteAppserverRoleSubRequest} DeleteAppserverRoleSubRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                DeleteAppserverRoleSubRequest.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-
-                /**
-                 * Verifies a DeleteAppserverRoleSubRequest message.
-                 * @function verify
-                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                DeleteAppserverRoleSubRequest.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isString(message.id))
-                            return "id: string expected";
-                    return null;
-                };
-
-                /**
-                 * Creates a DeleteAppserverRoleSubRequest message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {api.v1.appserver.DeleteAppserverRoleSubRequest} DeleteAppserverRoleSubRequest
-                 */
-                DeleteAppserverRoleSubRequest.fromObject = function fromObject(object) {
-                    if (object instanceof $root.api.v1.appserver.DeleteAppserverRoleSubRequest)
-                        return object;
-                    let message = new $root.api.v1.appserver.DeleteAppserverRoleSubRequest();
-                    if (object.id != null)
-                        message.id = String(object.id);
-                    return message;
-                };
-
-                /**
-                 * Creates a plain object from a DeleteAppserverRoleSubRequest message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
-                 * @static
-                 * @param {api.v1.appserver.DeleteAppserverRoleSubRequest} message DeleteAppserverRoleSubRequest
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                DeleteAppserverRoleSubRequest.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    let object = {};
-                    if (options.defaults)
-                        object.id = "";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
-                    return object;
-                };
-
-                /**
-                 * Converts this DeleteAppserverRoleSubRequest to JSON.
-                 * @function toJSON
-                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                DeleteAppserverRoleSubRequest.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-
-                /**
-                 * Gets the default type url for DeleteAppserverRoleSubRequest
-                 * @function getTypeUrl
-                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                DeleteAppserverRoleSubRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/api.v1.appserver.DeleteAppserverRoleSubRequest";
-                };
-
-                return DeleteAppserverRoleSubRequest;
-            })();
-
             appserver.CreateAppserverRoleSubResponse = (function() {
 
                 /**
@@ -10955,6 +10781,209 @@ export const api = $root.api = (() => {
                 };
 
                 return CreateAppserverRoleSubResponse;
+            })();
+
+            appserver.DeleteAppserverRoleSubRequest = (function() {
+
+                /**
+                 * Properties of a DeleteAppserverRoleSubRequest.
+                 * @memberof api.v1.appserver
+                 * @interface IDeleteAppserverRoleSubRequest
+                 * @property {string|null} [id] DeleteAppserverRoleSubRequest id
+                 */
+
+                /**
+                 * Constructs a new DeleteAppserverRoleSubRequest.
+                 * @memberof api.v1.appserver
+                 * @classdesc Represents a DeleteAppserverRoleSubRequest.
+                 * @implements IDeleteAppserverRoleSubRequest
+                 * @constructor
+                 * @param {api.v1.appserver.IDeleteAppserverRoleSubRequest=} [properties] Properties to set
+                 */
+                function DeleteAppserverRoleSubRequest(properties) {
+                    if (properties)
+                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+
+                /**
+                 * DeleteAppserverRoleSubRequest id.
+                 * @member {string} id
+                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
+                 * @instance
+                 */
+                DeleteAppserverRoleSubRequest.prototype.id = "";
+
+                /**
+                 * Creates a new DeleteAppserverRoleSubRequest instance using the specified properties.
+                 * @function create
+                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverRoleSubRequest=} [properties] Properties to set
+                 * @returns {api.v1.appserver.DeleteAppserverRoleSubRequest} DeleteAppserverRoleSubRequest instance
+                 */
+                DeleteAppserverRoleSubRequest.create = function create(properties) {
+                    return new DeleteAppserverRoleSubRequest(properties);
+                };
+
+                /**
+                 * Encodes the specified DeleteAppserverRoleSubRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleSubRequest.verify|verify} messages.
+                 * @function encode
+                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverRoleSubRequest} message DeleteAppserverRoleSubRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteAppserverRoleSubRequest.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                    return writer;
+                };
+
+                /**
+                 * Encodes the specified DeleteAppserverRoleSubRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleSubRequest.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
+                 * @static
+                 * @param {api.v1.appserver.IDeleteAppserverRoleSubRequest} message DeleteAppserverRoleSubRequest message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                DeleteAppserverRoleSubRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+
+                /**
+                 * Decodes a DeleteAppserverRoleSubRequest message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {api.v1.appserver.DeleteAppserverRoleSubRequest} DeleteAppserverRoleSubRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteAppserverRoleSubRequest.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.api.v1.appserver.DeleteAppserverRoleSubRequest();
+                    while (reader.pos < end) {
+                        let tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.id = reader.string();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+
+                /**
+                 * Decodes a DeleteAppserverRoleSubRequest message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {api.v1.appserver.DeleteAppserverRoleSubRequest} DeleteAppserverRoleSubRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                DeleteAppserverRoleSubRequest.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+
+                /**
+                 * Verifies a DeleteAppserverRoleSubRequest message.
+                 * @function verify
+                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                DeleteAppserverRoleSubRequest.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        if (!$util.isString(message.id))
+                            return "id: string expected";
+                    return null;
+                };
+
+                /**
+                 * Creates a DeleteAppserverRoleSubRequest message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {api.v1.appserver.DeleteAppserverRoleSubRequest} DeleteAppserverRoleSubRequest
+                 */
+                DeleteAppserverRoleSubRequest.fromObject = function fromObject(object) {
+                    if (object instanceof $root.api.v1.appserver.DeleteAppserverRoleSubRequest)
+                        return object;
+                    let message = new $root.api.v1.appserver.DeleteAppserverRoleSubRequest();
+                    if (object.id != null)
+                        message.id = String(object.id);
+                    return message;
+                };
+
+                /**
+                 * Creates a plain object from a DeleteAppserverRoleSubRequest message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
+                 * @static
+                 * @param {api.v1.appserver.DeleteAppserverRoleSubRequest} message DeleteAppserverRoleSubRequest
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                DeleteAppserverRoleSubRequest.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    let object = {};
+                    if (options.defaults)
+                        object.id = "";
+                    if (message.id != null && message.hasOwnProperty("id"))
+                        object.id = message.id;
+                    return object;
+                };
+
+                /**
+                 * Converts this DeleteAppserverRoleSubRequest to JSON.
+                 * @function toJSON
+                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                DeleteAppserverRoleSubRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                /**
+                 * Gets the default type url for DeleteAppserverRoleSubRequest
+                 * @function getTypeUrl
+                 * @memberof api.v1.appserver.DeleteAppserverRoleSubRequest
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                DeleteAppserverRoleSubRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/api.v1.appserver.DeleteAppserverRoleSubRequest";
+                };
+
+                return DeleteAppserverRoleSubRequest;
             })();
 
             appserver.DeleteAppserverRoleSubResponse = (function() {

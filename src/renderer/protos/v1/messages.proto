@@ -42,6 +42,9 @@ message Input {
     channel.ListChannelsRequest channel_listing = 7;
 
     appserver.CreateAppserverSubRequest join_appserver = 8;
+
+    appserver.CreateAppserverRoleRequest create_appserver_role = 9;
+    appserver.GetAllAppserverRolesRequest appserver_role_listing = 10;
   }
 }
 
@@ -54,11 +57,9 @@ message Output {
     appserver.GetByIdAppserverResponse appserver_details = 2;
 
     channel.ListChannelsResponse channel_listing = 3;
-    appserver.Appserver update_new_appserver = 4;
-    appserver.Appserver update_delete_appserver = 5;
-
-    channel.Channel update_new_channel = 6;
-    channel.Channel update_delete_channel = 7;
+    appserver.Appserver update_add_appserver = 4;
+    appserver.GetAllAppserverRolesResponse appserver_roles_listing = 5;
+    string update_remove_appserver = 6;
   }
 }
 

@@ -349,6 +349,12 @@ export namespace api {
 
                 /** Input joinAppserver */
                 joinAppserver?: (api.v1.appserver.ICreateAppserverSubRequest|null);
+
+                /** Input createAppserverRole */
+                createAppserverRole?: (api.v1.appserver.ICreateAppserverRoleRequest|null);
+
+                /** Input appserverRoleListing */
+                appserverRoleListing?: (api.v1.appserver.IGetAllAppserverRolesRequest|null);
             }
 
             /** Represents an Input. */
@@ -384,8 +390,14 @@ export namespace api {
                 /** Input joinAppserver. */
                 public joinAppserver?: (api.v1.appserver.ICreateAppserverSubRequest|null);
 
+                /** Input createAppserverRole. */
+                public createAppserverRole?: (api.v1.appserver.ICreateAppserverRoleRequest|null);
+
+                /** Input appserverRoleListing. */
+                public appserverRoleListing?: (api.v1.appserver.IGetAllAppserverRolesRequest|null);
+
                 /** Input data. */
-                public data?: ("updateJwtToken"|"appserverListing"|"appserverDetails"|"createAppserver"|"deleteAppserver"|"createChannel"|"channelListing"|"joinAppserver");
+                public data?: ("updateJwtToken"|"appserverListing"|"appserverDetails"|"createAppserver"|"deleteAppserver"|"createChannel"|"channelListing"|"joinAppserver"|"createAppserverRole"|"appserverRoleListing");
 
                 /**
                  * Creates a new Input instance using the specified properties.
@@ -574,17 +586,14 @@ export namespace api {
                 /** Output channelListing */
                 channelListing?: (api.v1.channel.IListChannelsResponse|null);
 
-                /** Output updateNewAppserver */
-                updateNewAppserver?: (api.v1.appserver.IAppserver|null);
+                /** Output updateAddAppserver */
+                updateAddAppserver?: (api.v1.appserver.IAppserver|null);
 
-                /** Output updateDeleteAppserver */
-                updateDeleteAppserver?: (api.v1.appserver.IAppserver|null);
+                /** Output appserverRolesListing */
+                appserverRolesListing?: (api.v1.appserver.IGetAllAppserverRolesResponse|null);
 
-                /** Output updateNewChannel */
-                updateNewChannel?: (api.v1.channel.IChannel|null);
-
-                /** Output updateDeleteChannel */
-                updateDeleteChannel?: (api.v1.channel.IChannel|null);
+                /** Output updateRemoveAppserver */
+                updateRemoveAppserver?: (string|null);
             }
 
             /** Represents an Output. */
@@ -605,20 +614,17 @@ export namespace api {
                 /** Output channelListing. */
                 public channelListing?: (api.v1.channel.IListChannelsResponse|null);
 
-                /** Output updateNewAppserver. */
-                public updateNewAppserver?: (api.v1.appserver.IAppserver|null);
+                /** Output updateAddAppserver. */
+                public updateAddAppserver?: (api.v1.appserver.IAppserver|null);
 
-                /** Output updateDeleteAppserver. */
-                public updateDeleteAppserver?: (api.v1.appserver.IAppserver|null);
+                /** Output appserverRolesListing. */
+                public appserverRolesListing?: (api.v1.appserver.IGetAllAppserverRolesResponse|null);
 
-                /** Output updateNewChannel. */
-                public updateNewChannel?: (api.v1.channel.IChannel|null);
-
-                /** Output updateDeleteChannel. */
-                public updateDeleteChannel?: (api.v1.channel.IChannel|null);
+                /** Output updateRemoveAppserver. */
+                public updateRemoveAppserver?: (string|null);
 
                 /** Output data. */
-                public data?: ("appserverListing"|"appserverDetails"|"channelListing"|"updateNewAppserver"|"updateDeleteAppserver"|"updateNewChannel"|"updateDeleteChannel");
+                public data?: ("appserverListing"|"appserverDetails"|"channelListing"|"updateAddAppserver"|"appserverRolesListing"|"updateRemoveAppserver");
 
                 /**
                  * Creates a new Output instance using the specified properties.
@@ -2847,297 +2853,6 @@ export namespace api {
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
-            /** Properties of a GetByIdAppserverRequest. */
-            interface IGetByIdAppserverRequest {
-
-                /** GetByIdAppserverRequest id */
-                id?: (string|null);
-            }
-
-            /** Represents a GetByIdAppserverRequest. */
-            class GetByIdAppserverRequest implements IGetByIdAppserverRequest {
-
-                /**
-                 * Constructs a new GetByIdAppserverRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.appserver.IGetByIdAppserverRequest);
-
-                /** GetByIdAppserverRequest id. */
-                public id: string;
-
-                /**
-                 * Creates a new GetByIdAppserverRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns GetByIdAppserverRequest instance
-                 */
-                public static create(properties?: api.v1.appserver.IGetByIdAppserverRequest): api.v1.appserver.GetByIdAppserverRequest;
-
-                /**
-                 * Encodes the specified GetByIdAppserverRequest message. Does not implicitly {@link api.v1.appserver.GetByIdAppserverRequest.verify|verify} messages.
-                 * @param message GetByIdAppserverRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.appserver.IGetByIdAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified GetByIdAppserverRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetByIdAppserverRequest.verify|verify} messages.
-                 * @param message GetByIdAppserverRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.appserver.IGetByIdAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a GetByIdAppserverRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns GetByIdAppserverRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.GetByIdAppserverRequest;
-
-                /**
-                 * Decodes a GetByIdAppserverRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns GetByIdAppserverRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.GetByIdAppserverRequest;
-
-                /**
-                 * Verifies a GetByIdAppserverRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a GetByIdAppserverRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns GetByIdAppserverRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.appserver.GetByIdAppserverRequest;
-
-                /**
-                 * Creates a plain object from a GetByIdAppserverRequest message. Also converts values to other types if specified.
-                 * @param message GetByIdAppserverRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.appserver.GetByIdAppserverRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this GetByIdAppserverRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for GetByIdAppserverRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a ListAppserversRequest. */
-            interface IListAppserversRequest {
-
-                /** ListAppserversRequest name */
-                name?: (google.protobuf.IStringValue|null);
-            }
-
-            /** Represents a ListAppserversRequest. */
-            class ListAppserversRequest implements IListAppserversRequest {
-
-                /**
-                 * Constructs a new ListAppserversRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.appserver.IListAppserversRequest);
-
-                /** ListAppserversRequest name. */
-                public name?: (google.protobuf.IStringValue|null);
-
-                /**
-                 * Creates a new ListAppserversRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns ListAppserversRequest instance
-                 */
-                public static create(properties?: api.v1.appserver.IListAppserversRequest): api.v1.appserver.ListAppserversRequest;
-
-                /**
-                 * Encodes the specified ListAppserversRequest message. Does not implicitly {@link api.v1.appserver.ListAppserversRequest.verify|verify} messages.
-                 * @param message ListAppserversRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.appserver.IListAppserversRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified ListAppserversRequest message, length delimited. Does not implicitly {@link api.v1.appserver.ListAppserversRequest.verify|verify} messages.
-                 * @param message ListAppserversRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.appserver.IListAppserversRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a ListAppserversRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns ListAppserversRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.ListAppserversRequest;
-
-                /**
-                 * Decodes a ListAppserversRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns ListAppserversRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.ListAppserversRequest;
-
-                /**
-                 * Verifies a ListAppserversRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a ListAppserversRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns ListAppserversRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.appserver.ListAppserversRequest;
-
-                /**
-                 * Creates a plain object from a ListAppserversRequest message. Also converts values to other types if specified.
-                 * @param message ListAppserversRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.appserver.ListAppserversRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this ListAppserversRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for ListAppserversRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a DeleteAppserverRequest. */
-            interface IDeleteAppserverRequest {
-
-                /** DeleteAppserverRequest id */
-                id?: (string|null);
-            }
-
-            /** Represents a DeleteAppserverRequest. */
-            class DeleteAppserverRequest implements IDeleteAppserverRequest {
-
-                /**
-                 * Constructs a new DeleteAppserverRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.appserver.IDeleteAppserverRequest);
-
-                /** DeleteAppserverRequest id. */
-                public id: string;
-
-                /**
-                 * Creates a new DeleteAppserverRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns DeleteAppserverRequest instance
-                 */
-                public static create(properties?: api.v1.appserver.IDeleteAppserverRequest): api.v1.appserver.DeleteAppserverRequest;
-
-                /**
-                 * Encodes the specified DeleteAppserverRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRequest.verify|verify} messages.
-                 * @param message DeleteAppserverRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.appserver.IDeleteAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified DeleteAppserverRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRequest.verify|verify} messages.
-                 * @param message DeleteAppserverRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.appserver.IDeleteAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns DeleteAppserverRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.DeleteAppserverRequest;
-
-                /**
-                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns DeleteAppserverRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.DeleteAppserverRequest;
-
-                /**
-                 * Verifies a DeleteAppserverRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a DeleteAppserverRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns DeleteAppserverRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.appserver.DeleteAppserverRequest;
-
-                /**
-                 * Creates a plain object from a DeleteAppserverRequest message. Also converts values to other types if specified.
-                 * @param message DeleteAppserverRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.appserver.DeleteAppserverRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this DeleteAppserverRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for DeleteAppserverRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
             /** Properties of a CreateAppserverResponse. */
             interface ICreateAppserverResponse {
 
@@ -3229,6 +2944,103 @@ export namespace api {
 
                 /**
                  * Gets the default type url for CreateAppserverResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a GetByIdAppserverRequest. */
+            interface IGetByIdAppserverRequest {
+
+                /** GetByIdAppserverRequest id */
+                id?: (string|null);
+            }
+
+            /** Represents a GetByIdAppserverRequest. */
+            class GetByIdAppserverRequest implements IGetByIdAppserverRequest {
+
+                /**
+                 * Constructs a new GetByIdAppserverRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.appserver.IGetByIdAppserverRequest);
+
+                /** GetByIdAppserverRequest id. */
+                public id: string;
+
+                /**
+                 * Creates a new GetByIdAppserverRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns GetByIdAppserverRequest instance
+                 */
+                public static create(properties?: api.v1.appserver.IGetByIdAppserverRequest): api.v1.appserver.GetByIdAppserverRequest;
+
+                /**
+                 * Encodes the specified GetByIdAppserverRequest message. Does not implicitly {@link api.v1.appserver.GetByIdAppserverRequest.verify|verify} messages.
+                 * @param message GetByIdAppserverRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.appserver.IGetByIdAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified GetByIdAppserverRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetByIdAppserverRequest.verify|verify} messages.
+                 * @param message GetByIdAppserverRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.appserver.IGetByIdAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a GetByIdAppserverRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns GetByIdAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.GetByIdAppserverRequest;
+
+                /**
+                 * Decodes a GetByIdAppserverRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns GetByIdAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.GetByIdAppserverRequest;
+
+                /**
+                 * Verifies a GetByIdAppserverRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a GetByIdAppserverRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns GetByIdAppserverRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.appserver.GetByIdAppserverRequest;
+
+                /**
+                 * Creates a plain object from a GetByIdAppserverRequest message. Also converts values to other types if specified.
+                 * @param message GetByIdAppserverRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.appserver.GetByIdAppserverRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this GetByIdAppserverRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for GetByIdAppserverRequest
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
@@ -3332,6 +3144,103 @@ export namespace api {
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
+            /** Properties of a ListAppserversRequest. */
+            interface IListAppserversRequest {
+
+                /** ListAppserversRequest name */
+                name?: (google.protobuf.IStringValue|null);
+            }
+
+            /** Represents a ListAppserversRequest. */
+            class ListAppserversRequest implements IListAppserversRequest {
+
+                /**
+                 * Constructs a new ListAppserversRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.appserver.IListAppserversRequest);
+
+                /** ListAppserversRequest name. */
+                public name?: (google.protobuf.IStringValue|null);
+
+                /**
+                 * Creates a new ListAppserversRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns ListAppserversRequest instance
+                 */
+                public static create(properties?: api.v1.appserver.IListAppserversRequest): api.v1.appserver.ListAppserversRequest;
+
+                /**
+                 * Encodes the specified ListAppserversRequest message. Does not implicitly {@link api.v1.appserver.ListAppserversRequest.verify|verify} messages.
+                 * @param message ListAppserversRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.appserver.IListAppserversRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified ListAppserversRequest message, length delimited. Does not implicitly {@link api.v1.appserver.ListAppserversRequest.verify|verify} messages.
+                 * @param message ListAppserversRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.appserver.IListAppserversRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a ListAppserversRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns ListAppserversRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.ListAppserversRequest;
+
+                /**
+                 * Decodes a ListAppserversRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns ListAppserversRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.ListAppserversRequest;
+
+                /**
+                 * Verifies a ListAppserversRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a ListAppserversRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns ListAppserversRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.appserver.ListAppserversRequest;
+
+                /**
+                 * Creates a plain object from a ListAppserversRequest message. Also converts values to other types if specified.
+                 * @param message ListAppserversRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.appserver.ListAppserversRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this ListAppserversRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for ListAppserversRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
             /** Properties of a ListAppserversResponse. */
             interface IListAppserversResponse {
 
@@ -3423,6 +3332,103 @@ export namespace api {
 
                 /**
                  * Gets the default type url for ListAppserversResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a DeleteAppserverRequest. */
+            interface IDeleteAppserverRequest {
+
+                /** DeleteAppserverRequest id */
+                id?: (string|null);
+            }
+
+            /** Represents a DeleteAppserverRequest. */
+            class DeleteAppserverRequest implements IDeleteAppserverRequest {
+
+                /**
+                 * Constructs a new DeleteAppserverRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.appserver.IDeleteAppserverRequest);
+
+                /** DeleteAppserverRequest id. */
+                public id: string;
+
+                /**
+                 * Creates a new DeleteAppserverRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns DeleteAppserverRequest instance
+                 */
+                public static create(properties?: api.v1.appserver.IDeleteAppserverRequest): api.v1.appserver.DeleteAppserverRequest;
+
+                /**
+                 * Encodes the specified DeleteAppserverRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRequest.verify|verify} messages.
+                 * @param message DeleteAppserverRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.appserver.IDeleteAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified DeleteAppserverRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRequest.verify|verify} messages.
+                 * @param message DeleteAppserverRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.appserver.IDeleteAppserverRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns DeleteAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.DeleteAppserverRequest;
+
+                /**
+                 * Decodes a DeleteAppserverRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns DeleteAppserverRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.DeleteAppserverRequest;
+
+                /**
+                 * Verifies a DeleteAppserverRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a DeleteAppserverRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns DeleteAppserverRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.appserver.DeleteAppserverRequest;
+
+                /**
+                 * Creates a plain object from a DeleteAppserverRequest message. Also converts values to other types if specified.
+                 * @param message DeleteAppserverRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.appserver.DeleteAppserverRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this DeleteAppserverRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for DeleteAppserverRequest
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
@@ -3617,194 +3623,6 @@ export namespace api {
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
-            /** Properties of a GetUserAppserverSubsRequest. */
-            interface IGetUserAppserverSubsRequest {
-            }
-
-            /** Represents a GetUserAppserverSubsRequest. */
-            class GetUserAppserverSubsRequest implements IGetUserAppserverSubsRequest {
-
-                /**
-                 * Constructs a new GetUserAppserverSubsRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.appserver.IGetUserAppserverSubsRequest);
-
-                /**
-                 * Creates a new GetUserAppserverSubsRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns GetUserAppserverSubsRequest instance
-                 */
-                public static create(properties?: api.v1.appserver.IGetUserAppserverSubsRequest): api.v1.appserver.GetUserAppserverSubsRequest;
-
-                /**
-                 * Encodes the specified GetUserAppserverSubsRequest message. Does not implicitly {@link api.v1.appserver.GetUserAppserverSubsRequest.verify|verify} messages.
-                 * @param message GetUserAppserverSubsRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.appserver.IGetUserAppserverSubsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified GetUserAppserverSubsRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetUserAppserverSubsRequest.verify|verify} messages.
-                 * @param message GetUserAppserverSubsRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.appserver.IGetUserAppserverSubsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a GetUserAppserverSubsRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns GetUserAppserverSubsRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.GetUserAppserverSubsRequest;
-
-                /**
-                 * Decodes a GetUserAppserverSubsRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns GetUserAppserverSubsRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.GetUserAppserverSubsRequest;
-
-                /**
-                 * Verifies a GetUserAppserverSubsRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a GetUserAppserverSubsRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns GetUserAppserverSubsRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.appserver.GetUserAppserverSubsRequest;
-
-                /**
-                 * Creates a plain object from a GetUserAppserverSubsRequest message. Also converts values to other types if specified.
-                 * @param message GetUserAppserverSubsRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.appserver.GetUserAppserverSubsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this GetUserAppserverSubsRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for GetUserAppserverSubsRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a DeleteAppserverSubRequest. */
-            interface IDeleteAppserverSubRequest {
-
-                /** DeleteAppserverSubRequest id */
-                id?: (string|null);
-            }
-
-            /** Represents a DeleteAppserverSubRequest. */
-            class DeleteAppserverSubRequest implements IDeleteAppserverSubRequest {
-
-                /**
-                 * Constructs a new DeleteAppserverSubRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.appserver.IDeleteAppserverSubRequest);
-
-                /** DeleteAppserverSubRequest id. */
-                public id: string;
-
-                /**
-                 * Creates a new DeleteAppserverSubRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns DeleteAppserverSubRequest instance
-                 */
-                public static create(properties?: api.v1.appserver.IDeleteAppserverSubRequest): api.v1.appserver.DeleteAppserverSubRequest;
-
-                /**
-                 * Encodes the specified DeleteAppserverSubRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverSubRequest.verify|verify} messages.
-                 * @param message DeleteAppserverSubRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.appserver.IDeleteAppserverSubRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified DeleteAppserverSubRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverSubRequest.verify|verify} messages.
-                 * @param message DeleteAppserverSubRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.appserver.IDeleteAppserverSubRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a DeleteAppserverSubRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns DeleteAppserverSubRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.DeleteAppserverSubRequest;
-
-                /**
-                 * Decodes a DeleteAppserverSubRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns DeleteAppserverSubRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.DeleteAppserverSubRequest;
-
-                /**
-                 * Verifies a DeleteAppserverSubRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a DeleteAppserverSubRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns DeleteAppserverSubRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.appserver.DeleteAppserverSubRequest;
-
-                /**
-                 * Creates a plain object from a DeleteAppserverSubRequest message. Also converts values to other types if specified.
-                 * @param message DeleteAppserverSubRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.appserver.DeleteAppserverSubRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this DeleteAppserverSubRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for DeleteAppserverSubRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
             /** Properties of a CreateAppserverSubResponse. */
             interface ICreateAppserverSubResponse {
 
@@ -3902,6 +3720,97 @@ export namespace api {
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
+            /** Properties of a GetUserAppserverSubsRequest. */
+            interface IGetUserAppserverSubsRequest {
+            }
+
+            /** Represents a GetUserAppserverSubsRequest. */
+            class GetUserAppserverSubsRequest implements IGetUserAppserverSubsRequest {
+
+                /**
+                 * Constructs a new GetUserAppserverSubsRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.appserver.IGetUserAppserverSubsRequest);
+
+                /**
+                 * Creates a new GetUserAppserverSubsRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns GetUserAppserverSubsRequest instance
+                 */
+                public static create(properties?: api.v1.appserver.IGetUserAppserverSubsRequest): api.v1.appserver.GetUserAppserverSubsRequest;
+
+                /**
+                 * Encodes the specified GetUserAppserverSubsRequest message. Does not implicitly {@link api.v1.appserver.GetUserAppserverSubsRequest.verify|verify} messages.
+                 * @param message GetUserAppserverSubsRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.appserver.IGetUserAppserverSubsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified GetUserAppserverSubsRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetUserAppserverSubsRequest.verify|verify} messages.
+                 * @param message GetUserAppserverSubsRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.appserver.IGetUserAppserverSubsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a GetUserAppserverSubsRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns GetUserAppserverSubsRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.GetUserAppserverSubsRequest;
+
+                /**
+                 * Decodes a GetUserAppserverSubsRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns GetUserAppserverSubsRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.GetUserAppserverSubsRequest;
+
+                /**
+                 * Verifies a GetUserAppserverSubsRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a GetUserAppserverSubsRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns GetUserAppserverSubsRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.appserver.GetUserAppserverSubsRequest;
+
+                /**
+                 * Creates a plain object from a GetUserAppserverSubsRequest message. Also converts values to other types if specified.
+                 * @param message GetUserAppserverSubsRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.appserver.GetUserAppserverSubsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this GetUserAppserverSubsRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for GetUserAppserverSubsRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
             /** Properties of a GetUserAppserverSubsResponse. */
             interface IGetUserAppserverSubsResponse {
 
@@ -3993,6 +3902,103 @@ export namespace api {
 
                 /**
                  * Gets the default type url for GetUserAppserverSubsResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a DeleteAppserverSubRequest. */
+            interface IDeleteAppserverSubRequest {
+
+                /** DeleteAppserverSubRequest id */
+                id?: (string|null);
+            }
+
+            /** Represents a DeleteAppserverSubRequest. */
+            class DeleteAppserverSubRequest implements IDeleteAppserverSubRequest {
+
+                /**
+                 * Constructs a new DeleteAppserverSubRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.appserver.IDeleteAppserverSubRequest);
+
+                /** DeleteAppserverSubRequest id. */
+                public id: string;
+
+                /**
+                 * Creates a new DeleteAppserverSubRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns DeleteAppserverSubRequest instance
+                 */
+                public static create(properties?: api.v1.appserver.IDeleteAppserverSubRequest): api.v1.appserver.DeleteAppserverSubRequest;
+
+                /**
+                 * Encodes the specified DeleteAppserverSubRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverSubRequest.verify|verify} messages.
+                 * @param message DeleteAppserverSubRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.appserver.IDeleteAppserverSubRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified DeleteAppserverSubRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverSubRequest.verify|verify} messages.
+                 * @param message DeleteAppserverSubRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.appserver.IDeleteAppserverSubRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a DeleteAppserverSubRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns DeleteAppserverSubRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.DeleteAppserverSubRequest;
+
+                /**
+                 * Decodes a DeleteAppserverSubRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns DeleteAppserverSubRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.DeleteAppserverSubRequest;
+
+                /**
+                 * Verifies a DeleteAppserverSubRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a DeleteAppserverSubRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns DeleteAppserverSubRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.appserver.DeleteAppserverSubRequest;
+
+                /**
+                 * Creates a plain object from a DeleteAppserverSubRequest message. Also converts values to other types if specified.
+                 * @param message DeleteAppserverSubRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.appserver.DeleteAppserverSubRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this DeleteAppserverSubRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for DeleteAppserverSubRequest
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
@@ -4193,200 +4199,6 @@ export namespace api {
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
-            /** Properties of a GetAllAppserverRolesRequest. */
-            interface IGetAllAppserverRolesRequest {
-
-                /** GetAllAppserverRolesRequest appserverId */
-                appserverId?: (string|null);
-            }
-
-            /** Represents a GetAllAppserverRolesRequest. */
-            class GetAllAppserverRolesRequest implements IGetAllAppserverRolesRequest {
-
-                /**
-                 * Constructs a new GetAllAppserverRolesRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.appserver.IGetAllAppserverRolesRequest);
-
-                /** GetAllAppserverRolesRequest appserverId. */
-                public appserverId: string;
-
-                /**
-                 * Creates a new GetAllAppserverRolesRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns GetAllAppserverRolesRequest instance
-                 */
-                public static create(properties?: api.v1.appserver.IGetAllAppserverRolesRequest): api.v1.appserver.GetAllAppserverRolesRequest;
-
-                /**
-                 * Encodes the specified GetAllAppserverRolesRequest message. Does not implicitly {@link api.v1.appserver.GetAllAppserverRolesRequest.verify|verify} messages.
-                 * @param message GetAllAppserverRolesRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.appserver.IGetAllAppserverRolesRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified GetAllAppserverRolesRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetAllAppserverRolesRequest.verify|verify} messages.
-                 * @param message GetAllAppserverRolesRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.appserver.IGetAllAppserverRolesRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a GetAllAppserverRolesRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns GetAllAppserverRolesRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.GetAllAppserverRolesRequest;
-
-                /**
-                 * Decodes a GetAllAppserverRolesRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns GetAllAppserverRolesRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.GetAllAppserverRolesRequest;
-
-                /**
-                 * Verifies a GetAllAppserverRolesRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a GetAllAppserverRolesRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns GetAllAppserverRolesRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.appserver.GetAllAppserverRolesRequest;
-
-                /**
-                 * Creates a plain object from a GetAllAppserverRolesRequest message. Also converts values to other types if specified.
-                 * @param message GetAllAppserverRolesRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.appserver.GetAllAppserverRolesRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this GetAllAppserverRolesRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for GetAllAppserverRolesRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
-            /** Properties of a DeleteAppserverRoleRequest. */
-            interface IDeleteAppserverRoleRequest {
-
-                /** DeleteAppserverRoleRequest id */
-                id?: (string|null);
-            }
-
-            /** Represents a DeleteAppserverRoleRequest. */
-            class DeleteAppserverRoleRequest implements IDeleteAppserverRoleRequest {
-
-                /**
-                 * Constructs a new DeleteAppserverRoleRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.appserver.IDeleteAppserverRoleRequest);
-
-                /** DeleteAppserverRoleRequest id. */
-                public id: string;
-
-                /**
-                 * Creates a new DeleteAppserverRoleRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns DeleteAppserverRoleRequest instance
-                 */
-                public static create(properties?: api.v1.appserver.IDeleteAppserverRoleRequest): api.v1.appserver.DeleteAppserverRoleRequest;
-
-                /**
-                 * Encodes the specified DeleteAppserverRoleRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleRequest.verify|verify} messages.
-                 * @param message DeleteAppserverRoleRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.appserver.IDeleteAppserverRoleRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified DeleteAppserverRoleRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleRequest.verify|verify} messages.
-                 * @param message DeleteAppserverRoleRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.appserver.IDeleteAppserverRoleRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a DeleteAppserverRoleRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns DeleteAppserverRoleRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.DeleteAppserverRoleRequest;
-
-                /**
-                 * Decodes a DeleteAppserverRoleRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns DeleteAppserverRoleRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.DeleteAppserverRoleRequest;
-
-                /**
-                 * Verifies a DeleteAppserverRoleRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a DeleteAppserverRoleRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns DeleteAppserverRoleRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.appserver.DeleteAppserverRoleRequest;
-
-                /**
-                 * Creates a plain object from a DeleteAppserverRoleRequest message. Also converts values to other types if specified.
-                 * @param message DeleteAppserverRoleRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.appserver.DeleteAppserverRoleRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this DeleteAppserverRoleRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for DeleteAppserverRoleRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
             /** Properties of a CreateAppserverRoleResponse. */
             interface ICreateAppserverRoleResponse {
 
@@ -4484,6 +4296,103 @@ export namespace api {
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
+            /** Properties of a GetAllAppserverRolesRequest. */
+            interface IGetAllAppserverRolesRequest {
+
+                /** GetAllAppserverRolesRequest appserverId */
+                appserverId?: (string|null);
+            }
+
+            /** Represents a GetAllAppserverRolesRequest. */
+            class GetAllAppserverRolesRequest implements IGetAllAppserverRolesRequest {
+
+                /**
+                 * Constructs a new GetAllAppserverRolesRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.appserver.IGetAllAppserverRolesRequest);
+
+                /** GetAllAppserverRolesRequest appserverId. */
+                public appserverId: string;
+
+                /**
+                 * Creates a new GetAllAppserverRolesRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns GetAllAppserverRolesRequest instance
+                 */
+                public static create(properties?: api.v1.appserver.IGetAllAppserverRolesRequest): api.v1.appserver.GetAllAppserverRolesRequest;
+
+                /**
+                 * Encodes the specified GetAllAppserverRolesRequest message. Does not implicitly {@link api.v1.appserver.GetAllAppserverRolesRequest.verify|verify} messages.
+                 * @param message GetAllAppserverRolesRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.appserver.IGetAllAppserverRolesRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified GetAllAppserverRolesRequest message, length delimited. Does not implicitly {@link api.v1.appserver.GetAllAppserverRolesRequest.verify|verify} messages.
+                 * @param message GetAllAppserverRolesRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.appserver.IGetAllAppserverRolesRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a GetAllAppserverRolesRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns GetAllAppserverRolesRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.GetAllAppserverRolesRequest;
+
+                /**
+                 * Decodes a GetAllAppserverRolesRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns GetAllAppserverRolesRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.GetAllAppserverRolesRequest;
+
+                /**
+                 * Verifies a GetAllAppserverRolesRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a GetAllAppserverRolesRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns GetAllAppserverRolesRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.appserver.GetAllAppserverRolesRequest;
+
+                /**
+                 * Creates a plain object from a GetAllAppserverRolesRequest message. Also converts values to other types if specified.
+                 * @param message GetAllAppserverRolesRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.appserver.GetAllAppserverRolesRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this GetAllAppserverRolesRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for GetAllAppserverRolesRequest
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
             /** Properties of a GetAllAppserverRolesResponse. */
             interface IGetAllAppserverRolesResponse {
 
@@ -4575,6 +4484,103 @@ export namespace api {
 
                 /**
                  * Gets the default type url for GetAllAppserverRolesResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a DeleteAppserverRoleRequest. */
+            interface IDeleteAppserverRoleRequest {
+
+                /** DeleteAppserverRoleRequest id */
+                id?: (string|null);
+            }
+
+            /** Represents a DeleteAppserverRoleRequest. */
+            class DeleteAppserverRoleRequest implements IDeleteAppserverRoleRequest {
+
+                /**
+                 * Constructs a new DeleteAppserverRoleRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.appserver.IDeleteAppserverRoleRequest);
+
+                /** DeleteAppserverRoleRequest id. */
+                public id: string;
+
+                /**
+                 * Creates a new DeleteAppserverRoleRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns DeleteAppserverRoleRequest instance
+                 */
+                public static create(properties?: api.v1.appserver.IDeleteAppserverRoleRequest): api.v1.appserver.DeleteAppserverRoleRequest;
+
+                /**
+                 * Encodes the specified DeleteAppserverRoleRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleRequest.verify|verify} messages.
+                 * @param message DeleteAppserverRoleRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.appserver.IDeleteAppserverRoleRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified DeleteAppserverRoleRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleRequest.verify|verify} messages.
+                 * @param message DeleteAppserverRoleRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.appserver.IDeleteAppserverRoleRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a DeleteAppserverRoleRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns DeleteAppserverRoleRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.DeleteAppserverRoleRequest;
+
+                /**
+                 * Decodes a DeleteAppserverRoleRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns DeleteAppserverRoleRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.DeleteAppserverRoleRequest;
+
+                /**
+                 * Verifies a DeleteAppserverRoleRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a DeleteAppserverRoleRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns DeleteAppserverRoleRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.appserver.DeleteAppserverRoleRequest;
+
+                /**
+                 * Creates a plain object from a DeleteAppserverRoleRequest message. Also converts values to other types if specified.
+                 * @param message DeleteAppserverRoleRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.appserver.DeleteAppserverRoleRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this DeleteAppserverRoleRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for DeleteAppserverRoleRequest
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
@@ -4775,103 +4781,6 @@ export namespace api {
                 public static getTypeUrl(typeUrlPrefix?: string): string;
             }
 
-            /** Properties of a DeleteAppserverRoleSubRequest. */
-            interface IDeleteAppserverRoleSubRequest {
-
-                /** DeleteAppserverRoleSubRequest id */
-                id?: (string|null);
-            }
-
-            /** Represents a DeleteAppserverRoleSubRequest. */
-            class DeleteAppserverRoleSubRequest implements IDeleteAppserverRoleSubRequest {
-
-                /**
-                 * Constructs a new DeleteAppserverRoleSubRequest.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: api.v1.appserver.IDeleteAppserverRoleSubRequest);
-
-                /** DeleteAppserverRoleSubRequest id. */
-                public id: string;
-
-                /**
-                 * Creates a new DeleteAppserverRoleSubRequest instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns DeleteAppserverRoleSubRequest instance
-                 */
-                public static create(properties?: api.v1.appserver.IDeleteAppserverRoleSubRequest): api.v1.appserver.DeleteAppserverRoleSubRequest;
-
-                /**
-                 * Encodes the specified DeleteAppserverRoleSubRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleSubRequest.verify|verify} messages.
-                 * @param message DeleteAppserverRoleSubRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: api.v1.appserver.IDeleteAppserverRoleSubRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified DeleteAppserverRoleSubRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleSubRequest.verify|verify} messages.
-                 * @param message DeleteAppserverRoleSubRequest message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: api.v1.appserver.IDeleteAppserverRoleSubRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a DeleteAppserverRoleSubRequest message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns DeleteAppserverRoleSubRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.DeleteAppserverRoleSubRequest;
-
-                /**
-                 * Decodes a DeleteAppserverRoleSubRequest message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns DeleteAppserverRoleSubRequest
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.DeleteAppserverRoleSubRequest;
-
-                /**
-                 * Verifies a DeleteAppserverRoleSubRequest message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a DeleteAppserverRoleSubRequest message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns DeleteAppserverRoleSubRequest
-                 */
-                public static fromObject(object: { [k: string]: any }): api.v1.appserver.DeleteAppserverRoleSubRequest;
-
-                /**
-                 * Creates a plain object from a DeleteAppserverRoleSubRequest message. Also converts values to other types if specified.
-                 * @param message DeleteAppserverRoleSubRequest
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: api.v1.appserver.DeleteAppserverRoleSubRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this DeleteAppserverRoleSubRequest to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-
-                /**
-                 * Gets the default type url for DeleteAppserverRoleSubRequest
-                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns The default type url
-                 */
-                public static getTypeUrl(typeUrlPrefix?: string): string;
-            }
-
             /** Properties of a CreateAppserverRoleSubResponse. */
             interface ICreateAppserverRoleSubResponse {
 
@@ -4963,6 +4872,103 @@ export namespace api {
 
                 /**
                  * Gets the default type url for CreateAppserverRoleSubResponse
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a DeleteAppserverRoleSubRequest. */
+            interface IDeleteAppserverRoleSubRequest {
+
+                /** DeleteAppserverRoleSubRequest id */
+                id?: (string|null);
+            }
+
+            /** Represents a DeleteAppserverRoleSubRequest. */
+            class DeleteAppserverRoleSubRequest implements IDeleteAppserverRoleSubRequest {
+
+                /**
+                 * Constructs a new DeleteAppserverRoleSubRequest.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: api.v1.appserver.IDeleteAppserverRoleSubRequest);
+
+                /** DeleteAppserverRoleSubRequest id. */
+                public id: string;
+
+                /**
+                 * Creates a new DeleteAppserverRoleSubRequest instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns DeleteAppserverRoleSubRequest instance
+                 */
+                public static create(properties?: api.v1.appserver.IDeleteAppserverRoleSubRequest): api.v1.appserver.DeleteAppserverRoleSubRequest;
+
+                /**
+                 * Encodes the specified DeleteAppserverRoleSubRequest message. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleSubRequest.verify|verify} messages.
+                 * @param message DeleteAppserverRoleSubRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: api.v1.appserver.IDeleteAppserverRoleSubRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified DeleteAppserverRoleSubRequest message, length delimited. Does not implicitly {@link api.v1.appserver.DeleteAppserverRoleSubRequest.verify|verify} messages.
+                 * @param message DeleteAppserverRoleSubRequest message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: api.v1.appserver.IDeleteAppserverRoleSubRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a DeleteAppserverRoleSubRequest message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns DeleteAppserverRoleSubRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): api.v1.appserver.DeleteAppserverRoleSubRequest;
+
+                /**
+                 * Decodes a DeleteAppserverRoleSubRequest message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns DeleteAppserverRoleSubRequest
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): api.v1.appserver.DeleteAppserverRoleSubRequest;
+
+                /**
+                 * Verifies a DeleteAppserverRoleSubRequest message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a DeleteAppserverRoleSubRequest message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns DeleteAppserverRoleSubRequest
+                 */
+                public static fromObject(object: { [k: string]: any }): api.v1.appserver.DeleteAppserverRoleSubRequest;
+
+                /**
+                 * Creates a plain object from a DeleteAppserverRoleSubRequest message. Also converts values to other types if specified.
+                 * @param message DeleteAppserverRoleSubRequest
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: api.v1.appserver.DeleteAppserverRoleSubRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this DeleteAppserverRoleSubRequest to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for DeleteAppserverRoleSubRequest
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */

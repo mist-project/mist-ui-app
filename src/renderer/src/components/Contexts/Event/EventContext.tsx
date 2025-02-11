@@ -12,6 +12,9 @@ export type Events = {
   appserverListing: pb.api.v1.appserver.IGetUserAppserverSubsResponse;
   appserverDetails: pb.api.v1.appserver.IAppserver;
 
+  // ----- SERVER ROLES -----
+  appserverRolesListing: pb.api.v1.appserver.IAppserverRole[];
+
   // ----- CHANNELS -----
   channelListing: pb.api.v1.channel.IChannel[];
 };

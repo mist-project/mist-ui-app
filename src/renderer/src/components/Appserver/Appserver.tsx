@@ -4,46 +4,15 @@ import { useParams } from 'react-router-dom';
 import * as pb from '@protos/v1/pb';
 
 import { Divider } from '@renderer/components/common/Divider';
-import ButtonWithMenu from '@renderer/components/common/Button/ButtonWithMenu/ButtonWithMenu';
+import { ButtonWithMenu } from '@renderer/components/common/Button';
 import { MenuItem, Menu } from '@renderer/components/common/Button/ButtonWithMenu';
-import { useEvent, useIOSocket, useModal } from '@renderer/components/Contexts';
+import { useEvent, useIOSocket } from '@renderer/components/Contexts';
 import { AppserverRequest, ChannelRequest } from '@renderer/requests';
 import { ReactSetState } from '@renderer/types';
 
-import { Channel } from './Channel/Channel';
 import { AppserverContext, useAppserverContext } from './AppserverContext';
-import { CreateChannelModal } from './Channel/CreateChannelModal';
-
-const AppserverHeader = (): JSX.Element => {
-  const { appserver } = useAppserverContext();
-  const { setModalContent, showModal } = useModal();
-  return (
-    <ButtonWithMenu
-      className="py-2 w-full"
-      menuItems={
-        <Menu>
-          <MenuItem
-            onClick={() => {
-              if (!appserver) return;
-              setModalContent(<CreateChannelModal appserverId={appserver.id as string} />);
-              showModal(true);
-            }}
-          >
-            Create Channel
-          </MenuItem>
-        </Menu>
-      }
-      contextMenuItems={
-        <Menu>
-          <MenuItem>right</MenuItem>
-        </Menu>
-      }
-      buttonColor="none"
-    >
-      {appserver?.name}
-    </ButtonWithMenu>
-  );
-};
+import AppserverHeader from './AppserverHeader';
+import { Channel } from './Channel/Channel';
 
 const ChannelButton = ({
   children,
@@ -89,12 +58,15 @@ const Appserver = (): JSX.Element => {
   const { appserverId } = useParams();
   const { sendMessage } = useIOSocket();
   const { emitter } = useEvent();
+
+  const [appserverDetails, setAppserverDetails] = useState<pb.api.v1.appserver.IAppserver>();
+  const [roleListing, setRoleListing] = useState<pb.api.v1.appserver.IAppserverRole[]>([]);
   const [channelContentId, setChannelContentId] = useState<string>('');
   const [channelListing, setChannelListing] = useState<pb.api.v1.channel.IChannel[]>([]);
-  const [appserverDetails, setAppserverDetails] = useState<pb.api.v1.appserver.IAppserver>();
-
   useEffect(() => {
     if (!appserverId) return;
+    // TODO: refactor getappserverdetails to return all server details instead
+    // of having separate calls. the emitter must remain as is thought to get new notifications (ex: new channel)
     new AppserverRequest(sendMessage).getAppserverDetails(appserverId);
     emitter.on('appserverDetails', (appserverDetails) => {
       setAppserverDetails(appserverDetails);
@@ -105,6 +77,11 @@ const Appserver = (): JSX.Element => {
       setChannelListing(channelListing);
     });
 
+    new AppserverRequest(sendMessage).getAppserverRoleListing(appserverId);
+    emitter.on('appserverRolesListing', (roleListing) => {
+      setRoleListing(roleListing);
+    });
+
     return (): void => {
       emitter.off('appserverDetails');
       emitter.off('channelListing');
@@ -112,7 +89,9 @@ const Appserver = (): JSX.Element => {
   }, [appserverId]);
 
   return (
-    <AppserverContext.Provider value={{ appserver: appserverDetails, channels: channelListing }}>
+    <AppserverContext.Provider
+      value={{ appserver: appserverDetails, channels: channelListing, roles: roleListing }}
+    >
       <div className="flex w-full">
         <div className="w-[240px]">
           <AppserverPanel setChannelId={setChannelContentId} />

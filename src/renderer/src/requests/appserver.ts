@@ -7,6 +7,12 @@ class AppserverRequest extends BaseRequest {
     });
   }
 
+  public getAppserverRoleListing(appserverId: string): void {
+    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_LIST, {
+      appserverRoleListing: new pb_v1.appserver.GetAllAppserverRolesRequest({ appserverId })
+    });
+  }
+
   public getAppserverDetails(appserverId: string): void {
     this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_GET, {
       appserverDetails: new pb_v1.messages.AppserverDetailsRequest({ id: appserverId })
@@ -15,19 +21,28 @@ class AppserverRequest extends BaseRequest {
 
   public createAppserver(name: string): void {
     this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_CREATE, {
-      createAppserver: new pb_v1.server.CreateAppserverRequest({ name })
-    });
-  }
-
-  public deleteAppserver(id: string): void {
-    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_DELETE, {
-      deleteAppserver: new pb_v1.server.DeleteAppserverRequest({ id })
+      createAppserver: new pb_v1.appserver.CreateAppserverRequest({ name })
     });
   }
 
   public joinAppserver(appserverId: string): void {
     this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_CREATE, {
-      joinAppserver: new pb_v1.server.CreateAppserverSubRequest({ appserverId })
+      joinAppserver: new pb_v1.appserver.CreateAppserverSubRequest({ appserverId })
+    });
+  }
+
+  public createAppserverRole(appserverId: string, name: string): void {
+    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_CREATE, {
+      createAppserverRole: new pb_v1.appserver.CreateAppserverRoleRequest({
+        name,
+        appserverId
+      })
+    });
+  }
+
+  public deleteAppserver(id: string): void {
+    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_DELETE, {
+      deleteAppserver: new pb_v1.appserver.DeleteAppserverRequest({ id })
     });
   }
 }
