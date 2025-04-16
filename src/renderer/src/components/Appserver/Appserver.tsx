@@ -61,8 +61,10 @@ const Appserver = (): JSX.Element => {
 
   const [appserverDetails, setAppserverDetails] = useState<pb.api.v1.appserver.IAppserver>();
   const [roleListing, setRoleListing] = useState<pb.api.v1.appserver.IAppserverRole[]>([]);
+  const [userListing, setUserListing] = useState<pb.api.v1.appserver.IAppuserAndSub[]>([]);
   const [channelContentId, setChannelContentId] = useState<string>('');
   const [channelListing, setChannelListing] = useState<pb.api.v1.channel.IChannel[]>([]);
+
   useEffect(() => {
     if (!appserverId) return;
     // TODO: refactor getappserverdetails to return all server details instead
@@ -82,6 +84,11 @@ const Appserver = (): JSX.Element => {
       setRoleListing(roleListing);
     });
 
+    new AppserverRequest(sendMessage).getAppserverUserListing(appserverId);
+    emitter.on('appserverUserListing', (userListing) => {
+      setUserListing(userListing);
+    });
+
     return (): void => {
       emitter.off('appserverDetails');
       emitter.off('channelListing');
@@ -90,7 +97,12 @@ const Appserver = (): JSX.Element => {
 
   return (
     <AppserverContext.Provider
-      value={{ appserver: appserverDetails, channels: channelListing, roles: roleListing }}
+      value={{
+        appserver: appserverDetails,
+        channels: channelListing,
+        roles: roleListing,
+        users: userListing
+      }}
     >
       <div className="flex w-full">
         <div className="w-[240px]">

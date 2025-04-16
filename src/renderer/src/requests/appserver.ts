@@ -9,7 +9,7 @@ class AppserverRequest extends BaseRequest {
 
   public getAppserverRoleListing(appserverId: string): void {
     this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_LIST, {
-      appserverRoleListing: new pb_v1.appserver.GetAllAppserverRolesRequest({ appserverId })
+      appserverRolesListing: new pb_v1.appserver.GetAllAppserverRolesRequest({ appserverId })
     });
   }
 
@@ -25,12 +25,20 @@ class AppserverRequest extends BaseRequest {
     });
   }
 
+  // ----- appserver subs -----
   public joinAppserver(appserverId: string): void {
     this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_CREATE, {
       joinAppserver: new pb_v1.appserver.CreateAppserverSubRequest({ appserverId })
     });
   }
 
+  public getAppserverUserListing(appserverId: string): void {
+    this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_GET, {
+      appserverUserListing: new pb_v1.appserver.GetAllUsersAppserverSubsRequest({ appserverId })
+    });
+  }
+
+  // ----- appserver roles -----
   public createAppserverRole(appserverId: string, name: string): void {
     this.sendMesage(pb_v1.messages.ActionType.ACTION_TYPE_CREATE, {
       createAppserverRole: new pb_v1.appserver.CreateAppserverRoleRequest({
