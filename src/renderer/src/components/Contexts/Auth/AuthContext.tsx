@@ -1,7 +1,6 @@
-import { createContext, useState, use, useEffect, JSX } from 'react';
+import { createContext, useState, use, useEffect, JSX, useCallback } from 'react';
 
-import { useEvent } from '@renderer/components/Contexts/';
-import MistApiService from '@renderer/services/mistApiService';
+import AuthService from '@renderer/services/authService';
 
 // Create a Context for Authentication
 export type LoginCredentials = {
@@ -15,11 +14,11 @@ export type AuthTokens = {
 };
 
 type AuthContextType = {
+  accessToken: string | null;
   logged: boolean;
   // eslint-disable-next-line no-unused-vars
-  login: (arg0: LoginCredentials) => void;
+  login: (arg0: LoginCredentials) => Promise<boolean>;
   logout: () => void;
-  requestTokens: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -35,31 +34,30 @@ export const useAuth = (): AuthContextType => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [logged, setLogged] = useState<boolean>(false);
-  const { emitter } = useEvent();
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    window.electron.ipcRenderer.send('authentication-status');
-
-    window.api.isAuthenticated((logged: boolean) => {
-      setLogged(logged);
-    });
-
-    window.api.jwtTokens((message) => {
-      emitter.emit('socketToken', message.access);
-    });
+  const isLogged = useCallback(async (): Promise<void> => {
+    const authenticated = await window.api.isAuthenticated();
+    if (authenticated) {
+      const token = await window.api.getAccessToken();
+      setAccessToken(token);
+    } else {
+      setAccessToken(null);
+    }
+    setLogged(authenticated);
   }, []);
 
   useEffect(() => {
-    if (logged) {
-      requestTokens();
-    }
-  }, [logged]);
+    isLogged();
+  }, []);
 
   const login = async (creds: LoginCredentials): Promise<boolean> => {
-    const response = await new MistApiService().login(creds);
+    const response = await new AuthService().login(creds);
     if (response.ok) {
-      window.electron.ipcRenderer.send('store-jwt-main', await response.json());
+      const data = await response.json();
+      window.electron.ipcRenderer.send('store-jwt-main', data);
       setLogged(true);
+      setAccessToken(data.access);
       return true;
     }
     return false;
@@ -67,14 +65,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
 
   const logout = (): void => {
     window.electron.ipcRenderer.send('remove-jwt-main');
-  };
-
-  const requestTokens = (): void => {
-    window.electron.ipcRenderer.send('get-jwt-main');
+    setAccessToken(null);
+    setLogged(false);
   };
 
   return (
-    <AuthContext.Provider value={{ logged, login, logout, requestTokens }}>
+    <AuthContext.Provider value={{ accessToken, logged, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

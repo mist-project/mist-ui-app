@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import { JSX, useId } from 'react';
 import classNames from 'classnames';
 
 import { ReactSetState } from '@renderer/types';
@@ -11,12 +11,16 @@ interface InputTextProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Checkbox = ({ label, value, setValue }: InputTextProps): JSX.Element => {
+  const objId = useId();
+
   const checkboxClassNames = classNames(
-    'checkbox-input h-5 w-5 border-2 border-gray-500 rounded ring-2 focus:ring-blue-500 checked:bg-blue-500'
+    'checkbox-input cursor-pointer h-5 w-5 border-2 border-gray-500 rounded ring-2 focus:ring-blue-500 checked:bg-blue-500'
   );
+
   return (
-    <div className="flex gap-2 p-2">
+    <div className="flex gap-2">
       <input
+        id={`${objId}-checkbox`}
         className={checkboxClassNames}
         type="checkbox"
         checked={value}
@@ -24,7 +28,9 @@ const Checkbox = ({ label, value, setValue }: InputTextProps): JSX.Element => {
           setValue && setValue(!value);
         }}
       />
-      <label>{label}</label>
+      <label htmlFor={`${objId}-checkbox`} className="cursor-pointer">
+        {label}
+      </label>
     </div>
   );
 };

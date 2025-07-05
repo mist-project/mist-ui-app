@@ -7,13 +7,14 @@ declare global {
   }
 
   interface IPCMessages {
-    jwtTokens: (_arg0: (_message: jwtTokensParams) => void) => void;
-    isAuthenticated: (_arg0: (_message: boolean) => void) => void;
-    getRememberUsername: (_arg0: (username: string) => void) => void;
+    getRememberUsername: () => Promise<string | void>;
+    isAuthenticated: () => Promise<boolean>;
+    getAccessToken: () => Promise<string | null>;
+    getRefreshToken: () => Promise<string | null>;
   }
 
   interface EnvVariables {
-    mistApiServiceUrl: string;
+    mistAuthServiceUrl: string;
     mistIOServiceUrl: string;
   }
   interface Window {

@@ -1,9 +1,10 @@
 import { LoginCredentials } from '@renderer/components/Contexts/Auth';
 
-const baseUrl = window.appEnvs.mistApiServiceUrl;
-class MistApiService {
+const authServiceUrl = window.appEnvs.mistAuthServiceUrl;
+
+class AuthService {
   public async login(creds: LoginCredentials): Promise<Response> {
-    const url = `${baseUrl}/api/token/`;
+    const url = `${authServiceUrl}/api/token/`;
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -19,4 +20,4 @@ class MistApiService {
   }
 }
 
-export default MistApiService;
+export default AuthService;

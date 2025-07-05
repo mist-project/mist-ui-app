@@ -30,7 +30,9 @@ export const useIOSocket = (): IOSocketContextType => {
 };
 
 export const IOSocketProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const { logged } = useAuth();
+  // TODO: Add spinner once user is officially logged in but has no socket connection yet
+
+  const { logged, accessToken } = useAuth();
   const { emitter } = useEvent();
 
   const socketRef = useRef<WebSocket | null>(null); // Ref for WebSocket instance
@@ -39,17 +41,15 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
   );
 
   useEffect(() => {
-    if (logged) {
-      emitter.on('socketToken', (token) => {
-        connect(token);
-      });
+    console.log(logged, accessToken);
+    if (logged && accessToken) {
+      connect(accessToken);
     }
 
     return (): void => {
       if (socketRef.current) {
         socketRef.current.close();
       }
-      emitter.off('socketToken');
     };
   }, [logged]);
 

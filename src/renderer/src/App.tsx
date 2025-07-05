@@ -12,17 +12,18 @@ import { Appserver } from './components/Appserver';
 import './App.scss';
 
 const Layout = (): JSX.Element => (
-  <div className="bg-gray-950 text-white h-full flex">
+  <div className="bg-gray-900 text-gray-100 h-full flex">
     <Nav />
     <Outlet />
   </div>
 );
 
 const LoginLayout = (): JSX.Element => (
-  <div className="bg-gray-900 text-white h-full flex">
+  <div className="bg-gray-900 text-gray-100 h-full flex items-center justify-center">
     <Outlet />
   </div>
 );
+
 const ProtectedRoute = ({ children }: { children: JSX.Element }): JSX.Element => {
   const { logged } = useAuth();
   const { connectionState } = useIOSocket();

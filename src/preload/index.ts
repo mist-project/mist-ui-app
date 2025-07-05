@@ -1,26 +1,19 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 
-type jwtTokensParams = {
-  access: string;
-  refresh: string;
-};
-
-type JwtTokensCallback = (_arg0: jwtTokensParams) => void;
-
 type ApiMessages = {
-  jwtTokens: (_arg0: JwtTokensCallback) => void;
-  isAuthenticated: (_arg0: (_arg0: boolean) => void) => void;
+  getRememberUsername: () => Promise<string | void>;
+  isAuthenticated: () => Promise<boolean>;
+  getAccessToken: () => Promise<string | null>;
+  getRefreshToken: () => Promise<string | null>;
 };
 
 // Custom APIs for renderer
 const api = {
-  jwtTokens: (callback: JwtTokensCallback) =>
-    ipcRenderer.on('jwt-tokens', (_event, value) => callback(value)),
-
-  isAuthenticated: (callback) => ipcRenderer.on('is-authenticated', (_, value) => callback(value)),
-  getRememberUsername: (callback) =>
-    ipcRenderer.on('get-remember-username', (_, value) => callback(value))
+  getRememberUsername: () => ipcRenderer.invoke('get-remember-username'),
+  isAuthenticated: () => ipcRenderer.invoke('is-authenticated'),
+  getAccessToken: () => ipcRenderer.invoke('get-access-token'),
+  getRefreshToken: () => ipcRenderer.invoke('get-refresh-token')
 } as ApiMessages;
 
 const getEnv = (key: string, strict: boolean = false): string | undefined => {
@@ -32,7 +25,7 @@ const getEnv = (key: string, strict: boolean = false): string | undefined => {
 };
 
 const appEnvs = {
-  mistApiServiceUrl: getEnv('MIST_API_SERVICE_URL', true),
+  mistAuthServiceUrl: getEnv('MIST_AUTH_SERVICE_URL', true),
   mistIOServiceUrl: getEnv('MIST_IO_SERVICE_URL', true)
 };
 

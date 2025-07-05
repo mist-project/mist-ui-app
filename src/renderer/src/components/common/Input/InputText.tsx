@@ -1,29 +1,61 @@
 import { ChangeEvent, JSX } from 'react';
 
 import { ReactSetState } from '@renderer/types';
+import { ExclamationCircleIcon } from '@renderer/icons';
+import classNames from 'classnames';
 
 interface InputTextProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   setValue?: ReactSetState<string>;
   className?: string;
+  placeholder?: string;
+  errors?: string;
 }
 
-const focusVisible = ['border-white-600'].map((css) => `focus-visible:${css}`).join(' ');
-const focus = ['border-white-600'].map((css) => `focus:${css}`).join(' ');
+const focusClasses =
+  'focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-20';
 
-const InputText = ({ label, className, type, value, setValue }: InputTextProps): JSX.Element => {
+const InputText = ({
+  label,
+  type,
+  className,
+  placeholder,
+  value,
+  setValue,
+  errors,
+  ...props
+}: InputTextProps): JSX.Element => {
+  const inputClasss = classNames(
+    'w-full box-border bg-gray-700 border border-gray-600 rounded-md p-3 text-gray-100 text-base',
+    focusClasses,
+    className
+  );
+
   return (
-    <div className="p-3 flex flex-col">
-      {label && <label className="font-bold">{label}</label>}
+    <>
+      {label && (
+        <label className="block text-lg font-semibold text-gray-300 mb-2" htmlFor="username">
+          {label}
+        </label>
+      )}
       <input
-        className={`bg-gray-600 border-solid border-1 rounded p-[5px] border-gray-500 ${focusVisible} ${focus} ${className}`}
+        id="username"
+        className={inputClasss}
+        placeholder={placeholder || 'Enter text...'}
         type={type}
         value={value}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
           setValue && setValue(event.target.value);
         }}
+        {...props}
       />
-    </div>
+      {errors && (
+        <p role="alert" className="mt-2 text-sm flex gap-1 text-red-600 items-center">
+          <ExclamationCircleIcon />
+          {errors}
+        </p>
+      )}
+    </>
   );
 };
 

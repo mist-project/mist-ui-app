@@ -23,19 +23,26 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
+    "@heroicons/react": "^2.2.0",
+    "@hookform/resolvers": "^5.1.1",
     "autoprefixer": "^10.4.20",
+    "axios": "^1.10.0",
     "classnames": "^2.5.1",
     "electron-store": "^8.2.0",
     "electron-updater": "^6.1.7",
+    "js-cookie": "^3.0.5",
     "mitt": "^3.0.1",
     "postcss": "^8.4.49",
+    "react-hook-form": "^7.59.0",
     "react-router-dom": "^7.1.1",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",
     "@electron-toolkit/eslint-config-ts": "^2.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.14.8",
     "@types/protobufjs": "^6.0.0",
     "@types/react": "19.0.2",

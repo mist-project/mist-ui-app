@@ -10,8 +10,8 @@ import {
   AuthTokens,
   DeepLinkRouter,
   JsonStore,
-  JwtAuthManager,
-  MistApiService
+  JwtAuthManager
+  // MistApiService
 } from './helpers';
 
 if (process.defaultApp) {
@@ -35,7 +35,9 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      nodeIntegration: false,
+      contextIsolation: true
     }
   });
 
@@ -62,44 +64,44 @@ function createWindow(): void {
 const gotTheLock = app.requestSingleInstanceLock();
 
 // TODO: replace this login for a setInterval
-const performJwtRefresh = (run: boolean): void => {
-  const fifteenMinutes = 60 * 15 * 1000;
-  const handler = async (): Promise<void> => {
-    if (!run) {
-      currentTimeout = setTimeout(handler, fifteenMinutes);
-      return;
-    }
-    const tokens = JwtAuthManager.getTokens();
-    const response = await MistApiService.refreshToken(tokens.refresh);
-    if (response.ok) {
-      const updatedTokens = await response.json();
-      JwtAuthManager.setTokens(updatedTokens);
-      if (mainWindow) {
-        mainWindow.webContents.send('jwt-tokens', updatedTokens);
-      }
-      // TODO: Add proper claims checking so that it refreshes when necessary, not the satic
-      // 15 mins i'm goingt o add here
-      currentTimeout = setTimeout(handler, fifteenMinutes);
-    } else {
-      // If failure to update stuff, just logout the user.
-      JwtAuthManager.deleteTokens();
-      if (mainWindow) {
-        mainWindow.webContents.send('is-authenticated', JwtAuthManager.isAuthenticated());
-      }
-    }
-  };
+// const performJwtRefresh = (run: boolean): void => {
+//   const fifteenMinutes = 60 * 15 * 1000;
+//   const handler = async (): Promise<void> => {
+//     if (!run) {
+//       currentTimeout = setTimeout(handler, fifteenMinutes);
+//       return;
+//     }
+//     const tokens = JwtAuthManager.getTokens();
+//     const response = await MistApiService.refreshToken(tokens.refresh);
+//     if (response.ok) {
+//       const updatedTokens = await response.json();
+//       JwtAuthManager.setTokens(updatedTokens);
+//       if (mainWindow) {
+//         mainWindow.webContents.send('jwt-tokens', updatedTokens);
+//       }
+//       // TODO: Add proper claims checking so that it refreshes when necessary, not the satic
+//       // 15 mins i'm goingt o add here
+//       currentTimeout = setTimeout(handler, fifteenMinutes);
+//     } else {
+//       // If failure to update stuff, just logout the user.
+//       JwtAuthManager.deleteTokens();
+//       if (mainWindow) {
+//         mainWindow.webContents.send('is-authenticated', JwtAuthManager.isAuthenticated());
+//       }
+//     }
+//   };
 
-  handler();
-};
+//   handler();
+// };
 
-const waitTillWindowUp = (): void => {
-  if (!mainWindow) setTimeout(waitTillWindowUp, 100);
-};
+// const waitTillWindowUp = (): void => {
+//   if (!mainWindow) setTimeout(waitTillWindowUp, 100);
+// };
 
 if (!gotTheLock) {
   app.quit();
 } else {
-  app.on('second-instance', (event, commandLine) => {
+  app.on('second-instance', (_, commandLine) => {
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore();
@@ -130,26 +132,22 @@ if (!gotTheLock) {
       optimizer.watchWindowShortcuts(window);
     });
 
-    // Token refresh
-    if (JwtAuthManager.isAuthenticated()) {
-      waitTillWindowUp();
-      performJwtRefresh(true);
-    }
-
-    ipcMain.on('authentication-status', () => {
+    ipcMain.handle('is-authenticated', (): boolean => {
       // Whenever the user requests an authentication status, server returns message with the response
       if (mainWindow) {
-        mainWindow.webContents.send('is-authenticated', JwtAuthManager.isAuthenticated());
+        return JwtAuthManager.isAuthenticated();
       }
+
+      return false;
     });
 
-    ipcMain.on('get-jwt-main', () => {
+    ipcMain.handle('get-access-token', (): string | null => {
       // User requests jwt tokens
       try {
         // the getTokens verifies if user is authenticated
-        const tokens = JwtAuthManager.getTokens();
+        const accessToken = JwtAuthManager.getAccessToken();
         if (mainWindow) {
-          mainWindow.webContents.send('jwt-tokens', tokens);
+          return accessToken;
         }
       } catch (error) {
         if (error instanceof Error) {
@@ -158,6 +156,27 @@ if (!gotTheLock) {
           console.error('An unknown error occurred');
         }
       }
+
+      return null;
+    });
+
+    ipcMain.handle('get-refresh-token', (): string | null => {
+      // User requests jwt tokens
+      try {
+        // the getTokens verifies if user is authenticated
+        const refreshToken = JwtAuthManager.getRefreshToken();
+        if (mainWindow) {
+          return refreshToken;
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        } else {
+          console.error('An unknown error occurred');
+        }
+      }
+
+      return null;
     });
 
     ipcMain.on('store-jwt-main', (_, jwtAuthTokens: AuthTokens) => {
@@ -165,27 +184,16 @@ if (!gotTheLock) {
       // Then store the jwt tokens in the local store
       clearTimeout(currentTimeout);
       JwtAuthManager.setTokens(jwtAuthTokens);
-      performJwtRefresh(false);
-      if (mainWindow) {
-        // isAuthenticated should return true
-        mainWindow.webContents.send('is-authenticated', JwtAuthManager.isAuthenticated());
-        mainWindow.webContents.send('jwt-tokens', jwtAuthTokens);
-      }
-      // TODO: add auto refresh setting. renderer will be listening
-      // and forward message to ws connection to update tokens
     });
 
     ipcMain.on('remove-jwt-main', () => {
       // When user logs out, delete jwt tokens
       // TODO: add mutex lock mechanisms to avoid race conditions on set/delete tokens
-      clearTimeout(currentTimeout);
+      // clearTimeout(currentTimeout);
       JwtAuthManager.deleteTokens();
-      if (mainWindow) {
-        // isAuthenticated should return false
-        mainWindow.webContents.send('is-authenticated', JwtAuthManager.isAuthenticated());
-      }
     });
 
+    // ----- REMEMBER ME FEATURE -----
     ipcMain.on('store-remember-username', (_, username: string) => {
       new JsonStore().set(ACCESS_KEYS.REMEMBER_USERNAME, username);
     });
@@ -194,15 +202,16 @@ if (!gotTheLock) {
       new JsonStore().delete(ACCESS_KEYS.REMEMBER_USERNAME);
     });
 
-    ipcMain.on('get-remember-username', () => {
-      const username = new JsonStore().get(ACCESS_KEYS.REMEMBER_USERNAME);
+    ipcMain.handle('get-remember-username', (): string | void => {
+      const username = new JsonStore().get<string>(ACCESS_KEYS.REMEMBER_USERNAME);
       if (!username) {
         return;
       }
       if (mainWindow) {
-        mainWindow.webContents.send('get-remember-username', username);
+        return username;
       }
     });
+    // ----- END REMEMBER ME FEATURE -----
 
     createWindow();
 

@@ -36,12 +36,16 @@ export class JsonStore {
   }
 
   public setEncrypted(key: string, value: string): void {
+    // TODO: have a better encryption strategy
+    // Encrypts a string value and stores it as a base64 encoded string
     const encryptedValue = safeStorage.encryptString(value);
     const stringifiedValue = encryptedValue.toString('base64');
     this.store.set(key, stringifiedValue);
   }
 
   public getEncrypted(key: string): string | null {
+    // TODO: have a better encryption strategy
+    // Gets an encrypted value, decrypts it, and returns the original string
     const stringifiedValue = this.store.get(key) as string | undefined;
     if (!stringifiedValue) {
       return null;
@@ -89,6 +93,39 @@ export class JwtAuthManager {
   public static isAuthenticated(): boolean {
     return new JsonStore().get<string>(ACCESS_KEYS.HAS_STORED_TOKENS) === 'true';
   }
+
+  public static getAccessToken(): string | null {
+    const jsonStore = new JsonStore();
+
+    if (!(jsonStore.get<string>(ACCESS_KEYS.HAS_STORED_TOKENS) === 'true')) {
+      throw new Error('Jwt tokens not stored.');
+    }
+
+    const access = jsonStore.getEncrypted(ACCESS_KEYS.ACCESS_TOKEN);
+
+    if (access == null) {
+      throw new Error('Access token is missing.');
+    }
+
+    return access;
+  }
+
+  public static getRefreshToken(): string | null {
+    const jsonStore = new JsonStore();
+
+    if (!(jsonStore.get<string>(ACCESS_KEYS.HAS_STORED_TOKENS) === 'true')) {
+      throw new Error('Jwt tokens not stored.');
+    }
+
+    const refresh = jsonStore.getEncrypted(ACCESS_KEYS.REFRESH_TOKEN);
+
+    if (refresh == null) {
+      throw new Error('refresh token is missing.');
+    }
+
+    return refresh;
+  }
+
   public static getTokens(): AuthTokens {
     const jsonStore = new JsonStore();
 
@@ -128,7 +165,7 @@ export class JwtAuthManager {
 
 export class MistApiService {
   public static async refreshToken(token: string): Promise<Response> {
-    const baseUrl = process.env.MIST_API_SERVICE_URL;
+    const baseUrl = process.env.MIST_AUTH_SERVICE_URL;
 
     const url = `${baseUrl}/api/token/refresh/`;
     const response = await fetch(url, {
