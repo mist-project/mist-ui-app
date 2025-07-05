@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { forwardRef, JSX } from 'react';
 
 type ButtonColor = 'default' | 'warning' | 'success' | 'danger' | 'none';
-type InternalButtonType = 'default' | 'icon' | 'text-link';
+type InternalButtonType = 'button' | 'icon' | 'text-link' | 'custom';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
@@ -21,7 +21,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const btnClass = classNames(
       {
         'border-solid bg-indigo-600 rounded p-2':
-          buttonColor != 'none' && internalType === 'default',
+          buttonColor != 'none' && internalType === 'button',
         'bg-transparent border-none text-gray-400 cursor-pointer text-base p-1 hover:text-gray-300 transition-colors duration-150':
           buttonColor === 'none' && internalType === 'icon'
       },
