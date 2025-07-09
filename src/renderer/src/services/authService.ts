@@ -1,22 +1,51 @@
+import { AxiosResponse } from 'axios';
+
 import { LoginCredentials } from '@renderer/components/Contexts/Auth';
 
-const authServiceUrl = window.appEnvs.mistAuthServiceUrl;
+import BaseService, { authServiceAxios } from './base';
 
-class AuthService {
-  public async login(creds: LoginCredentials): Promise<Response> {
-    const url = `${authServiceUrl}/api/token/`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+type TokenResponse = {
+  access: string;
+  refresh: string;
+};
+
+class AuthService extends BaseService {
+  constructor() {
+    super(authServiceAxios);
+  }
+
+  public async login(creds: LoginCredentials): Promise<AxiosResponse<TokenResponse>> {
+    const response = await this.post<TokenResponse>(
+      '/api/token/',
+      {
         email: creds.username,
         password: creds.password
-      })
-    });
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
 
-    return await response;
+    return response;
+  }
+
+  public async refreshTokens(refreshToken: string): Promise<AxiosResponse<TokenResponse>> {
+    const url = `/api/token/refresh/`;
+    const response = await this.post<TokenResponse>(
+      url,
+      {
+        refresh: refreshToken
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return response;
   }
 }
 

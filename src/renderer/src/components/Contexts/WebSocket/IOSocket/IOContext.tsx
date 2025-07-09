@@ -1,10 +1,13 @@
 import React, { createContext, useContext, useEffect, JSX, useRef, useState } from 'react';
 
 import { pb_v1 } from '@renderer/requests';
-import AuthRequest from '@renderer/requests/auth';
 
 import { useAuth } from '@renderer/components/Contexts/Auth';
 import { useEvent } from '@renderer/components/Contexts/Event';
+
+import { getSessionToken } from './utils';
+
+const IO_SERVICE_URL = window.appEnvs.mistIOServiceUrl;
 
 export enum WSConnectionStatus {
   Closed,
@@ -32,7 +35,7 @@ export const useIOSocket = (): IOSocketContextType => {
 export const IOSocketProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   // TODO: Add spinner once user is officially logged in but has no socket connection yet
 
-  const { logged, accessToken } = useAuth();
+  const { logged, tokenManager } = useAuth();
   const { emitter } = useEvent();
 
   const socketRef = useRef<WebSocket | null>(null); // Ref for WebSocket instance
@@ -41,9 +44,8 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
   );
 
   useEffect(() => {
-    console.log(logged, accessToken);
-    if (logged && accessToken) {
-      connect(accessToken);
+    if (logged) {
+      connect();
     }
 
     return (): void => {
@@ -54,13 +56,13 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
   }, [logged]);
 
   // Establish WebSocket connection only when logged in and tokens are available
-  const connect = (token: string): void => {
+  const connect = async (): Promise<void> => {
     // TODO: add ability to reconnect
     if (socketRef.current) {
       // Using current state cause connection state within this context is not properly updated
       // due to living inside the emitter's definition
       if (socketRef.current.readyState === WebSocket.OPEN) {
-        new AuthRequest(sendMessage).updateJwtToken(token);
+        // new AuthRequest(sendMessage).updateJwtToken(token);
       }
 
       if (socketRef.current.readyState != WebSocket.CLOSED) {
@@ -70,8 +72,11 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
     }
 
     setConnectionState(() => WSConnectionStatus.Connecting);
-    const url = new URL(window.appEnvs.mistIOServiceUrl);
-    url.searchParams.set('authorization', `Bearer ${token}`);
+    // TODO: add support for http and https
+    const url = new URL(`ws://${IO_SERVICE_URL}/io`);
+    // TODO: replace with API call to fetch session token and then connect to Websocket with
+    // that single use token
+    url.searchParams.set('token', await getSessionToken(tokenManager));
 
     const ws = new WebSocket(url);
     socketRef.current = ws;

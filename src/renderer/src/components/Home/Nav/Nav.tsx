@@ -5,34 +5,33 @@ import * as pb from '@protos/v1/pb';
 import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
 import MenuItem from '@renderer/components/common/Button/ButtonWithMenu/MenuItem';
 import { Menu } from '@renderer/components/common/Button/ButtonWithMenu';
-import { useAuth, useEvent, useIOSocket, useModal } from '@renderer/components/Contexts';
+import { useAuth, useIOSocket, useModal } from '@renderer/components/Contexts';
 import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
-import AppserverRequest from '@renderer/requests/appserver';
 
 import AddAppserverModal from './AddAppserverModal';
 import RemoveAppserver from './RemoveAppserverModal';
+import AppserverService, { AppserverListingResponse } from '@renderer/services/appserver';
 
 type AppserverButtonsProps = {
   servers: pb.api.v1.appserver.IAppserverAndSub[];
 };
 
 const Nav = (): JSX.Element => {
-  const { sendMessage, connectionState } = useIOSocket();
-  const { emitter } = useEvent();
+  const { connectionState } = useIOSocket();
   const { showModal, setModalContent } = useModal();
-  const { logout } = useAuth();
+  const { logout, tokenManager } = useAuth();
   const navigate = useNavigate();
 
-  const [servers, setServers] = useState<pb.api.v1.appserver.IAppserverAndSub[]>([]);
+  const [servers, setServers] = useState<AppserverListingResponse[]>([]);
+
+  const fetchData = async (): Promise<void> => {
+    const response = await new AppserverService(tokenManager).getAppserverListing();
+    setServers(response.data.data);
+  };
 
   useEffect(() => {
     if (connectionState === WSConnectionStatus.Connected) {
-      new AppserverRequest(sendMessage).getAppserverListing();
-      emitter.on('appserverListing', (listing) => {
-        if (listing.appservers) {
-          setServers(listing.appservers);
-        }
-      });
+      fetchData();
     }
   }, [connectionState]);
 

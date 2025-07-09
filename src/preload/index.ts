@@ -25,6 +25,7 @@ const getEnv = (key: string, strict: boolean = false): string | undefined => {
 };
 
 const appEnvs = {
+  mistApiServiceUrl: getEnv('MIST_API_SERVICE_URL', true),
   mistAuthServiceUrl: getEnv('MIST_AUTH_SERVICE_URL', true),
   mistIOServiceUrl: getEnv('MIST_IO_SERVICE_URL', true)
 };

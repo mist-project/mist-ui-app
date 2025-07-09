@@ -14,6 +14,7 @@ declare global {
   }
 
   interface EnvVariables {
+    mistApiServiceUrl: string;
     mistAuthServiceUrl: string;
     mistIOServiceUrl: string;
   }

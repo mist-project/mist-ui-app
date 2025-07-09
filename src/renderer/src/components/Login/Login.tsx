@@ -131,7 +131,7 @@ const Login = (): JSX.Element => {
 
           <Button
             className="w-full"
-            internalType="default"
+            internalType="button"
             onClick={(e) => {
               e.preventDefault();
               handleSubmit(onSubmit)();
