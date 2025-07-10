@@ -1,19 +1,19 @@
 import { JSX, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import * as pb from '@protos/v1/pb';
-import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
 import MenuItem from '@renderer/components/common/Button/ButtonWithMenu/MenuItem';
 import { Menu } from '@renderer/components/common/Button/ButtonWithMenu';
-import { useAuth, useIOSocket, useModal } from '@renderer/components/Contexts';
 import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
+import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
+import { useAuth, useIOSocket, useModal } from '@renderer/components/Contexts';
+import AppserverService, { AppserverListingResponse } from '@renderer/services/appserver';
+import { Appserver } from '@renderer/types';
 
 import AddAppserverModal from './AddAppserverModal';
 import RemoveAppserver from './RemoveAppserverModal';
-import AppserverService, { AppserverListingResponse } from '@renderer/services/appserver';
 
 type AppserverButtonsProps = {
-  servers: pb.api.v1.appserver.IAppserverAndSub[];
+  servers: AppserverListingResponse[];
 };
 
 const Nav = (): JSX.Element => {
@@ -24,14 +24,14 @@ const Nav = (): JSX.Element => {
 
   const [servers, setServers] = useState<AppserverListingResponse[]>([]);
 
-  const fetchData = async (): Promise<void> => {
+  const loadServers = useCallback(async (): Promise<void> => {
     const response = await new AppserverService(tokenManager).getAppserverListing();
     setServers(response.data.data);
-  };
+  }, []);
 
   useEffect(() => {
     if (connectionState === WSConnectionStatus.Connected) {
-      fetchData();
+      loadServers();
     }
   }, [connectionState]);
 
@@ -46,7 +46,7 @@ const Nav = (): JSX.Element => {
                 onClick={() => {
                   navigate(`/appserver/${s.appserver?.id}`);
                 }}
-                contextMenuItems={AppServerMenuItems(s.appserver as pb.api.v1.appserver.IAppserver)}
+                contextMenuItems={AppServerMenuItems(s.appserver as Appserver)}
                 // TODO: replace overflow-hidden with react-textfit
                 className={`
                   w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center cursor-pointer
@@ -65,24 +65,28 @@ const Nav = (): JSX.Element => {
     );
   }, []);
 
-  const AppServerMenuItems = useCallback(
-    (appserver: pb.api.v1.appserver.IAppserver): JSX.Element => {
-      return (
-        <Menu>
-          <MenuItem
-            key={`delete-${appserver?.id}`}
-            onClick={() => {
-              setModalContent(<RemoveAppserver appserver={appserver} />);
-              showModal(true);
-            }}
-          >
-            Delete
-          </MenuItem>
-        </Menu>
-      );
-    },
-    []
-  );
+  const AppServerMenuItems = useCallback((appserver: Appserver): JSX.Element => {
+    return (
+      <Menu>
+        <MenuItem
+          key={`delete-${appserver?.id}`}
+          onClick={() => {
+            setModalContent(
+              <RemoveAppserver
+                appserver={appserver}
+                updateServers={() => {
+                  loadServers();
+                }}
+              />
+            );
+            showModal(true);
+          }}
+        >
+          Leave Server
+        </MenuItem>
+      </Menu>
+    );
+  }, []);
 
   //TODO Remove opacity in the future for a color
   return (
@@ -96,7 +100,13 @@ const Nav = (): JSX.Element => {
       <Button
         internalType="custom"
         onClick={() => {
-          setModalContent(<AddAppserverModal />);
+          setModalContent(
+            <AddAppserverModal
+              updateServers={() => {
+                loadServers();
+              }}
+            />
+          );
           showModal(true);
         }}
         className={`

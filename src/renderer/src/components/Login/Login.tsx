@@ -109,6 +109,7 @@ const Login = (): JSX.Element => {
             <Button
               type="button"
               internalType="icon"
+              buttonColor="none"
               // This is a complete hack, i don't like it
               className={`absolute transform top-1/2 right-3 ${errors.password?.message ? '-' : ''}translate-y-1/4`}
               onClick={() => setTogglePassword(!togglePassword)}

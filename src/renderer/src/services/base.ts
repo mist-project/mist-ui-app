@@ -38,6 +38,7 @@ class BaseService {
   ): Promise<Record<string, string>> {
     const token = await this.tokenManager?.getAccessToken();
     const normalizedHeaders: Record<string, string> = {};
+
     if (customHeaders) {
       for (const [key, value] of Object.entries(customHeaders)) {
         if (typeof value === 'string') {
@@ -62,6 +63,7 @@ class BaseService {
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 401) {
         const refreshed = await this.attemptRefreshToken();
+
         if (refreshed) {
           const newHeaders = await this.buildHeaders(config?.headers);
           return await this.api.get<T>(url, { ...config, headers: newHeaders });
@@ -69,9 +71,7 @@ class BaseService {
       }
 
       this.errorHandler(error);
-      throw new Error(
-        `GET request to ${url} failed: ${error instanceof Error ? error.message : 'Unknown error'}`
-      );
+      throw error;
     }
   }
 
@@ -87,10 +87,30 @@ class BaseService {
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 401) {
         const refreshed = await this.attemptRefreshToken();
-        console.log('Token refreshed:', refreshed, 'testing');
+
         if (refreshed) {
           const newHeaders = await this.buildHeaders(config?.headers);
           return await this.api.post<T>(url, data, { ...config, headers: newHeaders });
+        }
+      }
+
+      this.errorHandler(error);
+      throw error;
+    }
+  }
+
+  public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    const headers = await this.buildHeaders(config?.headers);
+
+    try {
+      return await this.api.delete<T>(url, { ...config, headers });
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        const refreshed = await this.attemptRefreshToken();
+
+        if (refreshed) {
+          const newHeaders = await this.buildHeaders(config?.headers);
+          return await this.api.delete<T>(url, { ...config, headers: newHeaders });
         }
       }
 

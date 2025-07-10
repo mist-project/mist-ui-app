@@ -14,16 +14,17 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, children, buttonColor, internalType, ...remainingProps }: ButtonProps,
+    { className, children, buttonColor = 'default', internalType, ...remainingProps }: ButtonProps,
     ref
   ): JSX.Element => {
-    // TODO: do something with bottom color in the future
+    // TODO: do something with button color in the future
     const btnClass = classNames(
       {
-        'border-solid bg-indigo-600 rounded p-2':
-          buttonColor != 'none' && internalType === 'button',
+        'border-solid rounded p-2': internalType === 'button',
         'bg-transparent border-none text-gray-400 cursor-pointer text-base p-1 hover:text-gray-300 transition-colors duration-150':
-          buttonColor === 'none' && internalType === 'icon'
+          internalType === 'icon',
+        'bg-indigo-600 hover:text-indigo-500 text-base font-semibold':
+          buttonColor === 'default' && internalType !== 'custom'
       },
       className
       //

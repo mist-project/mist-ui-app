@@ -5,3 +5,4 @@ export type IconProps = {
 export { default as EyeIcon } from './Eye';
 export { default as EyeSlashIcon } from './EyeSlash';
 export { default as ExclamationCircleIcon } from './ExclamationCircle';
+export { default as XMarkIcon } from './XMark';

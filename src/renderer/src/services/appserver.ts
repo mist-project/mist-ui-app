@@ -1,19 +1,21 @@
 import { AxiosResponse } from 'axios';
 
-import { ApiResponse } from '@renderer/types';
+import { ApiResponse, Appserver } from '@renderer/types';
 import { TokenManager } from '@renderer/components/Contexts/Auth/AuthContext';
 import BaseService, { apiServiceAxios } from './base';
 
 const APPSERVER_ROUTES = {
-  LISTING: '/api/v1/appservers/'
+  CREATE: '/api/v1/appservers',
+  LISTING: '/api/v1/appservers',
+  DELETE: '/api/v1/appservers'
+};
+
+export type AppserverCreateResposne = {
+  appserver: Appserver;
 };
 
 export type AppserverListingResponse = {
-  appserver: {
-    id: string;
-    name: string;
-    is_owner: boolean;
-  };
+  appserver: Appserver;
   sub_id: string;
 };
 
@@ -22,11 +24,30 @@ class AppserverService extends BaseService {
     super(apiServiceAxios, tokenManager);
   }
 
+  public async createAppserver(
+    name: string
+  ): Promise<AxiosResponse<ApiResponse<AppserverCreateResposne>>> {
+    const response = await this.post<ApiResponse<AppserverCreateResposne>>(
+      APPSERVER_ROUTES.CREATE,
+      { name }
+    );
+
+    return response;
+  }
+
   public async getAppserverListing(): Promise<
     AxiosResponse<ApiResponse<AppserverListingResponse[]>>
   > {
     const response = await this.get<ApiResponse<AppserverListingResponse[]>>(
       APPSERVER_ROUTES.LISTING
+    );
+
+    return response;
+  }
+
+  public async deleteAppserver(appserverId: string): Promise<AxiosResponse<ApiResponse<void>>> {
+    const response = await this.delete<ApiResponse<void>>(
+      `${APPSERVER_ROUTES.LISTING}/${appserverId}`
     );
 
     return response;

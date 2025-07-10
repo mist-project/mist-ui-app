@@ -15,12 +15,12 @@ const Modal = ({ children }: ModalProps): JSX.Element => {
   };
 
   return (
-    <div
-      className={
-        'fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center z-50 text-white'
-      }
-    >
-      <div className="bg-gray-800 p-5 rounded" tabIndex={-1} onKeyDown={onKeyDownHandler}>
+    <div className="fixed inset-0 bg-black bg-opacity-50 modal-backdrop flex items-center justify-center z-50">
+      <div
+        className="bg-gray-800 rounded-lg shadow-2xl max-w-md w-full mx-4 border border-gray-700 text-gray-100 gap-2"
+        tabIndex={-1}
+        onKeyDown={onKeyDownHandler}
+      >
         {children}
       </div>
     </div>

@@ -1,24 +1,32 @@
 import { JSX } from 'react';
 
-import { CommonFooter } from '@renderer/components/common/Modal';
-import { AppserverRequest } from '@renderer/requests';
-import * as pb from '@protos/v1/pb';
-import { useIOSocket } from '@renderer/components/Contexts';
+import { CommonFooter, CommonHeader } from '@renderer/components/common/Modal';
+import { useAuth } from '@renderer/components/Contexts';
+import AppserverService from '@renderer/services/appserver';
+import { Appserver } from '@renderer/types';
 
 type RemoveAppserverProps = {
-  appserver: pb.api.v1.appserver.IAppserver;
+  appserver: Appserver;
+  updateServers: () => void;
 };
-const RemoveAppserver = ({ appserver }: RemoveAppserverProps): JSX.Element => {
-  const { sendMessage } = useIOSocket();
+
+const RemoveAppserver = ({ appserver, updateServers }: RemoveAppserverProps): JSX.Element => {
+  const { tokenManager } = useAuth();
 
   return (
-    <div className="text-center">
-      <div className="text-lg">Confirmation you want to delete server: </div>
-      <div className="font-bold text-xl">{appserver.name}</div>
+    <div className="text-center flex flex-col gap-4">
+      <CommonHeader title={`Leave "${appserver.name}"`} />
+      <p>Are you sure you want to leave this server?</p>
       <CommonFooter
-        accept={() => {
-          new AppserverRequest(sendMessage).deleteAppserver(appserver.id as string);
+        order="cancel-first"
+        accept={async (): Promise<void> => {
+          await new AppserverService(tokenManager).deleteAppserver(appserver.id as string);
+          updateServers();
         }}
+        confirmText="Leave"
+        confirmButtonClassname="bg-red-900 hover:bg-red-700 text-white"
+        cancelText="Cancel"
+        cancelButtonClassname="bg-gray-700 hover:bg-gray-600 text-white"
       />
     </div>
   );
