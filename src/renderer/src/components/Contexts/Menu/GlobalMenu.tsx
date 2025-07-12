@@ -19,7 +19,6 @@ const GlobalMenuRenderer = (): JSX.Element | null => {
     // just close the current context menu and cancel the right-click action
     const handleGlobalContextMenu = (event: MouseEvent): void => {
       if (menu.type === 'context') {
-        console.log('not here');
         event.preventDefault(); // Prevent native context menu
         event.stopPropagation(); // Prevent bubbling to other handlers
         setMenu(null);

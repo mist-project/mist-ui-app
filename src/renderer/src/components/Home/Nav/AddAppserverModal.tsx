@@ -53,8 +53,8 @@ const JoinServer = ({ updateServers, setContent }: CreateServerProps): JSX.Eleme
 
 const CreateServer = ({ updateServers, setContent }: CreateServerProps): JSX.Element => {
   const { tokenManager } = useAuth();
-
   const [serverName, setServerName] = useState<string>('');
+
   return (
     <div className="flex flex-col gap-3">
       <CommonHeader title="Create Server" />

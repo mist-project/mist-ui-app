@@ -2,27 +2,39 @@ import * as pb from '@protos/v1/pb';
 import { ButtonWithMenu } from '@renderer/components/common/Button';
 import { Menu, MenuItem } from '@renderer/components/common/Button/ButtonWithMenu';
 import { Divider } from '@renderer/components/common/Divider';
-import { useAuth, useEvent, useIOSocket } from '@renderer/components/Contexts';
+import {
+  useAuth,
+  useEvent,
+  useGlobalMenu,
+  useIOSocket,
+  useModal
+} from '@renderer/components/Contexts';
 import { CalendarIcon, NewspaperIcon } from '@renderer/icons';
-import { AppserverRequest, ChannelRequest } from '@renderer/requests';
 import AppserverService from '@renderer/services/appserver';
-import { Appserver, AppserverRole, ReactSetState } from '@renderer/types';
+import { Appserver, AppserverRole, Channel, ReactSetState } from '@renderer/types';
 import { JSX, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { AppserverContext, useAppserverContext } from './AppserverContext';
 import AppserverHeader from './AppserverHeader';
 import { ChannelContent } from './Channel/ChannelContent';
+import RemoveChannelModal from './Channel/RemoveChannelModal';
 
 const ChannelButton = ({
   children,
   setChannelId,
-  selected
+  selected,
+  channel
 }: {
   children: React.ReactNode;
   setChannelId: () => void;
   selected: boolean;
+  channel: Channel;
 }): JSX.Element => {
+  const { appserver, setChannelListing } = useAppserverContext();
+  const { setModalContent, showModal } = useModal();
+  const { setMenu } = useGlobalMenu();
+
   return (
     <ButtonWithMenu
       internalType="custom"
@@ -30,7 +42,20 @@ const ChannelButton = ({
       className={`flex justify-between mx-2 px-2 py-1 ${selected ? 'bg-gray-600 bg-opacity-50' : ''} rounded-lg`}
       contextMenuItems={
         <Menu>
-          <MenuItem key="boom">right</MenuItem>
+          {appserver?.is_owner && (
+            <MenuItem
+              key="edit"
+              onClick={() => {
+                setModalContent(
+                  <RemoveChannelModal channel={channel} setChannelListing={setChannelListing} />
+                );
+                showModal(true);
+                setMenu(null);
+              }}
+            >
+              Delete Channel
+            </MenuItem>
+          )}
         </Menu>
       }
       onClick={setChannelId}
@@ -99,6 +124,7 @@ const AppserverPanel = ({
             setContent(<ChannelContent channelId={channel.id} />);
             setSelected(channel.id);
           }}
+          channel={channel}
           selected={selected === channel.id}
         >
           <h1 className="text-white font-semibold text-md">{channel.name}</h1>
@@ -174,7 +200,9 @@ const AppserverScreen = (): JSX.Element => {
         appserver: appserverDetails,
         channels: channelListing,
         roles: roleListing,
-        users: userListing
+        users: userListing,
+
+        setChannelListing: setChannelListing
       }}
     >
       <AppserverPanel setChannelId={setChannelContentId} setContent={setContent} />
@@ -184,16 +212,3 @@ const AppserverScreen = (): JSX.Element => {
 };
 
 export default AppserverScreen;
-
-// {
-//   /* <div className="flex w-full"> */
-// }
-// {
-//   /* <div className="w-[240px]">
-//           <AppserverPanel setChannelId={setChannelContentId} />
-//         </div>
-//         <Channel channelId={channelContentId} /> */
-// }
-// {
-//   /* </div> */
-// }

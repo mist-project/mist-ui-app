@@ -55,7 +55,6 @@ const CommonFooter = ({
       buttonColor="none"
       onClick={() => {
         if (cancel) {
-          console.log('hi');
           cancel();
         } else {
           showModal(false);

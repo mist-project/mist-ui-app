@@ -10,7 +10,7 @@ const APPSERVER_ROUTES = {
   DELETE: '/api/v1/appservers'
 };
 
-export type AppserverCreateResposne = {
+export type AppserverCreateResponse = {
   appserver: Appserver;
 };
 
@@ -31,8 +31,8 @@ class AppserverService extends BaseService {
 
   public async createAppserver(
     name: string
-  ): Promise<AxiosResponse<ApiResponse<AppserverCreateResposne>>> {
-    const response = await this.post<ApiResponse<AppserverCreateResposne>>(
+  ): Promise<AxiosResponse<ApiResponse<AppserverCreateResponse>>> {
+    const response = await this.post<ApiResponse<AppserverCreateResponse>>(
       APPSERVER_ROUTES.CREATE,
       { name }
     );
@@ -63,6 +63,14 @@ class AppserverService extends BaseService {
   public async deleteAppserver(appserverId: string): Promise<AxiosResponse<ApiResponse<void>>> {
     const response = await this.delete<ApiResponse<void>>(
       `${APPSERVER_ROUTES.LISTING}/${appserverId}`
+    );
+
+    return response;
+  }
+
+  public async deleteChannel(channel: Channel): Promise<AxiosResponse<ApiResponse<void>>> {
+    const response = await this.delete<ApiResponse<void>>(
+      `${APPSERVER_ROUTES.DELETE}/${channel.appserver_id}/channels/${channel.id}`
     );
 
     return response;

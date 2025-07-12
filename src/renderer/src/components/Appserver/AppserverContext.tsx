@@ -1,5 +1,5 @@
 import * as pb from '@protos/v1/pb';
-import { Appserver, AppserverRole, Channel } from '@renderer/types';
+import { Appserver, AppserverRole, Channel, ReactSetState } from '@renderer/types';
 import { createContext, use } from 'react';
 
 type AppserverContextType = {
@@ -7,13 +7,16 @@ type AppserverContextType = {
   users: pb.api.v1.appserver.IAppuserAndSub[];
   roles: AppserverRole[];
   channels: Channel[];
+
+  setChannelListing: ReactSetState<Channel[]> | undefined;
 };
 
 export const AppserverContext = createContext<AppserverContextType>({
   appserver: undefined,
   users: [],
   roles: [],
-  channels: []
+  channels: [],
+  setChannelListing: undefined
 });
 
 export const useAppserverContext = (): AppserverContextType => {

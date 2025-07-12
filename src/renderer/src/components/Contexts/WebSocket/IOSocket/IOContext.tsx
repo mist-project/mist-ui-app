@@ -93,6 +93,10 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
     };
 
     socketRef.current.onmessage = (event): void => {
+      console.log('WebSocket message received:', event.data);
+
+
+      
       const output = pb_v1.messages.Output.decode(new Uint8Array(event.data));
       // TODO: probably should create a handler class
       if (output.appserverListing) {

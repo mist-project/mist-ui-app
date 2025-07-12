@@ -22,9 +22,7 @@ const ButtonWithMenu = ({
   const isContextMenuOpen = menu?.type === 'context';
 
   const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    console.log('ButtonWithMenu handleMouseDown');
     if (e.button !== 0) return; // Left-click only
-    console.log('ButtonWithMenu handleMouseDown--');
 
     // If the dropdown is open (from this button), close it
     if (isDropdownOpen) {
@@ -42,8 +40,6 @@ const ButtonWithMenu = ({
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    console.log('ButtonWithMenu handleClick');
-
     // If we just closed a menu during mousedown, skip this click event
     if (skipClick.current) {
       skipClick.current = false;
