@@ -14,8 +14,9 @@ const RemoveAppserver = ({ appserver, updateServers }: RemoveAppserverProps): JS
   const { tokenManager } = useAuth();
 
   return (
-    <div className="text-center flex flex-col gap-4">
+    <div className="text-center flex flex-col gap-3">
       <CommonHeader title={`Leave "${appserver.name}"`} />
+      {/* TODO: need to replace text for when user is owner */}
       <p>Are you sure you want to leave this server?</p>
       <CommonFooter
         order="cancel-first"

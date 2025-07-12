@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import { ApiResponse, Appserver } from '@renderer/types';
+import { ApiResponse, Appserver, AppserverRole, Channel } from '@renderer/types';
 import { TokenManager } from '@renderer/components/Contexts/Auth/AuthContext';
 import BaseService, { apiServiceAxios } from './base';
 
@@ -18,6 +18,11 @@ export type AppserverListingResponse = {
   appserver: Appserver;
   sub_id: string;
 };
+
+export interface AppserverDetailsResponse extends Appserver {
+  channels: Channel[];
+  roles: AppserverRole[];
+}
 
 class AppserverService extends BaseService {
   constructor(tokenManager: TokenManager) {
@@ -40,6 +45,16 @@ class AppserverService extends BaseService {
   > {
     const response = await this.get<ApiResponse<AppserverListingResponse[]>>(
       APPSERVER_ROUTES.LISTING
+    );
+
+    return response;
+  }
+
+  public async getAppserverDetails(
+    appserverId: string
+  ): Promise<AxiosResponse<ApiResponse<AppserverDetailsResponse>>> {
+    const response = await this.get<ApiResponse<AppserverDetailsResponse>>(
+      `${APPSERVER_ROUTES.LISTING}/${appserverId}`
     );
 
     return response;

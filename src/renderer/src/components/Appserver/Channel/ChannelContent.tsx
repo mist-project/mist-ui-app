@@ -1,11 +1,11 @@
 import { JSX } from 'react';
 import { useAppserverContext } from '../AppserverContext';
 
-type ChannelProps = {
+type ChannelContentProps = {
   channelId: string;
 };
 
-export const Channel = ({ channelId }: ChannelProps): JSX.Element => {
+export const ChannelContent = ({ channelId }: ChannelContentProps): JSX.Element => {
   const { roles, users } = useAppserverContext();
 
   return (

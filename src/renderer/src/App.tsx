@@ -7,12 +7,12 @@ import { Login } from '@renderer/components/Login';
 import { Home } from '@renderer/components/Home';
 
 import { Nav } from './components/Home/Nav';
-import { Appserver } from './components/Appserver';
+import { AppserverScreen } from './components/Appserver';
 
 import './App.scss';
 
 const Layout = (): JSX.Element => (
-  <div className="bg-gray-900 text-gray-100 h-screen grid grid-cols-[72px_240px_1fr] overflow-hidden">
+  <div className="bg-gray-900 text-gray-100 h-screen grid grid-cols-[72px_300px_1fr] overflow-hidden">
     <Nav />
     <Outlet />
   </div>
@@ -60,7 +60,7 @@ function App(): JSX.Element {
             path="/appserver/:appserverId"
             element={
               <ProtectedRoute>
-                <Appserver />
+                <AppserverScreen />
               </ProtectedRoute>
             }
           />

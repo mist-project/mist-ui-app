@@ -10,3 +10,15 @@ export type Appserver = {
   name: string;
   is_owner: boolean;
 };
+
+export type Channel = {
+  id: string;
+  name: string;
+  appserver_id: string;
+};
+
+export type AppserverRole = {
+  id: string;
+  name: string;
+  appserver_id: string;
+};

@@ -4,84 +4,87 @@ import Button, { ButtonProps } from '../Button';
 import { MenuContext } from './MenuContext';
 import { Position } from './constants';
 
-interface ButtonWithMenu extends ButtonProps {
+interface ButtonWithMenuProps extends ButtonProps {
   menuItems?: React.ReactNode;
   contextMenuItems?: JSX.Element;
+  externalCloseCallback?: () => void;
+  onOpenChange?: (open: boolean) => void;
 }
 
 const ButtonWithMenu = ({
   menuItems,
   contextMenuItems,
   children,
+  onOpenChange,
   ...props
-}: ButtonWithMenu): JSX.Element => {
+}: ButtonWithMenuProps): JSX.Element => {
   const [showMenu, setShowMenu] = useState(false);
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [position, setPosition] = useState<Position>({ top: 0, left: 0 });
+
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLUListElement>(null);
   const contextMenuRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    // Close menus if click is outside
-    const mouseDownOutside = (event): void => {
-      if (
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (!(event.target instanceof Node)) return;
+
+      const clickedOutsideMenu =
         menuRef.current &&
         !menuRef.current.contains(event.target) &&
-        buttonRef.current != event.target
-      ) {
-        setShowMenu(false);
-      }
-      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target);
+
+      const clickedOutsideContextMenu =
         contextMenuRef.current &&
         !contextMenuRef.current.contains(event.target) &&
-        buttonRef.current != event.target
-      ) {
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target);
+
+      if (showMenu && clickedOutsideMenu) {
+        setShowMenu(false);
+        if (onOpenChange) onOpenChange(false);
+      }
+
+      if (showContextMenu && clickedOutsideContextMenu && event.button === 0) {
         setShowContextMenu(false);
       }
     };
 
-    const mouseUpOutside = (event): void => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target) &&
-        buttonRef.current != event.target
-      ) {
-        setShowMenu(!showMenu);
-      }
-    };
-
-    // Add event listener to detect outside clicks
-    document.addEventListener('mousedown', mouseDownOutside);
-    document.addEventListener('mouseup', mouseUpOutside);
-
-    // Cleanup on component unmount
+    document.addEventListener('mousedown', handleClickOutside);
     return (): void => {
-      document.removeEventListener('mousedown', mouseDownOutside);
-      document.removeEventListener('mouseup', mouseUpOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [showMenu, showContextMenu, onOpenChange]);
 
-  const handleMenu = (event): void => {
-    setShowMenu(!showMenu);
-    setShowContextMenu(false);
-
-    const divRect = event.target.getBoundingClientRect();
+  const handleMenu = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    event.preventDefault();
+    const rect = event.currentTarget.getBoundingClientRect();
+    const willOpen = !showMenu;
 
     setPosition({
-      top: divRect.bottom,
-      left: divRect.left
+      top: rect.bottom,
+      left: rect.left
     });
+
+    setShowMenu(willOpen);
+    setShowContextMenu(false);
+
+    if (onOpenChange) onOpenChange(willOpen);
   };
 
-  const handleContextMenu = (event): void => {
-    setShowContextMenu(true);
-    setShowMenu(false);
+  const handleContextMenu = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    event.preventDefault();
 
     setPosition({
       top: event.clientY,
       left: event.clientX
     });
+
+    setShowContextMenu(true);
+    setShowMenu(false);
+    if (onOpenChange) onOpenChange(false);
   };
 
   return (
@@ -89,6 +92,7 @@ const ButtonWithMenu = ({
       <Button ref={buttonRef} onClick={handleMenu} onContextMenu={handleContextMenu} {...props}>
         {children}
       </Button>
+
       {showMenu && (
         <MenuContext.Provider
           value={{

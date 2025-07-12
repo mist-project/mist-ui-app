@@ -82,6 +82,7 @@ const Nav = (): JSX.Element => {
             showModal(true);
           }}
         >
+          {/* TODO: need to replace text for when user is owner */}
           Leave Server
         </MenuItem>
       </Menu>
@@ -94,7 +95,7 @@ const Nav = (): JSX.Element => {
       {<AppserverButtons servers={servers} />}
 
       {/* dash inbetween servers and add action */}
-      <div className="w-8 h-0.5 bg-gray-600 rounded my-1" />
+      <div className="w-full h-0.5 bg-gray-600 rounded my-1" />
 
       {/* <div className="flex flex-col gap-2"> */}
       <Button
