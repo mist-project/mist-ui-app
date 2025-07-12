@@ -1,122 +1,62 @@
-import React, { JSX, useState, useEffect, useRef } from 'react';
-
+import React, { JSX, useRef } from 'react';
 import Button, { ButtonProps } from '../Button';
-import { MenuContext } from './MenuContext';
-import { Position } from './constants';
+import { useGlobalMenu } from '@renderer/components/Contexts/Menu/MenuContext';
+import { useId } from 'react';
 
 interface ButtonWithMenuProps extends ButtonProps {
-  menuItems?: React.ReactNode;
+  menuItems?: JSX.Element;
   contextMenuItems?: JSX.Element;
-  externalCloseCallback?: () => void;
-  onOpenChange?: (open: boolean) => void;
 }
 
 const ButtonWithMenu = ({
   menuItems,
   contextMenuItems,
   children,
-  onOpenChange,
   ...props
 }: ButtonWithMenuProps): JSX.Element => {
-  const [showMenu, setShowMenu] = useState(false);
-  const [showContextMenu, setShowContextMenu] = useState(false);
-  const [position, setPosition] = useState<Position>({ top: 0, left: 0 });
-
+  const id = useId(); // uniquely identify this button
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const menuRef = useRef<HTMLUListElement>(null);
-  const contextMenuRef = useRef<HTMLUListElement>(null);
+  const { menu, setMenu } = useGlobalMenu();
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent): void => {
-      if (!(event.target instanceof Node)) return;
-
-      const clickedOutsideMenu =
-        menuRef.current &&
-        !menuRef.current.contains(event.target) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target);
-
-      const clickedOutsideContextMenu =
-        contextMenuRef.current &&
-        !contextMenuRef.current.contains(event.target) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target);
-
-      if (showMenu && clickedOutsideMenu) {
-        setShowMenu(false);
-        if (onOpenChange) onOpenChange(false);
-      }
-
-      if (showContextMenu && clickedOutsideContextMenu && event.button === 0) {
-        setShowContextMenu(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return (): void => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showMenu, showContextMenu, onOpenChange]);
-
-  const handleMenu = (event: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleMouseDown = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    if (event.button !== 0) return; // left-click only
     event.preventDefault();
+
     const rect = event.currentTarget.getBoundingClientRect();
-    const willOpen = !showMenu;
+    const isAlreadyOpen = menu?.type === 'menu' && menu?.id === id;
 
-    setPosition({
-      top: rect.bottom,
-      left: rect.left
-    });
-
-    setShowMenu(willOpen);
-    setShowContextMenu(false);
-
-    if (onOpenChange) onOpenChange(willOpen);
+    if (isAlreadyOpen) {
+      setMenu(null);
+    } else {
+      setMenu({
+        content: menuItems ?? null,
+        position: { top: rect.bottom, left: rect.left },
+        type: 'menu',
+        id
+      });
+    }
   };
 
   const handleContextMenu = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
 
-    setPosition({
-      top: event.clientY,
-      left: event.clientX
+    setMenu({
+      content: contextMenuItems ?? null,
+      position: { top: event.clientY, left: event.clientX },
+      type: 'context',
+      id
     });
-
-    setShowContextMenu(true);
-    setShowMenu(false);
-    if (onOpenChange) onOpenChange(false);
   };
 
   return (
-    <>
-      <Button ref={buttonRef} onClick={handleMenu} onContextMenu={handleContextMenu} {...props}>
-        {children}
-      </Button>
-
-      {showMenu && (
-        <MenuContext.Provider
-          value={{
-            position,
-            setShowMenu,
-            ref: menuRef
-          }}
-        >
-          {menuItems}
-        </MenuContext.Provider>
-      )}
-
-      {showContextMenu && (
-        <MenuContext.Provider
-          value={{
-            position,
-            setShowMenu: setShowContextMenu,
-            ref: contextMenuRef
-          }}
-        >
-          {contextMenuItems}
-        </MenuContext.Provider>
-      )}
-    </>
+    <Button
+      ref={buttonRef}
+      onMouseDown={handleMouseDown}
+      onContextMenu={handleContextMenu}
+      {...props}
+    >
+      {children}
+    </Button>
   );
 };
 
