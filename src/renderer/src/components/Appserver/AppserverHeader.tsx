@@ -9,7 +9,7 @@ import { CreateChannelModal } from './Channel/CreateChannelModal';
 import { CreateAppserverRoleModal } from './CreateAppserverRoleModal';
 
 const AppserverHeader = (): JSX.Element => {
-  const { appserver, setChannelListing } = useAppserverContext();
+  const { appserver, setChannelListing, setRoleListing } = useAppserverContext();
   const { setModalContent, showModal } = useModal();
   const { setMenu } = useGlobalMenu();
 
@@ -37,7 +37,10 @@ const AppserverHeader = (): JSX.Element => {
               <MenuItem
                 onClick={() => {
                   setModalContent(
-                    <CreateAppserverRoleModal appserverId={appserver.id as string} />
+                    <CreateAppserverRoleModal
+                      appserverId={appserver.id as string}
+                      setRoleListing={setRoleListing}
+                    />
                   );
                   showModal(true);
                   setMenu(null);

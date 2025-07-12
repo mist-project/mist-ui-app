@@ -2,13 +2,7 @@ import * as pb from '@protos/v1/pb';
 import { ButtonWithMenu } from '@renderer/components/common/Button';
 import { Menu, MenuItem } from '@renderer/components/common/Button/ButtonWithMenu';
 import { Divider } from '@renderer/components/common/Divider';
-import {
-  useAuth,
-  useEvent,
-  useGlobalMenu,
-  useIOSocket,
-  useModal
-} from '@renderer/components/Contexts';
+import { useAuth, useEvent, useGlobalMenu, useModal } from '@renderer/components/Contexts';
 import { CalendarIcon, NewspaperIcon } from '@renderer/icons';
 import AppserverService from '@renderer/services/appserver';
 import { Appserver, AppserverRole, Channel, ReactSetState } from '@renderer/types';
@@ -137,13 +131,14 @@ const AppserverPanel = ({
 const AppserverScreen = (): JSX.Element => {
   const { tokenManager } = useAuth();
   const { appserverId } = useParams();
-  const { sendMessage } = useIOSocket();
+  const { emitter } = useEvent();
 
   const [appserverDetails, setAppserverDetails] = useState<Appserver | undefined>();
   const [roleListing, setRoleListing] = useState<AppserverRole[]>([]);
-  const [userListing, setUserListing] = useState<pb.api.v1.appserver.IAppuserAndSub[]>([]);
-  const [channelContentId, setChannelContentId] = useState<string>('');
-  const [channelListing, setChannelListing] = useState<Channel[]>([]);
+  const [, setChannelContentId] = useState<string>('');
+  const [channelListing, setChannelListing] = useState<Channel[] | pb.api.v1.channel.IChannel[]>(
+    []
+  );
 
   const [content, setContent] = useState<JSX.Element | undefined>(undefined);
 
@@ -173,10 +168,10 @@ const AppserverScreen = (): JSX.Element => {
     // //   setAppserverDetails(appserverDetails);
     // // });
 
-    // new ChannelRequest(sendMessage).channelListing(appserverId);
-    // emitter.on('channelListing', (channelListing) => {
-    //   setChannelListing(channelListing);
-    // });
+    emitter.on('channelListing', (channelListing) => {
+      // TODO: add IF statement checker. it shouldn't update if the server isn't the one selected
+      setChannelListing(channelListing);
+    });
 
     // new AppserverRequest(sendMessage).getAppserverRoleListing(appserverId);
     // emitter.on('appserverRolesListing', (roleListing) => {
@@ -188,10 +183,10 @@ const AppserverScreen = (): JSX.Element => {
     //   setUserListing(userListing);
     // });
 
-    // return (): void => {
-    // emitter.off('appserverDetails');
-    // emitter.off('channelListing');
-    // };
+    return (): void => {
+      // emitter.off('appserverDetails');
+      emitter.off('channelListing');
+    };
   }, [appserverId]);
 
   return (
@@ -200,9 +195,9 @@ const AppserverScreen = (): JSX.Element => {
         appserver: appserverDetails,
         channels: channelListing,
         roles: roleListing,
-        users: userListing,
 
-        setChannelListing: setChannelListing
+        setChannelListing: setChannelListing,
+        setRoleListing: setRoleListing
       }}
     >
       <AppserverPanel setChannelId={setChannelContentId} setContent={setContent} />

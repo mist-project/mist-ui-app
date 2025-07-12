@@ -8,14 +8,11 @@ export type Events = {
 
   // UPDATES
   // ----- SERVER -----
-  appserverListing: pb.api.v1.appserver.IGetUserAppserverSubsResponse;
-  appserverDetails: pb.api.v1.appserver.IAppserver;
+  appserverListing: pb.api.v1.appserver.Appserver[];
 
   // ----- SERVER USERS -----
-  appserverUserListing: pb.api.v1.appserver.IAppuserAndSub[];
 
   // ----- SERVER ROLES -----
-  appserverRolesListing: pb.api.v1.appserver.IAppserverRole[];
 
   // ----- CHANNELS -----
   channelListing: pb.api.v1.channel.IChannel[];

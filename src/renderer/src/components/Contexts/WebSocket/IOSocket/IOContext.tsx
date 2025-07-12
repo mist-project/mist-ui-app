@@ -1,7 +1,10 @@
+import * as pb from '@protos/v1/pb';
 import { useAuth } from '@renderer/components/Contexts/Auth';
 import { useEvent } from '@renderer/components/Contexts/Event';
-import { pb_v1 } from '@renderer/requests';
 import React, { createContext, JSX, useContext, useEffect, useRef, useState } from 'react';
+
+export const pb_v1 = pb.api.v1;
+export const pb_google = pb.google.protobuf;
 
 import { getSessionToken } from './utils';
 
@@ -92,29 +95,12 @@ export const IOSocketProvider = ({ children }: { children: React.ReactNode }): J
       console.log('WebSocket error:', error);
     };
 
-    socketRef.current.onmessage = (event): void => {
-      console.log('WebSocket message received:', event.data);
+    socketRef.current.onmessage = (message): void => {
+      const event = pb_v1.event.Event.decode(new Uint8Array(message.data));
 
-
-      
-      const output = pb_v1.messages.Output.decode(new Uint8Array(event.data));
-      // TODO: probably should create a handler class
-      if (output.appserverListing) {
-        emitter.emit('appserverListing', output.appserverListing);
-      } else if (output.appserverDetails) {
-        if (output.appserverDetails.appserver == null) return;
-        emitter.emit('appserverDetails', output.appserverDetails.appserver);
-      } else if (output.channelListing) {
-        if (output.channelListing.channels == null) return;
-        emitter.emit('channelListing', output.channelListing.channels);
-      } else if (output.appserverRolesListing) {
-        if (output.appserverRolesListing.appserverRoles == null) return;
-        emitter.emit('appserverRolesListing', output.appserverRolesListing.appserverRoles);
-      } else if (output.appserverUserListing) {
-        if (output.appserverUserListing.appusers == null) return;
-        emitter.emit('appserverUserListing', output.appserverUserListing.appusers);
-      } else {
-        console.log('not defined ');
+      if (event.list_channels) {
+        if (!event.list_channels.channels) return;
+        emitter.emit('channelListing', event.list_channels.channels);
       }
     };
   };

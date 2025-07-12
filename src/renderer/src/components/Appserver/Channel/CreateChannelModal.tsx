@@ -1,3 +1,4 @@
+import * as pb from '@protos/v1/pb';
 import { InputText } from '@renderer/components/common/Input';
 import { CommonFooter, CommonHeader } from '@renderer/components/common/Modal';
 import { useAuth } from '@renderer/components/Contexts';
@@ -7,7 +8,7 @@ import { JSX, useState } from 'react';
 
 type CreateChannelModalProps = {
   appserverId: string;
-  setChannelListing: ReactSetState<Channel[]> | undefined;
+  setChannelListing: ReactSetState<Channel[] | pb.api.v1.channel.IChannel[]> | undefined;
 };
 export const CreateChannelModal = ({
   appserverId,

@@ -4,19 +4,22 @@ import { createContext, use } from 'react';
 
 type AppserverContextType = {
   appserver: Appserver | undefined;
-  users: pb.api.v1.appserver.IAppuserAndSub[];
   roles: AppserverRole[];
-  channels: Channel[];
+  channels: Channel[] | pb.api.v1.channel.IChannel[];
 
-  setChannelListing: ReactSetState<Channel[]> | undefined;
+  setChannelListing: ReactSetState<Channel[] | pb.api.v1.channel.IChannel[]> | undefined;
+  setRoleListing:
+    | ReactSetState<AppserverRole[] | pb.api.v1.appserver_role.AppserverRole[]>
+    | undefined;
 };
 
 export const AppserverContext = createContext<AppserverContextType>({
   appserver: undefined,
-  users: [],
   roles: [],
   channels: [],
-  setChannelListing: undefined
+
+  setChannelListing: undefined,
+  setRoleListing: undefined
 });
 
 export const useAppserverContext = (): AppserverContextType => {

@@ -1,3 +1,4 @@
+import * as pb from '@protos/v1/pb';
 import { CommonFooter, CommonHeader } from '@renderer/components/common/Modal';
 import { useAuth } from '@renderer/components/Contexts';
 import AppserverService from '@renderer/services/appserver';
@@ -6,7 +7,7 @@ import { JSX } from 'react';
 
 type RemoveChannelProps = {
   channel: Channel;
-  setChannelListing?: ReactSetState<Channel[]>;
+  setChannelListing?: ReactSetState<Channel[] | pb.api.v1.channel.IChannel[]>;
 };
 
 const RemoveChannelModal = ({ channel, setChannelListing }: RemoveChannelProps): JSX.Element => {

@@ -7,7 +7,7 @@ type ChannelContentProps = {
 };
 
 export const ChannelContent = ({ channelId }: ChannelContentProps): JSX.Element => {
-  const { roles, users } = useAppserverContext();
+  const { roles } = useAppserverContext();
 
   return (
     <div className="flex flex-1 bg-gray-900">
@@ -20,12 +20,6 @@ export const ChannelContent = ({ channelId }: ChannelContentProps): JSX.Element 
               <div key={role.id}>{role.name}</div>
             ))}
           </div>
-        </div>
-        <div className="h-3/4">
-          <div className="font-bold">Users</div>
-          {users.map((user) => (
-            <div key={user.appuser.id}>{user.appuser.username}</div>
-          ))}
         </div>
       </div>
     </div>
