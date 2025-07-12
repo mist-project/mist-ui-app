@@ -1,3 +1,5 @@
+PROTO_FILES := $(shell find src/renderer/protos/v1 -name '*.proto')
+
 run: 
 	npm run dev
 
@@ -8,12 +10,11 @@ compile-protos cp:
 	npx pbjs \
 		-w es6 \
 		-t static-module \
+		--keep-case \
+		--force-long \
 		-o src/renderer/protos/v1/pb.js \
 		-p src/renderer/protos/v1/ \
-		src/renderer/protos/v1/messages.proto \
-		src/renderer/protos/v1/channel.proto \
-		src/renderer/protos/v1/appserver.proto
+		$(PROTO_FILES)
 	@npx pbts \
-  	-o src/renderer/protos/v1/pb.d.ts \
-  	src/renderer/protos/v1/pb.js
-	
+		-o src/renderer/protos/v1/pb.d.ts \
+		src/renderer/protos/v1/pb.js

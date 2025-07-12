@@ -1,19 +1,25 @@
+import * as pb from '@protos/v1/pb';
+import { Appserver, AppserverRole, Channel, ReactSetState } from '@renderer/types';
 import { createContext, use } from 'react';
 
-import * as pb from '@protos/v1/pb';
-
 type AppserverContextType = {
-  appserver: pb.api.v1.appserver.IAppserver | undefined;
-  users: pb.api.v1.appserver.IAppuserAndSub[];
-  roles: pb.api.v1.appserver.IAppserverRole[];
-  channels: pb.api.v1.channel.IChannel[];
+  appserver: Appserver | undefined;
+  roles: AppserverRole[];
+  channels: Channel[] | pb.api.v1.channel.IChannel[];
+
+  setChannelListing: ReactSetState<Channel[] | pb.api.v1.channel.IChannel[]> | undefined;
+  setRoleListing:
+    | ReactSetState<AppserverRole[] | pb.api.v1.appserver_role.AppserverRole[]>
+    | undefined;
 };
 
 export const AppserverContext = createContext<AppserverContextType>({
-  appserver: new pb.api.v1.appserver.Appserver(),
-  users: [],
+  appserver: undefined,
   roles: [],
-  channels: []
+  channels: [],
+
+  setChannelListing: undefined,
+  setRoleListing: undefined
 });
 
 export const useAppserverContext = (): AppserverContextType => {

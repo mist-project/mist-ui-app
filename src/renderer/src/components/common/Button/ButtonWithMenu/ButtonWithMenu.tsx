@@ -1,11 +1,10 @@
-import React, { JSX, useState, useEffect, useRef } from 'react';
+import { useGlobalMenu } from '@renderer/components/Contexts/Menu/MenuContext';
+import React, { JSX, useId, useRef } from 'react';
 
 import Button, { ButtonProps } from '../Button';
-import { MenuContext } from './MenuContext';
-import { Position } from './constants';
 
-interface ButtonWithMenu extends ButtonProps {
-  menuItems?: React.ReactNode;
+interface ButtonWithMenuProps extends ButtonProps {
+  menuItems?: JSX.Element;
   contextMenuItems?: JSX.Element;
 }
 
@@ -14,105 +13,77 @@ const ButtonWithMenu = ({
   contextMenuItems,
   children,
   ...props
-}: ButtonWithMenu): JSX.Element => {
-  const [showMenu, setShowMenu] = useState(false);
-  const [showContextMenu, setShowContextMenu] = useState(false);
-  const [position, setPosition] = useState<Position>({ top: 0, left: 0 });
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const menuRef = useRef<HTMLUListElement>(null);
-  const contextMenuRef = useRef<HTMLUListElement>(null);
+}: ButtonWithMenuProps): JSX.Element => {
+  const id = useId();
+  const { menu, setMenu } = useGlobalMenu();
+  const skipClick = useRef(false);
 
-  useEffect(() => {
-    // Close menus if click is outside
-    const mouseDownOutside = (event): void => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target) &&
-        buttonRef.current != event.target
-      ) {
-        setShowMenu(false);
-      }
-      if (
-        contextMenuRef.current &&
-        !contextMenuRef.current.contains(event.target) &&
-        buttonRef.current != event.target
-      ) {
-        setShowContextMenu(false);
-      }
-    };
+  const isDropdownOpen = menu?.type === 'menu' && menu?.id === id;
+  const isContextMenuOpen = menu?.type === 'context';
 
-    const mouseUpOutside = (event): void => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target) &&
-        buttonRef.current != event.target
-      ) {
-        setShowMenu(!showMenu);
-      }
-    };
+  const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    if (e.button !== 0) return; // Left-click only
 
-    // Add event listener to detect outside clicks
-    document.addEventListener('mousedown', mouseDownOutside);
-    document.addEventListener('mouseup', mouseUpOutside);
+    // If the dropdown is open (from this button), close it
+    if (isDropdownOpen) {
+      setMenu(null);
+      // onOpenChange?.(false); // ✅ manually notify close
+      skipClick.current = true;
+      return;
+    }
 
-    // Cleanup on component unmount
-    return (): void => {
-      document.removeEventListener('mousedown', mouseDownOutside);
-      document.removeEventListener('mouseup', mouseUpOutside);
-    };
-  }, []);
+    // If context menu is open, also close it
+    if (isContextMenuOpen) {
+      setMenu(null);
+      skipClick.current = true;
+    }
+  };
 
-  const handleMenu = (event): void => {
-    setShowMenu(!showMenu);
-    setShowContextMenu(false);
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    // If we just closed a menu during mousedown, skip this click event
+    if (skipClick.current) {
+      skipClick.current = false;
+      return;
+    }
 
-    const divRect = event.target.getBoundingClientRect();
+    // Do nothing if there's no dropdown content to show
+    if (!menuItems) return;
 
-    setPosition({
-      top: divRect.bottom,
-      left: divRect.left
+    // Open dropdown menu below the button
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMenu({
+      content: menuItems,
+      position: { top: rect.bottom, left: rect.left },
+      type: 'menu',
+      id
     });
   };
 
-  const handleContextMenu = (event): void => {
-    setShowContextMenu(true);
-    setShowMenu(false);
+  const handleContextMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    // Prevent default browser context menu
+    e.preventDefault();
 
-    setPosition({
-      top: event.clientY,
-      left: event.clientX
+    // Do nothing if no context menu is provided
+    if (!contextMenuItems) return;
+
+    // Show context menu at mouse cursor position
+    setMenu({
+      content: contextMenuItems,
+      position: { top: e.clientY, left: e.clientX },
+      type: 'context',
+      id
     });
   };
 
   return (
-    <>
-      <Button ref={buttonRef} onClick={handleMenu} onContextMenu={handleContextMenu} {...props}>
-        {children}
-      </Button>
-      {showMenu && (
-        <MenuContext.Provider
-          value={{
-            position,
-            setShowMenu,
-            ref: menuRef
-          }}
-        >
-          {menuItems}
-        </MenuContext.Provider>
-      )}
-
-      {showContextMenu && (
-        <MenuContext.Provider
-          value={{
-            position,
-            setShowMenu: setShowContextMenu,
-            ref: contextMenuRef
-          }}
-        >
-          {contextMenuItems}
-        </MenuContext.Provider>
-      )}
-    </>
+    <Button
+      onMouseDown={handleMouseDown}
+      onClick={handleClick}
+      onContextMenu={handleContextMenu}
+      {...props}
+    >
+      {children}
+    </Button>
   );
 };
 

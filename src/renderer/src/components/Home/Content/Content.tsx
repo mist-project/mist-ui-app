@@ -1,6 +1,5 @@
-import { JSX, useEffect, useState } from 'react';
-
 import { useAuth } from '@renderer/components/Contexts';
+import { JSX, useEffect, useState } from 'react';
 
 const Content = (): JSX.Element => {
   const [message] = useState('');

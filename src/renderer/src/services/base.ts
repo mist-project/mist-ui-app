@@ -1,7 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-
 import * as pb from '@protos/v1/pb';
 import { TokenManager } from '@renderer/components/Contexts/Auth/AuthContext';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const pb_v1 = pb.api.v1;
 export const pb_google = pb.google.protobuf;

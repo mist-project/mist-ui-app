@@ -1,7 +1,6 @@
-import { createContext, JSX, use, useState } from 'react';
-import mitt, { Emitter } from 'mitt';
-
 import * as pb from '@protos/v1/pb';
+import mitt, { Emitter } from 'mitt';
+import { createContext, JSX, use, useState } from 'react';
 
 export type Events = {
   test: Uint8Array<ArrayBufferLike>;
@@ -9,14 +8,11 @@ export type Events = {
 
   // UPDATES
   // ----- SERVER -----
-  appserverListing: pb.api.v1.appserver.IGetUserAppserverSubsResponse;
-  appserverDetails: pb.api.v1.appserver.IAppserver;
+  appserverListing: pb.api.v1.appserver.Appserver[];
 
   // ----- SERVER USERS -----
-  appserverUserListing: pb.api.v1.appserver.IAppuserAndSub[];
 
   // ----- SERVER ROLES -----
-  appserverRolesListing: pb.api.v1.appserver.IAppserverRole[];
 
   // ----- CHANNELS -----
   channelListing: pb.api.v1.channel.IChannel[];

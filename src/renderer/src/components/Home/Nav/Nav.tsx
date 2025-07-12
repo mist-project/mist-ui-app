@@ -1,16 +1,16 @@
+import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
+import { Menu } from '@renderer/components/common/Button/ButtonWithMenu';
+import MenuItem from '@renderer/components/common/Button/ButtonWithMenu/MenuItem';
+import { useAuth, useGlobalMenu, useIOSocket, useModal } from '@renderer/components/Contexts';
+import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
+import AppserverService, { AppserverListingResponse } from '@renderer/services/appserver';
+import { Appserver } from '@renderer/types';
 import { JSX, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import MenuItem from '@renderer/components/common/Button/ButtonWithMenu/MenuItem';
-import { Menu } from '@renderer/components/common/Button/ButtonWithMenu';
-import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
-import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
-import { useAuth, useIOSocket, useModal } from '@renderer/components/Contexts';
-import AppserverService, { AppserverListingResponse } from '@renderer/services/appserver';
-import { Appserver } from '@renderer/types';
-
 import AddAppserverModal from './AddAppserverModal';
 import RemoveAppserver from './RemoveAppserverModal';
+import { Divider } from '@renderer/components/common/Divider';
 
 type AppserverButtonsProps = {
   servers: AppserverListingResponse[];
@@ -19,6 +19,7 @@ type AppserverButtonsProps = {
 const Nav = (): JSX.Element => {
   const { connectionState } = useIOSocket();
   const { showModal, setModalContent } = useModal();
+  const { setMenu } = useGlobalMenu();
   const { logout, tokenManager } = useAuth();
   const navigate = useNavigate();
 
@@ -79,9 +80,11 @@ const Nav = (): JSX.Element => {
                 }}
               />
             );
+            setMenu(null);
             showModal(true);
           }}
         >
+          {/* TODO: need to replace text for when user is owner */}
           Leave Server
         </MenuItem>
       </Menu>
@@ -94,7 +97,7 @@ const Nav = (): JSX.Element => {
       {<AppserverButtons servers={servers} />}
 
       {/* dash inbetween servers and add action */}
-      <div className="w-8 h-0.5 bg-gray-600 rounded my-1" />
+      <Divider className="w-full h-0.5 my-1" />
 
       {/* <div className="flex flex-col gap-2"> */}
       <Button

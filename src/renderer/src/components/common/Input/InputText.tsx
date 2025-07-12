@@ -1,8 +1,7 @@
-import { ChangeEvent, JSX } from 'react';
-
-import { ReactSetState } from '@renderer/types';
 import { ExclamationCircleIcon } from '@renderer/icons';
+import { ReactSetState } from '@renderer/types';
 import classNames from 'classnames';
+import { ChangeEvent, JSX } from 'react';
 
 interface InputTextProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;

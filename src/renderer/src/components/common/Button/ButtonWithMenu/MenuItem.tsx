@@ -1,4 +1,5 @@
 import { JSX } from 'react';
+
 import { useMenuContext } from './MenuContext';
 
 interface MenuItemProps {
@@ -12,7 +13,7 @@ const MenuItem = ({ children, onClick, ...props }: MenuItemProps): JSX.Element =
   return (
     <li
       {...props}
-      className="px-4 py-2  hover:bg-gray-700 cursor-pointer first:rounded-t last:rounded-b"
+      className="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-gray-100 transition-colors duration-150"
       onClick={() => {
         if (onClick) onClick();
         setShowMenu(false);

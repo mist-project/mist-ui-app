@@ -1,6 +1,7 @@
 import { ReactSetState } from '@renderer/types';
-import { Position } from './constants';
 import { createContext, use } from 'react';
+
+import { Position } from './constants';
 
 type MenuContextType = {
   setShowMenu: ReactSetState<boolean>;

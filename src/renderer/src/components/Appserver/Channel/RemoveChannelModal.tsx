@@ -1,27 +1,28 @@
+import * as pb from '@protos/v1/pb';
 import { CommonFooter, CommonHeader } from '@renderer/components/common/Modal';
 import { useAuth } from '@renderer/components/Contexts';
 import AppserverService from '@renderer/services/appserver';
-import { Appserver } from '@renderer/types';
+import { Channel, ReactSetState } from '@renderer/types';
 import { JSX } from 'react';
 
-type RemoveAppserverProps = {
-  appserver: Appserver;
-  updateServers: () => void;
+type RemoveChannelProps = {
+  channel: Channel;
+  setChannelListing?: ReactSetState<Channel[] | pb.api.v1.channel.IChannel[]>;
 };
 
-const RemoveAppserver = ({ appserver, updateServers }: RemoveAppserverProps): JSX.Element => {
+const RemoveChannelModal = ({ channel, setChannelListing }: RemoveChannelProps): JSX.Element => {
   const { tokenManager } = useAuth();
 
   return (
     <div className="text-center flex flex-col gap-3">
-      <CommonHeader title={`Leave "${appserver.name}"`} />
-      {/* TODO: need to replace text for when user is owner */}
-      <p>Are you sure you want to leave this server?</p>
+      <CommonHeader title={`Delete "${channel.name}"`} />
+      <p>Are you sure you want to delete this channel?</p>
       <CommonFooter
         order="cancel-first"
         accept={async (): Promise<void> => {
-          await new AppserverService(tokenManager).deleteAppserver(appserver.id as string);
-          updateServers();
+          await new AppserverService(tokenManager).deleteChannel(channel);
+          if (setChannelListing)
+            setChannelListing((prev) => prev.filter((ch) => ch.id !== channel.id));
         }}
         confirmText="Leave"
         confirmButtonClassname="bg-red-900 hover:bg-red-700 text-white"
@@ -32,4 +33,4 @@ const RemoveAppserver = ({ appserver, updateServers }: RemoveAppserverProps): JS
   );
 };
 
-export default RemoveAppserver;
+export default RemoveChannelModal;

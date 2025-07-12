@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, JSX, ComponentType } from 'react';
+import { ComponentType, JSX, useEffect, useRef, useState } from 'react';
 
 // Can probably get rid of this. not using it
 export const hideOnClickOutside = <T extends object>(

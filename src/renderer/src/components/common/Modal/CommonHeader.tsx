@@ -1,9 +1,8 @@
+import { useModal } from '@renderer/components/Contexts';
+import { XMarkIcon } from '@renderer/icons';
 import { JSX } from 'react';
 
-import { useModal } from '@renderer/components/Contexts';
-
 import { Button } from '../Button';
-import { XMarkIcon } from '@renderer/icons';
 
 type CommonHeaderProps = {
   title: string;

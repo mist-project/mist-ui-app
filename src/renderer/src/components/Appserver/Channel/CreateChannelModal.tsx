@@ -1,30 +1,50 @@
-import { JSX, useState } from 'react';
-
-import { useIOSocket } from '@renderer/components/Contexts';
+import * as pb from '@protos/v1/pb';
 import { InputText } from '@renderer/components/common/Input';
-import { CommonFooter } from '@renderer/components/common/Modal';
-import { ChannelRequest } from '@renderer/requests';
+import { CommonFooter, CommonHeader } from '@renderer/components/common/Modal';
+import { useAuth } from '@renderer/components/Contexts';
+import ChannelService from '@renderer/services/channel';
+import { Channel, ReactSetState } from '@renderer/types';
+import { JSX, useState } from 'react';
 
 type CreateChannelModalProps = {
   appserverId: string;
+  setChannelListing: ReactSetState<Channel[] | pb.api.v1.channel.IChannel[]> | undefined;
 };
-export const CreateChannelModal = ({ appserverId }: CreateChannelModalProps): JSX.Element => {
+export const CreateChannelModal = ({
+  appserverId,
+  setChannelListing
+}: CreateChannelModalProps): JSX.Element => {
+  const { tokenManager } = useAuth();
+
   const [channelName, setChannelName] = useState<string>('');
-  const { sendMessage } = useIOSocket();
 
   return (
-    <div>
-      <InputText
-        label="Channel Name"
-        required
-        value={channelName}
-        setValue={setChannelName}
-        placeholder="name"
-      />
+    <div className="flex flex-col gap-3">
+      <CommonHeader title="Create Channel" />
+      <div className="mx-5">
+        <InputText
+          label="Channel Name"
+          required
+          value={channelName}
+          setValue={setChannelName}
+          placeholder="name"
+          className="w-full"
+        />
+      </div>
       <CommonFooter
-        accept={() => {
-          new ChannelRequest(sendMessage).createChannel(channelName, appserverId);
+        accept={async () => {
+          const response = await new ChannelService(tokenManager).createChannel(
+            channelName,
+            appserverId
+          );
+
+          if (setChannelListing) setChannelListing((prev) => [...prev, response.data.data]);
         }}
+        confirmText="Create"
+        confirmButtonClassname="bg-green-900 hover:bg-green-700 text-white"
+        cancelText="Cancel  "
+        cancelButtonClassname="bg-gray-700 hover:bg-gray-600 text-white"
+        justifyContent="justify-between"
       />
     </div>
   );

@@ -1,12 +1,11 @@
-import { JSX, useState } from 'react';
-
+import { Button } from '@renderer/components/common/Button';
 import { InputText } from '@renderer/components/common/Input';
 import { CommonFooter, CommonHeader } from '@renderer/components/common/Modal';
-import { Button } from '@renderer/components/common/Button';
 import { useAuth } from '@renderer/components/Contexts';
 import AppserverService from '@renderer/services/appserver';
 import AppserverSubService from '@renderer/services/appserverSub';
 import { ReactSetState } from '@renderer/types';
+import { JSX, useState } from 'react';
 
 type CreateServerProps = {
   updateServers: () => void;
@@ -54,8 +53,8 @@ const JoinServer = ({ updateServers, setContent }: CreateServerProps): JSX.Eleme
 
 const CreateServer = ({ updateServers, setContent }: CreateServerProps): JSX.Element => {
   const { tokenManager } = useAuth();
-
   const [serverName, setServerName] = useState<string>('');
+
   return (
     <div className="flex flex-col gap-3">
       <CommonHeader title="Create Server" />

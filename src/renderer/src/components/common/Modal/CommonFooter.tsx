@@ -1,6 +1,5 @@
-import { JSX, useState } from 'react';
-
 import { useModal } from '@renderer/components/Contexts';
+import { JSX, useState } from 'react';
 
 import { Button } from '../Button';
 
@@ -56,7 +55,6 @@ const CommonFooter = ({
       buttonColor="none"
       onClick={() => {
         if (cancel) {
-          console.log('hi');
           cancel();
         } else {
           showModal(false);
@@ -69,7 +67,7 @@ const CommonFooter = ({
   );
 
   return (
-    <div className={`flex gap-5 py-3 px-5 ${justifyContent}`}>
+    <div className={`flex gap-5 pb-3 px-5 ${justifyContent}`}>
       {showError && (
         <p role="alert" className="text-red-600 text-sm">
           An error occurred while processing your request. Try again.

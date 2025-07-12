@@ -1,1 +1,1 @@
-export { default as Appserver } from './Appserver';
+export { default as AppserverScreen } from './AppserverScreen';

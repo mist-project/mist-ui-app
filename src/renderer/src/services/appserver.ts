@@ -1,7 +1,7 @@
+import { TokenManager } from '@renderer/components/Contexts/Auth/AuthContext';
+import { ApiResponse, Appserver, AppserverRole, Channel } from '@renderer/types';
 import { AxiosResponse } from 'axios';
 
-import { ApiResponse, Appserver } from '@renderer/types';
-import { TokenManager } from '@renderer/components/Contexts/Auth/AuthContext';
 import BaseService, { apiServiceAxios } from './base';
 
 const APPSERVER_ROUTES = {
@@ -10,7 +10,7 @@ const APPSERVER_ROUTES = {
   DELETE: '/api/v1/appservers'
 };
 
-export type AppserverCreateResposne = {
+export type AppserverCreateResponse = {
   appserver: Appserver;
 };
 
@@ -19,6 +19,11 @@ export type AppserverListingResponse = {
   sub_id: string;
 };
 
+export interface AppserverDetailsResponse extends Appserver {
+  channels: Channel[];
+  roles: AppserverRole[];
+}
+
 class AppserverService extends BaseService {
   constructor(tokenManager: TokenManager) {
     super(apiServiceAxios, tokenManager);
@@ -26,8 +31,8 @@ class AppserverService extends BaseService {
 
   public async createAppserver(
     name: string
-  ): Promise<AxiosResponse<ApiResponse<AppserverCreateResposne>>> {
-    const response = await this.post<ApiResponse<AppserverCreateResposne>>(
+  ): Promise<AxiosResponse<ApiResponse<AppserverCreateResponse>>> {
+    const response = await this.post<ApiResponse<AppserverCreateResponse>>(
       APPSERVER_ROUTES.CREATE,
       { name }
     );
@@ -45,6 +50,16 @@ class AppserverService extends BaseService {
     return response;
   }
 
+  public async getAppserverDetails(
+    appserverId: string
+  ): Promise<AxiosResponse<ApiResponse<AppserverDetailsResponse>>> {
+    const response = await this.get<ApiResponse<AppserverDetailsResponse>>(
+      `${APPSERVER_ROUTES.LISTING}/${appserverId}`
+    );
+
+    return response;
+  }
+
   public async deleteAppserver(appserverId: string): Promise<AxiosResponse<ApiResponse<void>>> {
     const response = await this.delete<ApiResponse<void>>(
       `${APPSERVER_ROUTES.LISTING}/${appserverId}`
@@ -53,52 +68,13 @@ class AppserverService extends BaseService {
     return response;
   }
 
-  // public getAppserverRoleListing(appserverId: string): void {
-  //   this.sendMessage(pb_v1.messages.ActionType.ACTION_TYPE_LIST, {
-  //     appserverRolesListing: new pb_v1.appserver.GetAllAppserverRolesRequest({ appserverId })
-  //   });
-  // }
+  public async deleteChannel(channel: Channel): Promise<AxiosResponse<ApiResponse<void>>> {
+    const response = await this.delete<ApiResponse<void>>(
+      `${APPSERVER_ROUTES.DELETE}/${channel.appserver_id}/channels/${channel.id}`
+    );
 
-  // public getAppserverDetails(appserverId: string): void {
-  //   this.sendMessage(pb_v1.messages.ActionType.ACTION_TYPE_GET, {
-  //     appserverDetails: new pb_v1.messages.AppserverDetailsRequest({ id: appserverId })
-  //   });
-  // }
-
-  // public createAppserver(name: string): void {
-  //   this.sendMessage(pb_v1.messages.ActionType.ACTION_TYPE_CREATE, {
-  //     createAppserver: new pb_v1.appserver.CreateAppserverRequest({ name })
-  //   });
-  // }
-
-  // // ----- appserver subs -----
-  // public joinAppserver(appserverId: string): void {
-  //   this.sendMessage(pb_v1.messages.ActionType.ACTION_TYPE_CREATE, {
-  //     joinAppserver: new pb_v1.appserver.CreateAppserverSubRequest({ appserverId })
-  //   });
-  // }
-
-  // public getAppserverUserListing(appserverId: string): void {
-  //   this.sendMessage(pb_v1.messages.ActionType.ACTION_TYPE_GET, {
-  //     appserverUserListing: new pb_v1.appserver.GetAllUsersAppserverSubsRequest({ appserverId })
-  //   });
-  // }
-
-  // // ----- appserver roles -----
-  // public createAppserverRole(appserverId: string, name: string): void {
-  //   this.sendMessage(pb_v1.messages.ActionType.ACTION_TYPE_CREATE, {
-  //     createAppserverRole: new pb_v1.appserver.CreateAppserverRoleRequest({
-  //       name,
-  //       appserverId
-  //     })
-  //   });
-  // }
-
-  // public deleteAppserver(id: string): void {
-  //   this.sendMessage(pb_v1.messages.ActionType.ACTION_TYPE_DELETE, {
-  //     deleteAppserver: new pb_v1.appserver.DeleteAppserverRequest({ id })
-  //   });
-  // }
+    return response;
+  }
 }
 
 export default AppserverService;

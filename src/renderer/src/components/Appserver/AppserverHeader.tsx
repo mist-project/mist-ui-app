@@ -1,27 +1,35 @@
-import { JSX } from 'react';
-
-import { useModal } from '@renderer/components/Contexts';
+import { Menu, MenuItem } from '@renderer/components/common/Button/ButtonWithMenu';
 import ButtonWithMenu from '@renderer/components/common/Button/ButtonWithMenu/ButtonWithMenu';
-import { MenuItem, Menu } from '@renderer/components/common/Button/ButtonWithMenu';
+import { useGlobalMenu, useModal } from '@renderer/components/Contexts';
+import { EllipsisVerticalIcon } from '@renderer/icons';
+import { JSX } from 'react';
 
 import { useAppserverContext } from './AppserverContext';
 import { CreateChannelModal } from './Channel/CreateChannelModal';
 import { CreateAppserverRoleModal } from './CreateAppserverRoleModal';
 
 const AppserverHeader = (): JSX.Element => {
-  const { appserver } = useAppserverContext();
+  const { appserver, setChannelListing, setRoleListing } = useAppserverContext();
   const { setModalContent, showModal } = useModal();
+  const { setMenu } = useGlobalMenu();
+
   return (
     <ButtonWithMenu
-      className="py-2 w-full"
+      internalType="custom"
       menuItems={
         <Menu>
-          {appserver && appserver.isOwner && (
+          {appserver && appserver.is_owner && (
             <>
               <MenuItem
                 onClick={() => {
-                  setModalContent(<CreateChannelModal appserverId={appserver.id as string} />);
+                  setModalContent(
+                    <CreateChannelModal
+                      appserverId={appserver.id as string}
+                      setChannelListing={setChannelListing}
+                    />
+                  );
                   showModal(true);
+                  setMenu(null);
                 }}
               >
                 Create Channel
@@ -29,9 +37,13 @@ const AppserverHeader = (): JSX.Element => {
               <MenuItem
                 onClick={() => {
                   setModalContent(
-                    <CreateAppserverRoleModal appserverId={appserver.id as string} />
+                    <CreateAppserverRoleModal
+                      appserverId={appserver.id as string}
+                      setRoleListing={setRoleListing}
+                    />
                   );
                   showModal(true);
+                  setMenu(null);
                 }}
               >
                 Create Role
@@ -47,7 +59,10 @@ const AppserverHeader = (): JSX.Element => {
       }
       buttonColor="none"
     >
-      {appserver?.name}
+      <div className="flex justify-between p-2 border-b border-gray-700">
+        <h1 className="text-white font-semibold text-lg"> {appserver?.name}</h1>
+        <EllipsisVerticalIcon />
+      </div>
     </ButtonWithMenu>
   );
 };
