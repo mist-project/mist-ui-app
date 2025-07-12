@@ -1,5 +1,5 @@
 import { useGlobalMenu } from '@renderer/components/Contexts/Menu/MenuContext';
-import React, { JSX, useEffect, useId, useRef } from 'react';
+import React, { JSX, useId, useRef } from 'react';
 
 import Button, { ButtonProps } from '../Button';
 

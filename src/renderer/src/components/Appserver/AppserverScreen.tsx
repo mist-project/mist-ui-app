@@ -54,7 +54,6 @@ const AppserverPanel = ({
   return (
     <div className="bg-gray-800 flex flex-col border-r border-gray-700 gap-3">
       <AppserverHeader />
-
       <ButtonWithMenu
         internalType="custom"
         buttonColor="none"
@@ -72,7 +71,6 @@ const AppserverPanel = ({
         <h1 className="text-white font-semibold text-md">News Board</h1>
         <NewspaperIcon />
       </ButtonWithMenu>
-
       <ButtonWithMenu
         internalType="custom"
         buttonColor="none"
@@ -91,7 +89,7 @@ const AppserverPanel = ({
         <CalendarIcon />
       </ButtonWithMenu>
 
-      <div className="mx-2 h-0.5 bg-gray-600 rounded" />
+      <Divider className="mx-2 h-0.5" />
 
       {channels.map((channel) => (
         <ChannelButton
