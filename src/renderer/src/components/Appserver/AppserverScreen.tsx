@@ -29,7 +29,7 @@ const ChannelButton = ({
     <ButtonWithMenu
       internalType="custom"
       buttonColor="none"
-      className={`flex justify-between mx-2 px-2 py-1 ${selected ? 'bg-gray-600' : ''} rounded-lg`}
+      className={`flex justify-between mx-2 px-2 py-1 ${selected ? 'bg-gray-600 bg-opacity-50' : ''} rounded-lg`}
       contextMenuItems={
         <Menu>
           <MenuItem key="boom">right</MenuItem>
@@ -60,7 +60,7 @@ const AppserverPanel = ({
       <ButtonWithMenu
         internalType="custom"
         buttonColor="none"
-        className={`flex justify-between mx-2 px-2 py-1 ${selected === 'news-board' ? 'bg-indigo-600' : ''} rounded-lg`}
+        className={`flex justify-between mx-2 px-2 py-1 ${selected === 'news-board' ? 'bg-indigo-600  bg-opacity-50' : ''} rounded-lg`}
         onClick={() => {
           setContent(<>news-board</>);
           setSelected('news-board');
@@ -78,7 +78,7 @@ const AppserverPanel = ({
       <ButtonWithMenu
         internalType="custom"
         buttonColor="none"
-        className={`flex justify-between mx-2 px-2 py-1 ${selected === 'calendar-content' ? 'bg-indigo-600' : ''} rounded-lg`}
+        className={`flex justify-between mx-2 px-2 py-1 ${selected === 'calendar-content' ? 'bg-indigo-600 bg-opacity-50' : ''} rounded-lg`}
         onClick={() => {
           setContent(<>Calendar</>);
           setSelected('calendar-content');
