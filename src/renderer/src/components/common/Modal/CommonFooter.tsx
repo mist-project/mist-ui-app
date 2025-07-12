@@ -1,6 +1,5 @@
-import { JSX, useState } from 'react';
-
 import { useModal } from '@renderer/components/Contexts';
+import { JSX, useState } from 'react';
 
 import { Button } from '../Button';
 

@@ -1,6 +1,5 @@
-import { AxiosResponse } from 'axios';
-
 import { LoginCredentials } from '@renderer/components/Contexts/Auth';
+import { AxiosResponse } from 'axios';
 
 import BaseService, { authServiceAxios } from './base';
 

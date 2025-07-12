@@ -1,9 +1,8 @@
-import { JSX } from 'react';
-
 import { CommonFooter, CommonHeader } from '@renderer/components/common/Modal';
 import { useAuth } from '@renderer/components/Contexts';
 import AppserverService from '@renderer/services/appserver';
 import { Appserver } from '@renderer/types';
+import { JSX } from 'react';
 
 type RemoveAppserverProps = {
   appserver: Appserver;

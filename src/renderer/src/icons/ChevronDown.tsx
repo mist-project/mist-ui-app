@@ -18,4 +18,3 @@ const ChevronDown = ({ className }: IconProps): JSX.Element => {
 };
 
 export default ChevronDown;
-

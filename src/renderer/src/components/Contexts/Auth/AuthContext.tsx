@@ -1,6 +1,6 @@
-import { createContext, useState, use, useEffect, JSX, useCallback, useMemo, useRef } from 'react';
-import { jwtDecode } from 'jwt-decode';
 import AuthService from '@renderer/services/authService';
+import { jwtDecode } from 'jwt-decode';
+import { createContext, JSX, use, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export type LoginCredentials = {
   username: string;

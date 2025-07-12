@@ -1,20 +1,18 @@
+import * as pb from '@protos/v1/pb';
+import { ButtonWithMenu } from '@renderer/components/common/Button';
+import { Menu, MenuItem } from '@renderer/components/common/Button/ButtonWithMenu';
+import { Divider } from '@renderer/components/common/Divider';
+import { useAuth, useEvent, useIOSocket } from '@renderer/components/Contexts';
+import { CalendarIcon, NewspaperIcon } from '@renderer/icons';
+import { AppserverRequest, ChannelRequest } from '@renderer/requests';
+import AppserverService from '@renderer/services/appserver';
+import { Appserver, AppserverRole, ReactSetState } from '@renderer/types';
 import { JSX, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-import * as pb from '@protos/v1/pb';
-
-import { Divider } from '@renderer/components/common/Divider';
-import { ButtonWithMenu } from '@renderer/components/common/Button';
-import { MenuItem, Menu } from '@renderer/components/common/Button/ButtonWithMenu';
-import { useAuth, useEvent, useIOSocket } from '@renderer/components/Contexts';
-import { AppserverRequest, ChannelRequest } from '@renderer/requests';
-import { Appserver, AppserverRole, ReactSetState } from '@renderer/types';
 
 import { AppserverContext, useAppserverContext } from './AppserverContext';
 import AppserverHeader from './AppserverHeader';
 import { ChannelContent } from './Channel/ChannelContent';
-import AppserverService from '@renderer/services/appserver';
-import { CalendarIcon, NewspaperIcon } from '@renderer/icons';
 
 const ChannelButton = ({
   children,

@@ -1,7 +1,6 @@
-import { JSX, useId } from 'react';
-import classNames from 'classnames';
-
 import { ReactSetState } from '@renderer/types';
+import classNames from 'classnames';
+import { JSX, useId } from 'react';
 
 interface InputTextProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;

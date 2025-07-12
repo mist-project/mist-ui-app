@@ -1,6 +1,7 @@
-import React, { useRef, useId, JSX, useEffect } from 'react';
-import Button, { ButtonProps } from '../Button';
 import { useGlobalMenu } from '@renderer/components/Contexts/Menu/MenuContext';
+import React, { JSX, useEffect, useId, useRef } from 'react';
+
+import Button, { ButtonProps } from '../Button';
 
 interface ButtonWithMenuProps extends ButtonProps {
   menuItems?: JSX.Element;

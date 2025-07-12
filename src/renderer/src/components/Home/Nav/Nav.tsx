@@ -1,13 +1,12 @@
-import { JSX, useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import MenuItem from '@renderer/components/common/Button/ButtonWithMenu/MenuItem';
-import { Menu } from '@renderer/components/common/Button/ButtonWithMenu';
-import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
 import { Button, ButtonWithMenu } from '@renderer/components/common/Button';
+import { Menu } from '@renderer/components/common/Button/ButtonWithMenu';
+import MenuItem from '@renderer/components/common/Button/ButtonWithMenu/MenuItem';
 import { useAuth, useIOSocket, useModal } from '@renderer/components/Contexts';
+import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
 import AppserverService, { AppserverListingResponse } from '@renderer/services/appserver';
 import { Appserver } from '@renderer/types';
+import { JSX, useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import AddAppserverModal from './AddAppserverModal';
 import RemoveAppserver from './RemoveAppserverModal';

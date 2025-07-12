@@ -6,10 +6,14 @@ module.exports = {
     '@electron-toolkit/eslint-config-ts/recommended',
     '@electron-toolkit/eslint-config-prettier'
   ],
+  plugins: ['simple-import-sort'],
   rules: {
-    semi: ['error', 'always'], // Enforces semicolons at the end of each statement
-    // 'no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }]
+    semi: ['error', 'always'],
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': ['error']
+    '@typescript-eslint/no-unused-vars': ['error'],
+
+    // 🔽 Import sorting rules
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error'
   }
 };

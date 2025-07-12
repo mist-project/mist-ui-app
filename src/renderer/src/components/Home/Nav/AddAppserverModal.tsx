@@ -1,12 +1,11 @@
-import { JSX, useState } from 'react';
-
+import { Button } from '@renderer/components/common/Button';
 import { InputText } from '@renderer/components/common/Input';
 import { CommonFooter, CommonHeader } from '@renderer/components/common/Modal';
-import { Button } from '@renderer/components/common/Button';
 import { useAuth } from '@renderer/components/Contexts';
 import AppserverService from '@renderer/services/appserver';
 import AppserverSubService from '@renderer/services/appserverSub';
 import { ReactSetState } from '@renderer/types';
+import { JSX, useState } from 'react';
 
 type CreateServerProps = {
   updateServers: () => void;

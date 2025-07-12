@@ -1,13 +1,12 @@
-import { JSX } from 'react';
-
-import { useModal, useGlobalMenu } from '@renderer/components/Contexts';
+import { Menu, MenuItem } from '@renderer/components/common/Button/ButtonWithMenu';
 import ButtonWithMenu from '@renderer/components/common/Button/ButtonWithMenu/ButtonWithMenu';
-import { MenuItem, Menu } from '@renderer/components/common/Button/ButtonWithMenu';
+import { useGlobalMenu, useModal } from '@renderer/components/Contexts';
+import { EllipsisVerticalIcon } from '@renderer/icons';
+import { JSX } from 'react';
 
 import { useAppserverContext } from './AppserverContext';
 import { CreateChannelModal } from './Channel/CreateChannelModal';
 import { CreateAppserverRoleModal } from './CreateAppserverRoleModal';
-import { EllipsisVerticalIcon } from '@renderer/icons';
 
 const AppserverHeader = (): JSX.Element => {
   const { appserver } = useAppserverContext();

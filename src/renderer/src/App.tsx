@@ -1,15 +1,14 @@
-import { JSX } from 'react';
-import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import './App.scss';
 
 import { useAuth, useIOSocket } from '@renderer/components/Contexts';
 import { WSConnectionStatus } from '@renderer/components/Contexts/WebSocket/IOSocket/IOContext';
-import { Login } from '@renderer/components/Login';
 import { Home } from '@renderer/components/Home';
+import { Login } from '@renderer/components/Login';
+import { JSX } from 'react';
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
-import { Nav } from './components/Home/Nav';
 import { AppserverScreen } from './components/Appserver';
-
-import './App.scss';
+import { Nav } from './components/Home/Nav';
 
 const Layout = (): JSX.Element => (
   <div className="bg-gray-900 text-gray-100 h-screen grid grid-cols-[72px_300px_1fr] overflow-hidden">

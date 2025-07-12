@@ -1,7 +1,7 @@
+import { TokenManager } from '@renderer/components/Contexts/Auth/AuthContext';
+import { ApiResponse, Appserver } from '@renderer/types';
 import { AxiosResponse } from 'axios';
 
-import { ApiResponse, Appserver } from '@renderer/types';
-import { TokenManager } from '@renderer/components/Contexts/Auth/AuthContext';
 import BaseService, { apiServiceAxios } from './base';
 
 const APPSERVER_SUB_ROUTES = {

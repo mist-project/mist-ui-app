@@ -1,9 +1,7 @@
-import React, { createContext, useContext, useEffect, JSX, useRef, useState } from 'react';
-
-import { pb_v1 } from '@renderer/requests';
-
 import { useAuth } from '@renderer/components/Contexts/Auth';
 import { useEvent } from '@renderer/components/Contexts/Event';
+import { pb_v1 } from '@renderer/requests';
+import React, { createContext, JSX, useContext, useEffect, useRef, useState } from 'react';
 
 import { getSessionToken } from './utils';
 

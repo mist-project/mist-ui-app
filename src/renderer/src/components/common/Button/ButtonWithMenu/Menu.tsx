@@ -1,7 +1,6 @@
-import React, { JSX } from 'react';
-
 import { ReactSetState } from '@renderer/types';
 import classNames from 'classnames';
+import React, { JSX } from 'react';
 
 import { Position } from './constants';
 import { useMenuContext } from './MenuContext';

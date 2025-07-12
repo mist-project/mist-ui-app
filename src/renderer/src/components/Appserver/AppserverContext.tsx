@@ -1,7 +1,6 @@
-import { createContext, use } from 'react';
-
 import * as pb from '@protos/v1/pb';
 import { Appserver, AppserverRole, Channel } from '@renderer/types';
+import { createContext, use } from 'react';
 
 type AppserverContextType = {
   appserver: Appserver | undefined;

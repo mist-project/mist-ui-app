@@ -1,4 +1,5 @@
 import { JSX } from 'react';
+
 import { useMenuContext } from './MenuContext';
 
 interface MenuItemProps {

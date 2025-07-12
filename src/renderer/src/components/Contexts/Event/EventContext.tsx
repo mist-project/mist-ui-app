@@ -1,7 +1,6 @@
-import { createContext, JSX, use, useState } from 'react';
-import mitt, { Emitter } from 'mitt';
-
 import * as pb from '@protos/v1/pb';
+import mitt, { Emitter } from 'mitt';
+import { createContext, JSX, use, useState } from 'react';
 
 export type Events = {
   test: Uint8Array<ArrayBufferLike>;

@@ -1,9 +1,8 @@
-import { JSX, useState } from 'react';
-
-import { useIOSocket } from '@renderer/components/Contexts';
 import { InputText } from '@renderer/components/common/Input';
 import { CommonFooter } from '@renderer/components/common/Modal';
+import { useIOSocket } from '@renderer/components/Contexts';
 import { AppserverRequest } from '@renderer/requests';
+import { JSX, useState } from 'react';
 
 type CreateAppserverRoleModalProps = {
   appserverId: string;

@@ -1,4 +1,4 @@
-import BaseRequest, { pb_v1, pb_google } from './base';
+import BaseRequest, { pb_google, pb_v1 } from './base';
 
 class ChannelRequest extends BaseRequest {
   public createChannel(name: string, appserverId: string): void {

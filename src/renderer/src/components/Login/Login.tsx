@@ -1,15 +1,14 @@
-import { JSX, useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-import { useAuth } from '@renderer/components/Contexts/Auth';
-import { InputText } from '@renderer/components/common/Input';
 import { Button } from '@renderer/components/common/Button';
 import { Checkbox } from '@renderer/components/common/Checkbox';
+import { InputText } from '@renderer/components/common/Input';
 import { TextLink } from '@renderer/components/common/TextLink';
+import { useAuth } from '@renderer/components/Contexts/Auth';
 import { EyeIcon, EyeSlashIcon } from '@renderer/icons';
+import { JSX, useCallback, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
 const LoginSchema = z.object({
   username: z

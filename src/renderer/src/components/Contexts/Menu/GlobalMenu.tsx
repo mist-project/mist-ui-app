@@ -1,4 +1,5 @@
-import { useEffect, useRef, JSX } from 'react';
+import { JSX, useEffect, useRef } from 'react';
+
 import { useGlobalMenu } from './MenuContext';
 
 const GlobalMenuRenderer = (): JSX.Element | null => {

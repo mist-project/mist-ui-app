@@ -1,6 +1,5 @@
-import { createContext, useState, use, JSX } from 'react';
-
 import { Modal } from '@renderer/components/common/Modal';
+import { createContext, JSX, use, useState } from 'react';
 
 type ModalContextType = {
   showModal: (arg0: boolean) => void;
